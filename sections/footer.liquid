@@ -1,0 +1,62 @@
+<footer class="site-footer">
+  <div class="site-footer__grid">
+    <nav class="footer__menu" aria-label="À propos">
+      <h3 class="footer__title">À propos</h3>
+      <ul class="footer__list">
+        {%- for link in linklists[section.settings.about_menu].links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <nav class="footer__menu" aria-label="Aide">
+      <h3 class="footer__title">Aide</h3>
+      <ul class="footer__list">
+        {%- for link in linklists[section.settings.help_menu].links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <nav class="footer__menu" aria-label="Légal">
+      <h3 class="footer__title">Légal</h3>
+      <ul class="footer__list">
+        {%- for link in linklists[section.settings.legal_menu].links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="footer__newsletter">
+      <h3 class="footer__title">Newsletter</h3>
+      <p class="footer__newsletter-incentive">{{ section.settings.newsletter_incentive }}</p>
+      {%- form 'customer' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="footer__newsletter-form">
+          <input type="email" name="contact[email]" placeholder="Votre adresse e-mail" required>
+          <button type="submit">S'inscrire</button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="footer__newsletter-success">Merci pour votre inscription !</p>
+        {%- endif -%}
+      {%- endform -%}
+      <p class="footer__newsletter-legal">En vous inscrivant, vous acceptez notre politique de confidentialité.</p>
+    </div>
+  </div>
+
+  <div class="site-footer__bottom">
+    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | upcase }}. Tous droits réservés.</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pied de page",
+  "settings": [
+    { "type": "link_list", "id": "about_menu", "label": "Menu À propos", "default": "footer-about" },
+    { "type": "link_list", "id": "help_menu", "label": "Menu Aide", "default": "footer-help" },
+    { "type": "link_list", "id": "legal_menu", "label": "Menu Légal", "default": "footer-legal" },
+    { "type": "text", "id": "newsletter_incentive", "label": "Texte d'accroche newsletter", "default": "Profitez de -10% sur votre première commande" }
+  ]
+}
+{% endschema %}

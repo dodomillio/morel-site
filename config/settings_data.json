@@ -1,0 +1,12 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "color_header_bg": "#7a1414",
+      "color_header_fg": "#ffffff",
+      "color_footer_bg": "#7a1414",
+      "color_footer_fg": "#ffffff",
+      "color_accent": "#1a1a1a"
+    }
+  }
+}

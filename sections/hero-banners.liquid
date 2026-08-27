@@ -1,0 +1,39 @@
+<section class="two-column-row">
+  {%- for block in section.blocks -%}
+    <a class="banner" href="{{ block.settings.url }}" {{ block.shopify_attributes }}>
+      {%- if block.settings.image -%}
+        <img class="banner__image" src="{{ block.settings.image | image_url: width: 1600 }}" width="800" alt="" loading="lazy">
+      {%- else -%}
+        <span class="placeholder-img placeholder-img--tall"><span>Bannière</span></span>
+      {%- endif -%}
+      <span class="banner__overlay">
+        {%- if block.settings.heading != blank -%}<span class="banner__title">{{ block.settings.heading }}</span>{%- endif -%}
+        {%- if block.settings.subheading != blank -%}<span class="banner__subtitle">{{ block.settings.subheading }}</span>{%- endif -%}
+        {%- if block.settings.button_label != blank -%}<span class="banner__cta">{{ block.settings.button_label }}</span>{%- endif -%}
+      </span>
+    </a>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Rangée de bannières",
+  "max_blocks": 2,
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Bannière",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "heading", "label": "Titre", "default": "Titre de la collection" },
+        { "type": "text", "id": "subheading", "label": "Sous-titre" },
+        { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Découvrir" },
+        { "type": "url", "id": "url", "label": "Lien" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Rangée de bannières", "blocks": [{ "type": "banner" }, { "type": "banner" }] }
+  ]
+}
+{% endschema %}

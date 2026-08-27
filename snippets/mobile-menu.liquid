@@ -1,0 +1,38 @@
+{%- assign menu = linklists['main-menu'] -%}
+<nav class="mobile-menu" data-mobile-menu aria-label="Menu mobile">
+  <div class="mobile-menu__panel is-active" data-mobile-panel="root">
+    <div class="mobile-menu__head">
+      <span class="site-logo__text">{{ shop.name }}</span>
+      <button class="icon-btn" data-menu-close aria-label="Fermer le menu">&times;</button>
+    </div>
+    <ul class="mobile-menu__list">
+      {%- for link in menu.links -%}
+        <li>
+          {%- if link.links.size > 0 -%}
+            <button data-mobile-open="{{ link.handle }}">{{ link.title }} <span>&rsaquo;</span></button>
+          {%- else -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  {%- for link in menu.links -%}
+    {%- if link.links.size > 0 -%}
+      <div class="mobile-menu__panel" data-mobile-panel="{{ link.handle }}">
+        <div class="mobile-menu__head">
+          <button class="icon-btn" data-mobile-back aria-label="Retour">&lsaquo;</button>
+          <span>{{ link.title }}</span>
+          <button class="icon-btn" data-menu-close aria-label="Fermer le menu">&times;</button>
+        </div>
+        <ul class="mobile-menu__sublist">
+          <li><a href="{{ link.url }}">Tout voir — {{ link.title }}</a></li>
+          {%- for child in link.links -%}
+            <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+</nav>

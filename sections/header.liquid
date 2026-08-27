@@ -1,0 +1,93 @@
+<header class="site-header" data-site-header>
+
+  <div class="banner-message">
+    <p class="banner-message__message">{{ section.settings.announcement_text }}</p>
+  </div>
+
+  <div class="header__inner">
+    <button class="icon-btn header__burger" data-menu-open aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="main-menu" aria-label="Navigation principale">
+      {%- for link in linklists[section.settings.main_menu].links -%}
+        {%- if link.links.size > 0 -%}
+          <div class="main-menu__item" data-has-submenu="{{ link.handle }}">
+            <button class="main-menu__link main-menu__link--trigger" data-submenu-trigger="{{ link.handle }}">
+              {{ link.title }}
+              <span class="main-menu__chevron">
+                <svg width="8" height="13" viewBox="0 0 8 13" fill="none"><path d="M2 .1 8 6.1 2 12.1.9 11 5.9 6.1.9 1.2Z" fill="currentColor"/></svg>
+              </span>
+            </button>
+          </div>
+        {%- else -%}
+          <a class="main-menu__link" href="{{ link.url }}">{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name }} — Retour à l'accueil">
+      {%- if settings.logo_image -%}
+        <img src="{{ settings.logo_image | image_url: width: 200 }}" width="100" alt="{{ shop.name }}">
+      {%- else -%}
+        <span class="site-logo__text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <nav class="static-menu" aria-label="Compte et panier">
+      <a class="static-menu__link static-menu__link--wishlist" href="#" aria-label="Liste de souhaits">
+        <svg viewBox="0 0 18 18"><path d="M9 15.5S1.5 11 1.5 6A3.75 3.75 0 0 1 9 4.4 3.75 3.75 0 0 1 16.5 6c0 5-7.5 9.5-7.5 9.5Z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </a>
+      <button class="static-menu__link static-menu__link--search" data-search-open aria-label="Rechercher">
+        <svg viewBox="0 0 18 18"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.3"/><line x1="12.5" y1="12.5" x2="17" y2="17" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+      <a class="static-menu__link" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" aria-label="Compte">
+        <svg viewBox="0 0 18 18"><circle cx="9" cy="5.5" r="3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 16c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </a>
+      <button class="static-menu__link static-menu__link--cart" data-cart-open aria-label="Panier">
+        <svg viewBox="0 0 18 18"><path d="M4 5h10l-.8 9H4.8L4 5Z" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 5V3.8a2.5 2.5 0 0 1 5 0V5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+        <span class="static-menu__badge" data-cart-count>{{ cart.item_count }}</span>
+      </button>
+    </nav>
+  </div>
+
+  {%- for link in linklists[section.settings.main_menu].links -%}
+    {%- if link.links.size > 0 -%}
+      <div class="mega-menu" data-submenu="{{ link.handle }}">
+        <div class="mega-menu__links">
+          <a class="mega-menu__all" href="{{ link.url }}">Tout voir — {{ link.title }}</a>
+          <ul>
+            {%- for child in link.links -%}
+              <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+        <a class="mega-menu__featured" href="{{ link.url }}">
+          <span class="placeholder-img placeholder-img--square"><span>Image {{ link.title }}</span></span>
+          <span class="mega-menu__featured-label">{{ link.title }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+</header>
+
+<nav class="mobile-tabbar" aria-label="Navigation rapide mobile">
+  <a href="{{ routes.root_url }}" class="mobile-tabbar__link"><svg viewBox="0 0 18 18"><path d="M2 9 9 2l7 7M4 7v9h10V7" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></a>
+  <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="mobile-tabbar__link"><svg viewBox="0 0 18 18"><circle cx="9" cy="5.5" r="3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 16c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></a>
+  <button class="mobile-tabbar__link" data-search-open><svg viewBox="0 0 18 18"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.3"/><line x1="12.5" y1="12.5" x2="17" y2="17" stroke="currentColor" stroke-width="1.3"/></svg></button>
+  <button class="mobile-tabbar__link" data-cart-open>
+    <svg viewBox="0 0 18 18"><path d="M4 5h10l-.8 9H4.8L4 5Z" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 5V3.8a2.5 2.5 0 0 1 5 0V5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+    <span class="static-menu__badge" data-cart-count>{{ cart.item_count }}</span>
+  </button>
+  <button class="mobile-tabbar__link" data-menu-open aria-label="Menu"><span class="mobile-tabbar__burger"><span></span><span></span><span></span></span></button>
+</nav>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "settings": [
+    { "type": "text", "id": "announcement_text", "label": "Texte du bandeau d'annonce", "default": "✨ Livraison offerte dès 250 € d'achat ✨" },
+    { "type": "link_list", "id": "main_menu", "label": "Menu principal", "default": "main-menu" }
+  ]
+}
+{% endschema %}

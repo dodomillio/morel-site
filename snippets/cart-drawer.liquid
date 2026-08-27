@@ -1,0 +1,43 @@
+<aside class="cart-drawer" data-cart-drawer aria-label="Panier">
+  <div class="drawer__head">
+    <h2>Panier <span data-cart-count-label>({{ cart.item_count }})</span></h2>
+    <button class="icon-btn" data-cart-close aria-label="Fermer le panier">&times;</button>
+  </div>
+
+  {%- if cart.item_count > 0 -%}
+    <div class="cart-drawer__items">
+      {%- for item in cart.items -%}
+        <div class="cart-line">
+          {%- if item.image -%}
+            <img class="cart-line__image" src="{{ item.image | image_url: width: 160 }}" width="64" height="64" alt="{{ item.title | escape }}">
+          {%- else -%}
+            <span class="placeholder-img placeholder-img--product placeholder-img--mini"><span>Produit</span></span>
+          {%- endif -%}
+          <div class="cart-line__info">
+            <p class="cart-line__title">{{ item.product.title }}</p>
+            {%- unless item.variant.title == 'Default Title' -%}
+              <p class="cart-line__variant">{{ item.variant.title }}</p>
+            {%- endunless -%}
+            <p class="cart-line__price">{{ item.final_line_price | money }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <form method="post" action="{{ routes.cart_url }}" class="cart-drawer__footer">
+      <div class="cart-drawer__total">
+        <span>Total</span>
+        <span>{{ cart.total_price | money }}</span>
+      </div>
+      <button class="btn btn--primary" name="checkout" type="submit">Procéder au paiement</button>
+      <a class="btn btn--bordered" href="{{ routes.cart_url }}">Voir le panier</a>
+      <p class="cart-drawer__small-print">Taxes incluses. Frais de livraison calculés lors du paiement.</p>
+    </form>
+  {%- else -%}
+    <div class="cart-drawer__empty">
+      <p class="cart-drawer__empty-title">Il n'y a actuellement aucun article dans votre panier.</p>
+      <p>Veuillez consulter nos recommandations ou continuer vos achats.</p>
+      <button class="btn btn--primary" data-cart-close>Continuer les achats</button>
+    </div>
+  {%- endif -%}
+</aside>

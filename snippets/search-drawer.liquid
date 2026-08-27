@@ -1,0 +1,19 @@
+<aside class="search-drawer" data-search-drawer aria-label="Recherche">
+  <div class="drawer__head">
+    <span class="site-logo__text">{{ shop.name }}</span>
+    <button class="icon-btn" data-search-close aria-label="Fermer la recherche">&times;</button>
+  </div>
+  <form class="search-drawer__form" action="{{ routes.search_url }}" method="get" role="search">
+    <input class="search-drawer__input" type="search" name="q" placeholder="JE RECHERCHE" aria-label="Rechercher" value="{{ search.terms | escape }}">
+  </form>
+  <div class="search-drawer__section">
+    <h3>Populaires</h3>
+    <ul>
+      {%- for product in collections.all.products limit: 3 -%}
+        <li><a href="{{ product.url }}">{{ product.title }}</a></li>
+      {%- else -%}
+        <li><a href="#">Ajoutez des produits à votre boutique</a></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</aside>

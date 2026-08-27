@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ page_title }}{% unless page_title contains shop.name %} &middot; {{ shop.name }}{% endunless %}</title>
+{% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+<link rel="canonical" href="{{ canonical_url }}">
+<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">
+{{ content_for_header }}
+{{ 'theme.css' | asset_url | stylesheet_tag }}
+<style>
+  :root {
+    --footer-background: {{ settings.color_footer_bg }};
+    --footer-foreground: {{ settings.color_footer_fg }};
+    --main-menu-background: {{ settings.color_header_bg }};
+    --main-menu-foreground: {{ settings.color_header_fg }};
+    --color-accent: {{ settings.color_accent }};
+  }
+</style>
+</head>
+<body>
+  <div class="overlay" data-overlay></div>
+
+  {% section 'header' %}
+  {% render 'mobile-menu' %}
+  {% render 'cart-drawer' %}
+  {% render 'search-drawer' %}
+
+  <main>
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+
+  {{ 'theme.js' | asset_url | script_tag }}
+</body>
+</html>
