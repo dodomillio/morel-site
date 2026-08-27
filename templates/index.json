@@ -25,7 +25,7 @@
         "banner-2": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/B79E11CE-4B10-4238-A908-1EBE9FF4BA8B.png",
+            "image": "shopify://shop_images/pompon_fluo_orange.png",
             "heading": "La personnalisation",
             "subheading": "De retour",
             "button_label": "Découvrir",
@@ -97,7 +97,7 @@
       "settings": {
         "banner_heading": "Édition limitée",
         "banner_url": "",
-        "collection": "nos-pochettes",
+        "collection": "accessoires-sac-fait-main",
         "heading": "Réassort"
       }
     },
