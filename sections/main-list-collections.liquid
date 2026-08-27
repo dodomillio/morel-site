@@ -1,0 +1,22 @@
+<section class="collections-page">
+  <h1 class="collections-page__title">Nos collections</h1>
+  <div class="collections-page__grid">
+    {%- for collection in collections -%}
+      <a class="collections-page__item" href="{{ collection.url }}">
+        {%- if collection.featured_image -%}
+          <img src="{{ collection.featured_image | image_url: width: 800 }}" width="400" alt="{{ collection.title | escape }}">
+        {%- else -%}
+          <span class="placeholder-img placeholder-img--square"><span>Collection</span></span>
+        {%- endif -%}
+        <span class="collections-page__item-title">{{ collection.title }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Liste des collections",
+  "settings": []
+}
+{% endschema %}

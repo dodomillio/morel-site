@@ -1,0 +1,46 @@
+<section class="cart-page">
+  <h1 class="cart-page__title">Panier</h1>
+
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page__form">
+      <div class="cart-page__items">
+        {%- for item in cart.items -%}
+          <div class="cart-line cart-line--page">
+            {%- if item.image -%}
+              <img class="cart-line__image" src="{{ item.image | image_url: width: 200 }}" width="90" height="90" alt="{{ item.title | escape }}">
+            {%- else -%}
+              <span class="placeholder-img placeholder-img--product placeholder-img--mini"><span>Produit</span></span>
+            {%- endif -%}
+            <div class="cart-line__info">
+              <a class="cart-line__title" href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- unless item.variant.title == 'Default Title' -%}
+                <p class="cart-line__variant">{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <p class="cart-line__price">{{ item.final_price | money }}</p>
+            </div>
+            <input class="cart-line__qty" type="number" min="0" name="updates[{{ item.key }}]" value="{{ item.quantity }}">
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="cart-page__summary">
+        <div class="cart-page__total">
+          <span>Total</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <button type="submit" name="update" class="btn btn--bordered">Mettre à jour le panier</button>
+        <button type="submit" name="checkout" class="btn btn--primary">Procéder au paiement</button>
+      </div>
+    </form>
+  {%- else -%}
+    <p class="cart-page__empty">Votre panier est vide.</p>
+    <a class="btn btn--primary" href="{{ routes.all_products_collection_url }}">Continuer mes achats</a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Page panier",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,53 @@
+<section class="product-page">
+  <div class="product-page__media">
+    {%- if product.featured_image -%}
+      <img class="product-page__image" src="{{ product.featured_image | image_url: width: 1200 }}" width="600" alt="{{ product.title | escape }}">
+    {%- else -%}
+      <span class="placeholder-img placeholder-img--tall"><span>Produit</span></span>
+    {%- endif -%}
+    {%- if product.images.size > 1 -%}
+      <div class="product-page__thumbs">
+        {%- for image in product.images offset: 1 -%}
+          <img class="product-page__thumb" src="{{ image | image_url: width: 300 }}" width="80" alt="">
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="product-page__info">
+    <h1 class="product-page__title">{{ product.title }}</h1>
+    <p class="product-page__price">{{ product.price | money }}</p>
+
+    {%- form 'product', product -%}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          <div class="product-page__option">
+            <label>{{ option.name }}</label>
+            <select name="options[{{ option.name | escape }}]">
+              {%- for value in option.values -%}
+                <option value="{{ value | escape }}"{% if value == option.selected_value %} selected{% endif %}>{{ value }}</option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endfor -%}
+      {%- endunless -%}
+
+      <button type="submit" class="btn btn--primary" {% unless product.available %}disabled{% endunless %}>
+        {%- if product.available -%}Ajouter au panier{%- else -%}Épuisé{%- endif -%}
+      </button>
+    {%- endform -%}
+
+    {%- if product.description != blank -%}
+      <div class="product-page__description">{{ product.description }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page produit",
+  "settings": []
+}
+{% endschema %}
