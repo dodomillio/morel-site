@@ -1,45 +1,138 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero-banners-1": {
       "type": "hero-banners",
       "blocks": {
-        "banner-1": { "type": "banner", "settings": { "heading": "Collection Été", "button_label": "Découvrir" } },
-        "banner-2": { "type": "banner", "settings": { "heading": "La personnalisation", "subheading": "De retour", "button_label": "Découvrir" } }
+        "banner-1": {
+          "type": "banner",
+          "settings": {
+            "heading": "Collection Été",
+            "subheading": "",
+            "button_label": "Découvrir",
+            "url": ""
+          }
+        },
+        "banner-2": {
+          "type": "banner",
+          "settings": {
+            "heading": "La personnalisation",
+            "subheading": "De retour",
+            "button_label": "Découvrir",
+            "url": ""
+          }
+        }
       },
-      "block_order": ["banner-1", "banner-2"]
+      "block_order": [
+        "banner-1",
+        "banner-2"
+      ],
+      "settings": {}
     },
     "featured-1": {
       "type": "featured-products-banner",
-      "settings": { "heading": "Les indispensables", "button_label": "Découvrir" },
       "blocks": {
-        "banner-1": { "type": "banner", "settings": { "heading": "Le prêt-à-porter", "button_label": "Découvrir" } }
+        "banner-1": {
+          "type": "banner",
+          "settings": {
+            "heading": "Le prêt-à-porter",
+            "button_label": "Découvrir",
+            "url": ""
+          }
+        }
       },
-      "block_order": ["banner-1"]
+      "block_order": [
+        "banner-1"
+      ],
+      "settings": {
+        "collection": "",
+        "products_to_show": 4,
+        "heading": "Les indispensables",
+        "button_label": "Découvrir"
+      }
     },
     "hero-banners-2": {
       "type": "hero-banners",
       "blocks": {
-        "banner-1": { "type": "banner", "settings": { "heading": "Le sac seau", "button_label": "Découvrir" } },
-        "banner-2": { "type": "banner", "settings": { "heading": "Collaboration", "button_label": "Découvrir" } }
+        "banner-1": {
+          "type": "banner",
+          "settings": {
+            "heading": "Le sac seau",
+            "subheading": "",
+            "button_label": "Découvrir",
+            "url": ""
+          }
+        },
+        "banner-2": {
+          "type": "banner",
+          "settings": {
+            "heading": "Collaboration",
+            "subheading": "",
+            "button_label": "Découvrir",
+            "url": ""
+          }
+        }
       },
-      "block_order": ["banner-1", "banner-2"]
+      "block_order": [
+        "banner-1",
+        "banner-2"
+      ],
+      "settings": {}
     },
     "ticker-1": {
       "type": "product-ticker",
-      "settings": { "banner_heading": "Édition limitée", "heading": "Réassort" }
+      "settings": {
+        "banner_heading": "Édition limitée",
+        "banner_url": "",
+        "collection": "",
+        "heading": "Réassort"
+      }
     },
     "featured-2": {
       "type": "featured-products-banner",
-      "settings": { "heading": "Petits accessoires", "button_label": "Découvrir" },
       "blocks": {
-        "banner-1": { "type": "banner", "settings": { "heading": "Trousses de toilette", "button_label": "Découvrir" } }
+        "banner-1": {
+          "type": "banner",
+          "settings": {
+            "heading": "Trousses de toilette",
+            "button_label": "Découvrir",
+            "url": ""
+          }
+        }
       },
-      "block_order": ["banner-1"]
+      "block_order": [
+        "banner-1"
+      ],
+      "settings": {
+        "collection": "",
+        "products_to_show": 4,
+        "heading": "Petits accessoires",
+        "button_label": "Découvrir"
+      }
     },
     "full-width-1": {
       "type": "full-width-banner",
-      "settings": { "heading": "Notre boutique", "description": "10 place de l'Exemple, 75000 Paris" }
+      "settings": {
+        "heading": "Notre boutique",
+        "description": "10 place de l'Exemple, 75000 Paris",
+        "url": ""
+      }
     }
   },
-  "order": ["hero-banners-1", "featured-1", "hero-banners-2", "ticker-1", "featured-2", "full-width-1"]
+  "order": [
+    "hero-banners-1",
+    "featured-1",
+    "hero-banners-2",
+    "ticker-1",
+    "featured-2",
+    "full-width-1"
+  ]
 }
