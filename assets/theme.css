@@ -325,6 +325,10 @@ main { display: flex; flex-direction: column; gap: 4px; }
 }
 .product-ticker__label h2 { font-size: 16px; text-transform: uppercase; letter-spacing: .08em; }
 
+@media (max-width: 767px) {
+  .product-ticker { padding: 24px 0; }
+}
+
 /* Full width store banner */
 .full-width-row .banner--full { position: relative; }
 .banner__store-info {
