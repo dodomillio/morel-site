@@ -141,4 +141,25 @@
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".site-header")) closeAllMegaMenus();
   });
+
+  /* ---------- Collection page: filter/sort toggle + description expand ---------- */
+  document.querySelectorAll("[data-filter-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const form = document.querySelector("[data-filter-form]");
+      if (form) form.classList.toggle("is-open");
+    });
+  });
+
+  document.querySelectorAll("[data-description-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const wrapper = btn.closest(".collection-page__description");
+      if (!wrapper) return;
+      const excerpt = wrapper.querySelector(".collection-page__description-excerpt");
+      const full = wrapper.querySelector(".collection-page__description-full");
+      const expanded = !full.hidden;
+      full.hidden = expanded;
+      if (excerpt) excerpt.hidden = !expanded;
+      btn.textContent = expanded ? "Plus" : "Moins";
+    });
+  });
 })();

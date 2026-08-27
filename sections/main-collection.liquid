@@ -2,9 +2,78 @@
   <div class="collection-page__head">
     <h1 class="collection-page__title">{{ collection.title }}</h1>
     {%- if collection.description != blank -%}
-      <div class="collection-page__description">{{ collection.description }}</div>
+      <div class="collection-page__description">
+        <div class="collection-page__description-excerpt">{{ collection.description | strip_html | truncatewords: 40 }}</div>
+        <div class="collection-page__description-full" hidden>{{ collection.description }}</div>
+        <button class="collection-page__description-toggle" type="button" data-description-toggle>Plus</button>
+      </div>
     {%- endif -%}
   </div>
+
+  <div class="collection-page__toolbar">
+    {%- if section.settings.related_collections.count > 0 -%}
+      <div class="collection-page__related">
+        <a class="btn-pill is-active" href="{{ collection.url }}">Tous les {{ collection.title | downcase }}</a>
+        {%- for related in section.settings.related_collections -%}
+          <a class="btn-pill" href="{{ related.url }}">{{ related.title }}</a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <nav class="breadcrumbs">
+      <a class="breadcrumbs__link" href="{{ routes.root_url }}">Accueil</a>
+      <span>&gt;</span>
+      <span class="breadcrumbs__current-page">{{ collection.title }}</span>
+    </nav>
+
+    <button class="btn btn--bordered collection-page__filter-toggle" type="button" data-filter-toggle>
+      Filtrer et trier
+    </button>
+  </div>
+
+  <form class="filter-and-sort" action="{{ collection.url }}" method="get" data-filter-form>
+    <div class="filter-and-sort__group">
+      <div class="filter-and-sort__heading">Trier par</div>
+      <ul class="filter-and-sort__list">
+        {%- for option in collection.sort_options -%}
+          <li>
+            <label class="filter-and-sort__label">
+              <input class="filter-and-sort__input" type="radio" name="sort_by" value="{{ option.value }}" {% if option.value == collection.sort_by %}checked{% endif %}>
+              <span>{{ option.name }}</span>
+            </label>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    {%- for filter in collection.filters -%}
+      <div class="filter-and-sort__group">
+        <div class="filter-and-sort__heading">{{ filter.label }}</div>
+        <ul class="filter-and-sort__list">
+          {%- for value in filter.values -%}
+            <li>
+              <label class="filter-and-sort__label">
+                <input
+                  class="filter-and-sort__input"
+                  type="checkbox"
+                  name="{{ value.param_name }}"
+                  value="{{ value.value }}"
+                  {% if value.active %}checked{% endif %}
+                  {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                >
+                <span>{{ value.label }} ({{ value.count }})</span>
+              </label>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endfor -%}
+
+    <div class="filter-and-sort__buttons">
+      <a class="btn btn--bordered" href="{{ collection.url }}">Effacer les filtres</a>
+      <button class="btn btn--primary" type="submit">Appliquer les filtres</button>
+    </div>
+  </form>
 
   {%- paginate collection.products by 24 -%}
     <div class="collection-page__grid">
@@ -17,11 +86,16 @@
 
     {%- if paginate.pages > 1 -%}
       <nav class="collection-page__pagination">
-        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; Précédent</a>{%- endif -%}
-        {%- for part in paginate.parts -%}
-          {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}
-        {%- endfor -%}
-        {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Suivant &rarr;</a>{%- endif -%}
+        {%- if paginate.next -%}
+          <a class="btn btn--primary collection-page__load-more" href="{{ paginate.next.url }}">Voir plus</a>
+        {%- endif -%}
+        <div class="collection-page__pagination-links">
+          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; Précédent</a>{%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Suivant &rarr;</a>{%- endif -%}
+        </div>
       </nav>
     {%- endif -%}
   {%- endpaginate -%}
@@ -30,6 +104,8 @@
 {% schema %}
 {
   "name": "Page collection",
-  "settings": []
+  "settings": [
+    { "type": "collection_list", "id": "related_collections", "label": "Collections associées", "limit": 12 }
+  ]
 }
 {% endschema %}
