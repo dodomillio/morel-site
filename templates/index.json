@@ -15,6 +15,7 @@
         "banner-1": {
           "type": "banner",
           "settings": {
+            "image": "shopify://shop_images/4D2FC5CD-3AE1-4B93-AB95-FBD97FB7C6E2.png",
             "heading": "Collection Été",
             "subheading": "",
             "button_label": "Découvrir",
@@ -24,6 +25,7 @@
         "banner-2": {
           "type": "banner",
           "settings": {
+            "image": "shopify://shop_images/B79E11CE-4B10-4238-A908-1EBE9FF4BA8B.png",
             "heading": "La personnalisation",
             "subheading": "De retour",
             "button_label": "Découvrir",
@@ -43,6 +45,7 @@
         "banner-1": {
           "type": "banner",
           "settings": {
+            "image": "shopify://shop_images/EED0E29C-190F-4742-AA5A-3653CBD2F488.png",
             "heading": "Le prêt-à-porter",
             "button_label": "Découvrir",
             "url": ""
@@ -53,7 +56,7 @@
         "banner-1"
       ],
       "settings": {
-        "collection": "",
+        "collection": "cabas-riviera",
         "products_to_show": 4,
         "heading": "Les indispensables",
         "button_label": "Découvrir"
@@ -65,6 +68,7 @@
         "banner-1": {
           "type": "banner",
           "settings": {
+            "image": "shopify://shop_images/7E753138-DA24-470D-A16A-A08158006910_2.png",
             "heading": "Le sac seau",
             "subheading": "",
             "button_label": "Découvrir",
@@ -74,6 +78,7 @@
         "banner-2": {
           "type": "banner",
           "settings": {
+            "image": "shopify://shop_images/ChatGPTImage6mai2026_21_26_16.png",
             "heading": "Collaboration",
             "subheading": "",
             "button_label": "Découvrir",
@@ -92,7 +97,7 @@
       "settings": {
         "banner_heading": "Édition limitée",
         "banner_url": "",
-        "collection": "",
+        "collection": "nos-pochettes",
         "heading": "Réassort"
       }
     },
