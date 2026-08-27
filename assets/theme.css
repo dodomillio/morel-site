@@ -301,7 +301,12 @@ main { display: flex; flex-direction: column; gap: 4px; }
 }
 
 /* Product ticker (auto-scrolling marquee) */
-.product-ticker { position: relative; overflow: hidden; background: #f6f3ee; }
+.product-ticker {
+  position: relative; overflow: hidden; background: #f6f3ee;
+  align-self: stretch;
+  display: flex; align-items: center;
+}
+.product-ticker__inner { position: relative; width: 100%; }
 .product-ticker__viewport { overflow: hidden; }
 .product-ticker__track { display: flex; width: max-content; animation: ticker-scroll 28s linear infinite; }
 .product-ticker__track:hover { animation-play-state: paused; }

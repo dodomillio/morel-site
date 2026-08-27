@@ -12,30 +12,32 @@
   </a>
 
   <div class="product-ticker">
-    <div class="product-ticker__viewport">
-      <div class="product-ticker__track" data-ticker-track>
-        {%- assign coll = section.settings.collection -%}
-        {%- for i in (1..2) -%}
-          <div class="product-ticker__group"{% if i == 2 %} aria-hidden="true"{% endif %}>
-            {%- if coll != blank -%}
-              {%- for product in coll.products limit: 8 -%}
-                {%- if product.featured_image -%}
-                  <img class="product-ticker__image" src="{{ product.featured_image | image_url: width: 400 }}" width="140" alt="" loading="lazy">
-                {%- else -%}
+    <div class="product-ticker__inner">
+      <div class="product-ticker__viewport">
+        <div class="product-ticker__track" data-ticker-track>
+          {%- assign coll = section.settings.collection -%}
+          {%- for i in (1..2) -%}
+            <div class="product-ticker__group"{% if i == 2 %} aria-hidden="true"{% endif %}>
+              {%- if coll != blank -%}
+                {%- for product in coll.products limit: 8 -%}
+                  {%- if product.featured_image -%}
+                    <img class="product-ticker__image" src="{{ product.featured_image | image_url: width: 400 }}" width="140" alt="" loading="lazy">
+                  {%- else -%}
+                    <span class="placeholder-img placeholder-img--product"><span>Produit</span></span>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- else -%}
+                {%- for j in (1..6) -%}
                   <span class="placeholder-img placeholder-img--product"><span>Produit</span></span>
-                {%- endif -%}
-              {%- endfor -%}
-            {%- else -%}
-              {%- for j in (1..6) -%}
-                <span class="placeholder-img placeholder-img--product"><span>Produit</span></span>
-              {%- endfor -%}
-            {%- endif -%}
-          </div>
-        {%- endfor -%}
+                {%- endfor -%}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
       </div>
-    </div>
-    <div class="product-ticker__label">
-      <h2>{{ section.settings.heading }}</h2>
+      <div class="product-ticker__label">
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
     </div>
   </div>
 </section>
