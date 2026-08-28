@@ -1,5 +1,40 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "current": "Default",
+  "current": {
+    "logo_image": "shopify://shop_images/morel-4.png",
+    "color_header_bg": "#482810",
+    "color_header_fg": "#ffffff",
+    "color_footer_bg": "#482810",
+    "color_footer_fg": "#ffffff",
+    "color_accent": "#1a1a1a",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "announcement_text": "✨ Livraison offerte dès 250 € d'achat ✨",
+          "main_menu": "main-menu"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "about_menu": "",
+          "help_menu": "",
+          "legal_menu": "",
+          "newsletter_incentive": "Profitez de -10% sur votre première commande"
+        }
+      }
+    },
+    "content_for_index": []
+  },
   "presets": {
     "Default": {
       "color_header_bg": "#7a1414",
