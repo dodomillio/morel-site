@@ -282,7 +282,7 @@ main { display: flex; flex-direction: column; gap: 56px; padding-top: 8px; }
 .featured-products__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px 16px;
+  gap: 8px;
 }
 .product-card { position: relative; display: block; }
 .product-card__wishlist {
