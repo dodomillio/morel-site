@@ -17,11 +17,11 @@
   {
     "name": "Couleurs",
     "settings": [
-      { "type": "color", "id": "color_header_bg", "label": "Fond de l'en-tête", "default": "#7a1414" },
-      { "type": "color", "id": "color_header_fg", "label": "Texte de l'en-tête", "default": "#ffffff" },
-      { "type": "color", "id": "color_footer_bg", "label": "Fond du pied de page", "default": "#7a1414" },
-      { "type": "color", "id": "color_footer_fg", "label": "Texte du pied de page", "default": "#ffffff" },
-      { "type": "color", "id": "color_accent", "label": "Couleur des boutons", "default": "#1a1a1a" }
+      { "type": "color", "id": "color_header_bg", "label": "Fond de l'en-tête", "default": "#211d1a" },
+      { "type": "color", "id": "color_header_fg", "label": "Texte de l'en-tête", "default": "#f5f1ea" },
+      { "type": "color", "id": "color_footer_bg", "label": "Fond du pied de page", "default": "#211d1a" },
+      { "type": "color", "id": "color_footer_fg", "label": "Texte du pied de page", "default": "#f5f1ea" },
+      { "type": "color", "id": "color_accent", "label": "Couleur des boutons", "default": "#b17457" }
     ]
   }
 ]

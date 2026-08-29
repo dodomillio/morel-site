@@ -4,11 +4,11 @@
 :root {
   --color-bg: #ffffff;
   --color-text: #1a1a1a;
-  --color-header-bg: #7a1414;   /* couleur de la nav / bandeau annonce */
-  --color-header-fg: #ffffff;
-  --color-footer-bg: #7a1414;
-  --color-footer-fg: #ffffff;
-  --color-accent: #1a1a1a;      /* boutons */
+  --color-header-bg: #211d1a;   /* couleur de la nav / bandeau annonce */
+  --color-header-fg: #f5f1ea;
+  --color-footer-bg: #211d1a;
+  --color-footer-fg: #f5f1ea;
+  --color-accent: #b17457;      /* boutons */
   --color-border: #e4e0dc;
   --color-placeholder-bg: #eeeae4;
   --color-placeholder-fg: #9a8f82;
