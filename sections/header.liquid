@@ -26,11 +26,13 @@
       {%- endfor -%}
     </nav>
 
-    {%- if settings.logo_image -%}
-      <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name }} — Retour à l'accueil">
+    <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name }} — Retour à l'accueil">
+      {%- if settings.logo_image -%}
         <img src="{{ settings.logo_image | image_url: width: 200 }}" width="100" alt="{{ shop.name }}">
-      </a>
-    {%- endif -%}
+      {%- else -%}
+        <span class="site-logo__text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
 
     <nav class="static-menu" aria-label="Compte et panier">
       <a class="static-menu__link static-menu__link--wishlist" href="#" aria-label="Liste de souhaits">

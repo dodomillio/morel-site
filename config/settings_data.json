@@ -9,12 +9,12 @@
  */
 {
   "current": {
-    "logo_image": "shopify://shop_images/morel-4.png",
-    "color_header_bg": "#211d1a",
-    "color_header_fg": "#f5f1ea",
-    "color_footer_bg": "#211d1a",
-    "color_footer_fg": "#f5f1ea",
-    "color_accent": "#b17457",
+    "logo_image": "",
+    "color_header_bg": "#faf8f4",
+    "color_header_fg": "#211d1a",
+    "color_footer_bg": "#f1ede4",
+    "color_footer_fg": "#211d1a",
+    "color_accent": "#211d1a",
     "sections": {
       "header": {
         "type": "header",
@@ -37,11 +37,11 @@
   },
   "presets": {
     "Default": {
-      "color_header_bg": "#211d1a",
-      "color_header_fg": "#f5f1ea",
-      "color_footer_bg": "#211d1a",
-      "color_footer_fg": "#f5f1ea",
-      "color_accent": "#b17457"
+      "color_header_bg": "#faf8f4",
+      "color_header_fg": "#211d1a",
+      "color_footer_bg": "#f1ede4",
+      "color_footer_fg": "#211d1a",
+      "color_accent": "#211d1a"
     }
   }
 }
