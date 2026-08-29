@@ -10,11 +10,11 @@
 {
   "current": {
     "logo_image": "",
-    "color_header_bg": "#faf8f4",
-    "color_header_fg": "#211d1a",
-    "color_footer_bg": "#f1ede4",
-    "color_footer_fg": "#211d1a",
-    "color_accent": "#211d1a",
+    "color_header_bg": "#ffffff",
+    "color_header_fg": "#171819",
+    "color_footer_bg": "#ffffff",
+    "color_footer_fg": "#171819",
+    "color_accent": "#171819",
     "sections": {
       "header": {
         "type": "header",
@@ -37,11 +37,11 @@
   },
   "presets": {
     "Default": {
-      "color_header_bg": "#faf8f4",
-      "color_header_fg": "#211d1a",
-      "color_footer_bg": "#f1ede4",
-      "color_footer_fg": "#211d1a",
-      "color_accent": "#211d1a"
+      "color_header_bg": "#ffffff",
+      "color_header_fg": "#171819",
+      "color_footer_bg": "#ffffff",
+      "color_footer_fg": "#171819",
+      "color_accent": "#171819"
     }
   }
 }

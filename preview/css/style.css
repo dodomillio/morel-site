@@ -4,16 +4,17 @@
    editorial fashion aesthetic (soft neutrals, generous space).
    ========================================================= */
 :root {
-  --color-bg: #faf8f4;
-  --color-text: #211d1a;
-  --color-header-bg: #faf8f4;
-  --color-header-fg: #211d1a;
-  --color-footer-bg: #f1ede4;
-  --color-footer-fg: #211d1a;
-  --color-accent: #211d1a;
-  --color-border: #e2dbcd;
-  --color-placeholder-bg: #e9e1d0;
-  --color-placeholder-fg: #8f8471;
+  --color-bg: #ffffff;
+  --color-text: #171819;
+  --color-header-bg: #ffffff;
+  --color-header-fg: #171819;
+  --color-footer-bg: #ffffff;
+  --color-footer-fg: #171819;
+  --color-accent: #171819;
+  --color-accent-soft: #cd957a;
+  --color-border: #e4e4e4;
+  --color-placeholder-bg: #f0f0f0;
+  --color-placeholder-fg: #8a8a8a;
 
   --header-height: 64px;
   --announcement-height: 38px;
@@ -75,7 +76,7 @@ img { max-width: 100%; display: block; }
    ========================================================= */
 .overlay {
   position: fixed; inset: 0;
-  background: rgba(33,29,26,.35);
+  background: rgba(23,24,25,.35);
   opacity: 0; visibility: hidden;
   transition: opacity .25s ease;
   z-index: 40;
@@ -154,7 +155,7 @@ body.no-scroll { overflow: hidden; }
   background: var(--color-bg); color: var(--color-text);
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
-  box-shadow: 0 16px 32px rgba(33,29,26,.06);
+  box-shadow: 0 16px 32px rgba(23,24,25,.06);
   display: none;
   padding: 40px var(--container-padding);
   gap: 56px;
@@ -265,7 +266,7 @@ main { display: flex; flex-direction: column; gap: 56px; padding-top: 8px; }
   padding: 28px 4px;
   display: flex; flex-direction: column; gap: 8px;
   color: #fff;
-  background: linear-gradient(0deg, rgba(33,29,26,.55), rgba(33,29,26,0) 70%);
+  background: linear-gradient(0deg, rgba(23,24,25,.55), rgba(23,24,25,0) 70%);
 }
 .banner__title { font-family: var(--font-heading); font-weight: 300; font-size: clamp(20px, 2.4vw, 26px); letter-spacing: .02em; }
 .banner__subtitle { font-size: 13px; opacity: .85; }
@@ -337,7 +338,7 @@ main { display: flex; flex-direction: column; gap: 56px; padding-top: 8px; }
   position: absolute; left: 0; bottom: 0; right: 0;
   padding: 36px;
   color: #fff;
-  background: linear-gradient(0deg, rgba(33,29,26,.5), rgba(33,29,26,0) 60%);
+  background: linear-gradient(0deg, rgba(23,24,25,.5), rgba(23,24,25,0) 60%);
   text-align: center;
 }
 .banner__address { display: block; margin-top: 8px; font-size: 13px; letter-spacing: .04em; }
@@ -404,7 +405,7 @@ main { display: flex; flex-direction: column; gap: 56px; padding-top: 8px; }
   z-index: 60;
   display: flex; flex-direction: column;
   transition: right .3s ease;
-  box-shadow: -8px 0 32px rgba(33,29,26,.08);
+  box-shadow: -8px 0 32px rgba(23,24,25,.08);
 }
 .cart-drawer.is-open, .search-drawer.is-open { right: 0; }
 
