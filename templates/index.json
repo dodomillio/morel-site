@@ -12,13 +12,18 @@
     "hero-editorial-1": {
     "type": "hero-editorial",
     "settings": {
-    "image": "shopify://shop_images/4D2FC5CD-3AE1-4B93-AB95-FBD97FB7C6E2.png",
-    "mark_text": "MORËL",
-    "mark_text_2": "PARIS",
-    "heading": "Sacs en crochet faits main",
-    "subheading": "Pièces uniques, façonnées à la main à Paris",
-    "button_label": "Découvrir la collection",
-    "url": ""
+"image": "shopify://shop_images/4D2FC5CD-3AE1-4B93-AB95-FBD97FB7C6E2.png",
+"image_2": "shopify://shop_images/4D2FC5CD-3AE1-4B93-AB95-FBD97FB7C6E2.png",
+"mark_text": "MORËL",
+"mark_text_2": "PARIS",
+"heading": "Sacs en crochet faits main",
+"subheading": "Pièces uniques, façonnées à la main à Paris",
+"button_label": "Découvrir la collection",
+"url": "",
+"heading_2": "Créations sur mesure",
+"subheading_2": "Chaque pièce racontée à la main",
+"button_label_2": "Voir les nouveautés",
+"url_2": ""
     }
     },
 
