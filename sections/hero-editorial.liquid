@@ -4,7 +4,10 @@
     {%- else -%}
     <span class="placeholder-img placeholder-img--tall"><span>Bannière</span></span>
     {%- endif -%}
-    <span class="hero-editorial__mark" aria-hidden="true">{{ section.settings.mark_text | default: 'MORËL' }}</span>
+<div class="hero-editorial__logo" aria-hidden="true">
+    <span class="hero-editorial__logo-vertical">{{ section.settings.mark_text | default: 'MORËL' }}</span>
+    <span class="hero-editorial__logo-horizontal">{{ section.settings.mark_text_2 | default: 'PARIS' }}</span>
+    </div>
     <div class="hero-editorial__overlay">
     {%- if section.settings.heading != blank -%}<span class="hero-editorial__title">{{ section.settings.heading }}</span>{%- endif -%}
     {%- if section.settings.subheading != blank -%}<span class="hero-editorial__subtitle">{{ section.settings.subheading }}</span>{%- endif -%}
@@ -19,6 +22,7 @@
     "settings": [
     { "type": "image_picker", "id": "image", "label": "Image" },
     { "type": "text", "id": "mark_text", "label": "Texte bord vertical", "default": "MORËL" },
+    { "type": "text", "id": "mark_text_2", "label": "Texte grand horizontal", "default": "PARIS" },
     { "type": "text", "id": "heading", "label": "Titre" },
     { "type": "text", "id": "subheading", "label": "Sous-titre" },
     { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Découvrir" },
