@@ -4,7 +4,7 @@
     {%- else -%}
     <span class="placeholder-img placeholder-img--tall"><span>Bannière</span></span>
     {%- endif -%}
-<div class="hero-editorial__logo" aria-hidden="true">
+    <div class="hero-editorial__logo" aria-hidden="true">
     <span class="hero-editorial__logo-vertical">{{ section.settings.mark_text | default: 'MORËL' }}</span>
     <span class="hero-editorial__logo-horizontal">{{ section.settings.mark_text_2 | default: 'PARIS' }}</span>
     </div>
@@ -13,8 +13,23 @@
     {%- if section.settings.subheading != blank -%}<span class="hero-editorial__subtitle">{{ section.settings.subheading }}</span>{%- endif -%}
     {%- if section.settings.button_label != blank -%}<a class="hero-editorial__cta" href="{{ section.settings.url | default: '#' }}">{{ section.settings.button_label }}</a>{%- endif -%}
     </div>
+    <script>
+    (function () {
+    var section = document.currentScript.closest('.hero-editorial');
+    var logo = section ? section.querySelector('.hero-editorial__logo') : null;
+    if (!logo) return;
+    function updateLogo() {
+    if (window.scrollY > 0) {
+    logo.classList.add('hero-editorial__logo--scrolled');
+    } else {
+    logo.classList.remove('hero-editorial__logo--scrolled');
+    }
+    }
+    window.addEventListener('scroll', updateLogo, { passive: true });
+    updateLogo();
+    })();
+    </script>
     </section>
-
 
     {% schema %}
     {
