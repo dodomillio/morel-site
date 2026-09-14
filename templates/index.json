@@ -95,7 +95,7 @@
         "banner-2": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/ChatGPTImage6mai2026_21_26_16.png",
+            "image": "shopify://shop_images/1200_x_628_px_2.jpg",
             "heading": "Collaboration",
             "subheading": "",
             "button_label": "Découvrir",
@@ -134,7 +134,7 @@
         "banner-1"
       ],
       "settings": {
-        "collection": "",
+        "collection": "les-syenna",
         "products_to_show": 4,
         "heading": "Petits accessoires",
         "button_label": "Découvrir"
