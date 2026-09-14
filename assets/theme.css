@@ -592,3 +592,94 @@ main { display: flex; flex-direction: column; gap: 4px; }
                @media (max-width: 767px) {
                  body { font-size: 16px; line-height: 1.5; }
                  }
+
+                 /* =========================================================
+                    HERO EDITORIAL — pleine largeur, mark vertical, overlay
+                       ========================================================= */
+                       .hero-editorial {
+                       position: relative;
+                       display: block;
+                       width: 100%;
+                       height: 100vh;
+                       min-height: 520px;
+                       max-height: 900px;
+                       overflow: hidden;
+                       background: #1a1a1a;
+                       }
+                       .hero-editorial__image {
+                       position: absolute;
+                       inset: 0;
+                       width: 100%;
+                       height: 100%;
+                       object-fit: cover;
+                       object-position: center;
+                       }
+                       .hero-editorial::after {
+                       content: "";
+                       position: absolute;
+                       inset: 0;
+                       background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.05) 45%, rgba(0,0,0,0.55) 100%);
+                       pointer-events: none;
+                       }
+                       .hero-editorial__mark {
+                       position: absolute;
+                       top: 24px;
+                       left: 16px;
+                       z-index: 2;
+                       font-family: var(--font-heading);
+                       font-size: 13px;
+                       font-weight: 500;
+                       letter-spacing: 0.32em;
+                       text-transform: uppercase;
+                       color: #fff;
+                       writing-mode: vertical-rl;
+                       transform: rotate(180deg);
+                       }
+                       .hero-editorial__overlay {
+                       position: absolute;
+                       left: 0;
+                       right: 0;
+                       bottom: 40px;
+                       z-index: 2;
+                       display: flex;
+                       flex-direction: column;
+                       align-items: flex-start;
+                       gap: 14px;
+                       padding: 0 24px;
+                       }
+                       .hero-editorial__title {
+                       font-family: var(--font-heading);
+                       font-weight: 600;
+                       font-size: clamp(32px, 9vw, 56px);
+                       line-height: 1.05;
+                       color: #fff;
+                       max-width: 14ch;
+                       }
+                       .hero-editorial__subtitle {
+                       font-family: var(--font-heading);
+                       font-style: italic;
+                       font-weight: 400;
+                       font-size: clamp(16px, 3.6vw, 20px);
+                       color: #fff;
+                       opacity: 0.92;
+                       }
+                       .hero-editorial__cta {
+                       display: inline-block;
+                       margin-top: 6px;
+                       padding: 14px 28px;
+                       background: #1a1a1a;
+                       color: #fff;
+                       font-family: var(--font-body);
+                       font-size: 13px;
+                       font-weight: 600;
+                       letter-spacing: 0.08em;
+                       text-transform: uppercase;
+                       text-decoration: none;
+                       border-radius: 2px;
+                       }
+                       @media (max-width: 767px) {
+                       .hero-editorial { height: 88vh; min-height: 460px; }
+                       .hero-editorial__overlay { bottom: 32px; padding: 0 20px; }
+                       .hero-editorial__mark { font-size: 11px; letter-spacing: 0.28em; top: 16px; left: 12px; }
+                       }
+                       
