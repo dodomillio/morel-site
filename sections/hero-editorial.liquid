@@ -1,17 +1,31 @@
 <section class="hero-editorial">
+    <div class="hero-editorial__logo" aria-hidden="true">
+    <span class="hero-editorial__logo-vertical">{{ section.settings.mark_text | default: 'MORËL' }}</span>
+    <span class="hero-editorial__logo-horizontal">{{ section.settings.mark_text_2 | default: 'PARIS' }}</span>
+    </div>
+    <div class="hero-editorial__panel">
     {%- if section.settings.image -%}
     <img class="hero-editorial__image" src="{{ section.settings.image | image_url: width: 1600 }}" width="1600" height="2000" alt="" loading="eager">
     {%- else -%}
     <span class="placeholder-img placeholder-img--tall"><span>Bannière</span></span>
     {%- endif -%}
-    <div class="hero-editorial__logo" aria-hidden="true">
-    <span class="hero-editorial__logo-vertical">{{ section.settings.mark_text | default: 'MORËL' }}</span>
-    <span class="hero-editorial__logo-horizontal">{{ section.settings.mark_text_2 | default: 'PARIS' }}</span>
-    </div>
     <div class="hero-editorial__overlay">
     {%- if section.settings.heading != blank -%}<span class="hero-editorial__title">{{ section.settings.heading }}</span>{%- endif -%}
     {%- if section.settings.subheading != blank -%}<span class="hero-editorial__subtitle">{{ section.settings.subheading }}</span>{%- endif -%}
     {%- if section.settings.button_label != blank -%}<a class="hero-editorial__cta" href="{{ section.settings.url | default: '#' }}">{{ section.settings.button_label }}</a>{%- endif -%}
+    </div>
+    </div>
+    <div class="hero-editorial__panel">
+    {%- if section.settings.image_2 -%}
+    <img class="hero-editorial__image" src="{{ section.settings.image_2 | image_url: width: 1600 }}" width="1600" height="2000" alt="" loading="eager">
+    {%- else -%}
+    <span class="placeholder-img placeholder-img--tall"><span>Bannière</span></span>
+    {%- endif -%}
+    <div class="hero-editorial__overlay">
+    {%- if section.settings.heading_2 != blank -%}<span class="hero-editorial__title">{{ section.settings.heading_2 }}</span>{%- endif -%}
+    {%- if section.settings.subheading_2 != blank -%}<span class="hero-editorial__subtitle">{{ section.settings.subheading_2 }}</span>{%- endif -%}
+    {%- if section.settings.button_label_2 != blank -%}<a class="hero-editorial__cta" href="{{ section.settings.url_2 | default: '#' }}">{{ section.settings.button_label_2 }}</a>{%- endif -%}
+    </div>
     </div>
     <script>
     (function () {
@@ -35,13 +49,18 @@
     {
     "name": "Hero éditorial",
     "settings": [
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "text", "id": "mark_text", "label": "Texte bord vertical", "default": "MORËL" },
-    { "type": "text", "id": "mark_text_2", "label": "Texte grand horizontal", "default": "PARIS" },
-    { "type": "text", "id": "heading", "label": "Titre" },
-    { "type": "text", "id": "subheading", "label": "Sous-titre" },
-    { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Découvrir" },
-    { "type": "url", "id": "url", "label": "Lien" }
+{ "type": "image_picker", "id": "image", "label": "Image (gauche)" },
+{ "type": "image_picker", "id": "image_2", "label": "Image (droite)" },
+{ "type": "text", "id": "mark_text", "label": "Texte bord vertical", "default": "MORËL" },
+{ "type": "text", "id": "mark_text_2", "label": "Texte grand horizontal", "default": "PARIS" },
+{ "type": "text", "id": "heading", "label": "Titre (gauche)" },
+{ "type": "text", "id": "subheading", "label": "Sous-titre (gauche)" },
+{ "type": "text", "id": "button_label", "label": "Texte du bouton (gauche)", "default": "Découvrir" },
+{ "type": "url", "id": "url", "label": "Lien (gauche)" },
+{ "type": "text", "id": "heading_2", "label": "Titre (droite)" },
+{ "type": "text", "id": "subheading_2", "label": "Sous-titre (droite)" },
+{ "type": "text", "id": "button_label_2", "label": "Texte du bouton (droite)", "default": "Découvrir" },
+{ "type": "url", "id": "url_2", "label": "Lien (droite)" }
     ],
     "presets": [
     { "name": "Hero éditorial" }
