@@ -14,7 +14,7 @@
     "color_header_fg": "#ffffff",
     "color_footer_bg": "#482810",
     "color_footer_fg": "#ffffff",
-    "color_accent": "#1a1a1a",
+    "color_accent": "#b5502a",
     "sections": {
       "header": {
         "type": "header",
