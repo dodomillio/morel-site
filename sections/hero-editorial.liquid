@@ -1,69 +1,174 @@
+{% style %}
+  #shopify-section-{{ section.id }} .hero-editorial {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .hero-editorial {
+      grid-template-columns: 1fr 1fr !important;
+    }
+  }
+  #shopify-section-{{ section.id }} .hero-editorial__panel {
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  #shopify-section-{{ section.id }} .hero-editorial__image,
+  #shopify-section-{{ section.id }} .placeholder-img {
+    display: block !important;
+    width: 100% !important;
+    height: 60vh !important;
+    min-height: 420px !important;
+    object-fit: cover !important;
+  }
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .hero-editorial__image,
+    #shopify-section-{{ section.id }} .placeholder-img {
+      height: 90vh !important;
+      min-height: 560px !important;
+    }
+  }
+
+  /* Logotype MORËL / PARIS : fixé en haut à gauche, hors du chemin du titre */
+  #shopify-section-{{ section.id }} .hero-editorial__logo {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: auto !important;
+    height: auto !important;
+    max-width: 60% !important;
+    z-index: 3 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.25em !important;
+    padding: 1.25rem 1rem !important;
+    color: #fff !important;
+    pointer-events: none !important;
+  }
+  #shopify-section-{{ section.id }} .hero-editorial__logo-vertical {
+    writing-mode: vertical-rl !important;
+    transform: rotate(180deg) !important;
+    font-size: clamp(2rem, 6vw, 4.5rem) !important;
+    line-height: 1 !important;
+    letter-spacing: 0.02em !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+  }
+  #shopify-section-{{ section.id }} .hero-editorial__logo-horizontal {
+    font-size: clamp(2rem, 6vw, 4.5rem) !important;
+    line-height: 1 !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  /* Bloc titre/sous-titre/bouton : ancré en bas, ne touche jamais le logo en haut */
+  #shopify-section-{{ section.id }} .hero-editorial__overlay {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    bottom: 0 !important;
+    z-index: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+    padding: 1.5rem !important;
+    color: #fff !important;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 60%) !important;
+  }
+  #shopify-section-{{ section.id }} .hero-editorial__title {
+    font-size: clamp(1.5rem, 3vw, 2.25rem) !important;
+    font-weight: 600 !important;
+    line-height: 1.15 !important;
+  }
+  #shopify-section-{{ section.id }} .hero-editorial__subtitle {
+    font-style: italic !important;
+    font-size: 1rem !important;
+    opacity: 0.9 !important;
+  }
+  #shopify-section-{{ section.id }} .hero-editorial__cta {
+    display: inline-block !important;
+    margin-top: 0.5rem !important;
+    padding: 0.85rem 1.75rem !important;
+    background: #1a1a1a !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    font-size: 0.8rem !important;
+  }
+  #shopify-section-{{ section.id }} .hero-editorial__logo--scrolled {
+    opacity: 0.85 !important;
+  }
+{% endstyle %}
+
 <section class="hero-editorial">
-    <div class="hero-editorial__logo" aria-hidden="true">
+  <div class="hero-editorial__logo" aria-hidden="true">
     <span class="hero-editorial__logo-vertical">{{ section.settings.mark_text | default: 'MORËL' }}</span>
     <span class="hero-editorial__logo-horizontal">{{ section.settings.mark_text_2 | default: 'PARIS' }}</span>
-    </div>
-    <div class="hero-editorial__panel">
+  </div>
+  <div class="hero-editorial__panel">
     {%- if section.settings.image -%}
     <img class="hero-editorial__image" src="{{ section.settings.image | image_url: width: 1600 }}" width="1600" height="2000" alt="" loading="eager">
     {%- else -%}
     <span class="placeholder-img placeholder-img--tall"><span>Bannière</span></span>
     {%- endif -%}
     <div class="hero-editorial__overlay">
-    {%- if section.settings.heading != blank -%}<span class="hero-editorial__title">{{ section.settings.heading }}</span>{%- endif -%}
-    {%- if section.settings.subheading != blank -%}<span class="hero-editorial__subtitle">{{ section.settings.subheading }}</span>{%- endif -%}
-    {%- if section.settings.button_label != blank -%}<a class="hero-editorial__cta" href="{{ section.settings.url | default: '#' }}">{{ section.settings.button_label }}</a>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<span class="hero-editorial__title">{{ section.settings.heading }}</span>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<span class="hero-editorial__subtitle">{{ section.settings.subheading }}</span>{%- endif -%}
+      {%- if section.settings.button_label != blank -%}<a class="hero-editorial__cta" href="{{ section.settings.url | default: '#' }}">{{ section.settings.button_label }}</a>{%- endif -%}
     </div>
-    </div>
-    <div class="hero-editorial__panel">
+  </div>
+  <div class="hero-editorial__panel">
     {%- if section.settings.image_2 -%}
     <img class="hero-editorial__image" src="{{ section.settings.image_2 | image_url: width: 1600 }}" width="1600" height="2000" alt="" loading="eager">
     {%- else -%}
     <span class="placeholder-img placeholder-img--tall"><span>Bannière</span></span>
     {%- endif -%}
     <div class="hero-editorial__overlay">
-    {%- if section.settings.heading_2 != blank -%}<span class="hero-editorial__title">{{ section.settings.heading_2 }}</span>{%- endif -%}
-    {%- if section.settings.subheading_2 != blank -%}<span class="hero-editorial__subtitle">{{ section.settings.subheading_2 }}</span>{%- endif -%}
-    {%- if section.settings.button_label_2 != blank -%}<a class="hero-editorial__cta" href="{{ section.settings.url_2 | default: '#' }}">{{ section.settings.button_label_2 }}</a>{%- endif -%}
+      {%- if section.settings.heading_2 != blank -%}<span class="hero-editorial__title">{{ section.settings.heading_2 }}</span>{%- endif -%}
+      {%- if section.settings.subheading_2 != blank -%}<span class="hero-editorial__subtitle">{{ section.settings.subheading_2 }}</span>{%- endif -%}
+      {%- if section.settings.button_label_2 != blank -%}<a class="hero-editorial__cta" href="{{ section.settings.url_2 | default: '#' }}">{{ section.settings.button_label_2 }}</a>{%- endif -%}
     </div>
-    </div>
-    <script>
+  </div>
+  <script>
     (function () {
-    var section = document.currentScript.closest('.hero-editorial');
-    var logo = section ? section.querySelector('.hero-editorial__logo') : null;
-    if (!logo) return;
-    function updateLogo() {
-    if (window.scrollY > 0) {
-    logo.classList.add('hero-editorial__logo--scrolled');
-    } else {
-    logo.classList.remove('hero-editorial__logo--scrolled');
-    }
-    }
-    window.addEventListener('scroll', updateLogo, { passive: true });
-    updateLogo();
+      var section = document.currentScript.closest('.hero-editorial');
+      var logo = section ? section.querySelector('.hero-editorial__logo') : null;
+      if (!logo) return;
+      function updateLogo() {
+        if (window.scrollY > 0) {
+          logo.classList.add('hero-editorial__logo--scrolled');
+        } else {
+          logo.classList.remove('hero-editorial__logo--scrolled');
+        }
+      }
+      window.addEventListener('scroll', updateLogo, { passive: true });
+      updateLogo();
     })();
-    </script>
-    </section>
+  </script>
+</section>
 
-    {% schema %}
-    {
-    "name": "Hero éditorial",
-    "settings": [
-{ "type": "image_picker", "id": "image", "label": "Image (gauche)" },
-{ "type": "image_picker", "id": "image_2", "label": "Image (droite)" },
-{ "type": "text", "id": "mark_text", "label": "Texte bord vertical", "default": "MORËL" },
-{ "type": "text", "id": "mark_text_2", "label": "Texte grand horizontal", "default": "PARIS" },
-{ "type": "text", "id": "heading", "label": "Titre (gauche)" },
-{ "type": "text", "id": "subheading", "label": "Sous-titre (gauche)" },
-{ "type": "text", "id": "button_label", "label": "Texte du bouton (gauche)", "default": "Découvrir" },
-{ "type": "url", "id": "url", "label": "Lien (gauche)" },
-{ "type": "text", "id": "heading_2", "label": "Titre (droite)" },
-{ "type": "text", "id": "subheading_2", "label": "Sous-titre (droite)" },
-{ "type": "text", "id": "button_label_2", "label": "Texte du bouton (droite)", "default": "Découvrir" },
-{ "type": "url", "id": "url_2", "label": "Lien (droite)" }
-    ],
-    "presets": [
+{% schema %}
+{
+  "name": "Hero éditorial",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image (gauche)" },
+    { "type": "image_picker", "id": "image_2", "label": "Image (droite)" },
+    { "type": "text", "id": "mark_text", "label": "Texte bord vertical", "default": "MORËL" },
+    { "type": "text", "id": "mark_text_2", "label": "Texte grand horizontal", "default": "PARIS" },
+    { "type": "text", "id": "heading", "label": "Titre (gauche)" },
+    { "type": "text", "id": "subheading", "label": "Sous-titre (gauche)" },
+    { "type": "text", "id": "button_label", "label": "Texte du bouton (gauche)", "default": "Découvrir" },
+    { "type": "url", "id": "url", "label": "Lien (gauche)" },
+    { "type": "text", "id": "heading_2", "label": "Titre (droite)" },
+    { "type": "text", "id": "subheading_2", "label": "Sous-titre (droite)" },
+    { "type": "text", "id": "button_label_2", "label": "Texte du bouton (droite)", "default": "Découvrir" },
+    { "type": "url", "id": "url_2", "label": "Lien (droite)" }
+  ],
+  "presets": [
     { "name": "Hero éditorial" }
-    ]
-    }
-    {% endschema %}
+  ]
+}
+{% endschema %}
