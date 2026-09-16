@@ -29,7 +29,7 @@
     }
   }
 
-  /* Logotype MORËL / PARIS : fixé en haut à gauche, hors du chemin du titre */
+  /* Logotype MORËL / PARIS : fixé en haut à gauche */
   #shopify-section-{{ section.id }} .hero-editorial__logo {
     position: absolute !important;
     top: 0 !important;
@@ -40,28 +40,27 @@
     z-index: 3 !important;
     display: flex !important;
     align-items: flex-start !important;
-    gap: 0.25em !important;
+    gap: 0.15em !important;
     padding: 1.25rem 1rem !important;
     color: #fff !important;
     pointer-events: none !important;
   }
+  #shopify-section-{{ section.id }} .hero-editorial__logo-vertical,
+  #shopify-section-{{ section.id }} .hero-editorial__logo-horizontal {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: -0.01em !important;
+    font-size: clamp(2rem, 6vw, 4.5rem) !important;
+    line-height: 0.9 !important;
+    white-space: nowrap !important;
+  }
   #shopify-section-{{ section.id }} .hero-editorial__logo-vertical {
     writing-mode: vertical-rl !important;
     transform: rotate(180deg) !important;
-    font-size: clamp(2rem, 6vw, 4.5rem) !important;
-    line-height: 1 !important;
-    letter-spacing: 0.02em !important;
-    font-weight: 600 !important;
-    white-space: nowrap !important;
-  }
-  #shopify-section-{{ section.id }} .hero-editorial__logo-horizontal {
-    font-size: clamp(2rem, 6vw, 4.5rem) !important;
-    line-height: 1 !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.02em !important;
   }
 
-  /* Bloc titre/sous-titre/bouton : ancré en bas, ne touche jamais le logo en haut */
+  /* Bloc titre/sous-titre/bouton : ancré en bas */
   #shopify-section-{{ section.id }} .hero-editorial__overlay {
     position: absolute !important;
     left: 0 !important;
@@ -78,23 +77,33 @@
     background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 60%) !important;
   }
   #shopify-section-{{ section.id }} .hero-editorial__title {
-    font-size: clamp(1.5rem, 3vw, 2.25rem) !important;
-    font-weight: 600 !important;
-    line-height: 1.15 !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: -0.01em !important;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem) !important;
+    line-height: 1.1 !important;
   }
   #shopify-section-{{ section.id }} .hero-editorial__subtitle {
+    font-family: Georgia, "Times New Roman", serif !important;
     font-style: italic !important;
-    font-size: 1rem !important;
-    opacity: 0.9 !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    font-size: 1.05rem !important;
+    opacity: 0.95 !important;
   }
   #shopify-section-{{ section.id }} .hero-editorial__cta {
     display: inline-block !important;
+    width: auto !important;
+    align-self: flex-start !important;
     margin-top: 0.5rem !important;
     padding: 0.85rem 1.75rem !important;
     background: #1a1a1a !important;
     color: #fff !important;
     text-decoration: none !important;
-    letter-spacing: 0.08em !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
     text-transform: uppercase !important;
     font-size: 0.8rem !important;
   }
