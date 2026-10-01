@@ -108,8 +108,8 @@
 .lot__pick{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;contain:inline-size;padding-bottom:4px;}
 .lot__pick::-webkit-scrollbar{display:none;}
 .lot__pick[hidden]{display:none;}
-.lot__item{flex:0 0 31%;scroll-snap-align:start;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#000;font:inherit;}
-.lot__item img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;background:#f3efe9;margin-bottom:8px;transition:opacity .2s;}
+.lot__item{flex:0 0 calc((100% - 20px) / 3);width:calc((100% - 20px) / 3);min-width:0;scroll-snap-align:start;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#000;font:inherit;}
+.lot__item img{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;background:#f3efe9;margin-bottom:8px;transition:opacity .2s;}
 .lot__item:hover img{opacity:.8;}
 .lot__name{display:block;font-size:11px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lot__p{display:block;font-size:11px;color:#8a8178;margin-top:2px;}
@@ -122,7 +122,7 @@
 .lot__hint{font-size:11px;color:#5c5650;margin:10px 0 0;min-height:15px;text-align:center;}
 .lot.is-shake .lot__slots{animation:lot-shake .3s;}
 @keyframes lot-shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-@media (max-width:767px){.lot__title{font-size:30px;}.lot__item{flex-basis:38%;}}
+@media (max-width:767px){.lot__title{font-size:30px;}.lot__item{flex-basis:38%;width:38%;}}
 </style>
 <script>
 (function(){
