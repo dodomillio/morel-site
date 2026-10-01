@@ -1,4 +1,4 @@
-{%- comment -%} Offre lot : 2 cabas achetés = 1 sac offert / 2 pochettes achetées = 1 pochette offerte. La remise est appliquée par les réductions automatiques Shopify. {%- endcomment -%}
+{%- comment -%} Composeur de lot : 2 cabas + 1 sac offert / 3 pochettes dont 1 offerte. Remise appliquée par les réductions automatiques Shopify. {%- endcomment -%}
 {%- liquid
   assign offer = ''
   for c in product.collections
@@ -13,48 +13,172 @@
       endif
     endfor
   endif
-  assign bv = product.selected_or_first_available_variant
-  assign unit = bv.price
+  assign cur = product.selected_or_first_available_variant
 -%}
 {%- if offer != '' -%}
-<div class="mp-bundle" data-bundle>
-  <span class="mp-bundle__tag">Offre lot</span>
+<div class="lot" data-lot data-mode="{{ offer }}">
+  <div class="lot__top">
+    <h3 class="lot__title">
+      {%- if offer == 'cabas' -%}Prenez 3 sacs,<br><em>payez-en 2.</em>{%- else -%}3 pochettes,<br><em>une offerte.</em>{%- endif -%}
+    </h3>
+    <span class="lot__sticker"><b>1</b>offert</span>
+  </div>
+  <p class="lot__sub">
+    {%- if offer == 'cabas' -%}Composez votre trio : 2 cabas + 1 cabas ou pochette au choix. Le moins cher, c'est pour nous.{%- else -%}Mixez les modèles et les couleurs comme vous voulez. La moins chère, c'est pour nous.{%- endif -%}
+  </p>
+
+  <div class="lot__slots">
+    <button type="button" class="lot__slot" data-slot="0" aria-label="Choix 1"><span class="lot__n">1</span></button>
+    <button type="button" class="lot__slot" data-slot="1" aria-label="Choix 2"><span class="lot__n">2</span></button>
+    <button type="button" class="lot__slot lot__slot--gift" data-slot="2" aria-label="Choix 3"><span class="lot__n">3</span><i>offert</i></button>
+  </div>
+
   {%- if offer == 'cabas' -%}
-    <p class="mp-bundle__title">2 cabas achetés = 1 sac offert</p>
-    <p class="mp-bundle__text">Ajoutez un 3e sac (cabas ou pochette) : le moins cher vous est offert, automatiquement au panier.</p>
-  {%- else -%}
-    <p class="mp-bundle__title">2 pochettes achetées = la 3e offerte</p>
-    <p class="mp-bundle__text">Ajoutez 3 pochettes au panier : la moins chère vous est offerte, automatiquement.</p>
+  <div class="lot__tabs">
+    <button type="button" class="is-on" data-tab="cabas">Cabas</button>
+    <button type="button" data-tab="pochette">Pochettes</button>
+  </div>
   {%- endif -%}
-  {%- if bv.available -%}
-    <button type="button" class="mp-bundle__btn" data-bundle-add>Prendre le lot de 3 · {{ unit | times: 2 | money }} <s>{{ unit | times: 3 | money }}</s></button>
-    <p class="mp-bundle__note">Envie de mixer les couleurs ? Ajoutez vos modèles un par un, la remise s'applique toute seule.</p>
-  {%- endif -%}
+
+  <div class="lot__pick" data-group="cabas"{% if offer != 'cabas' %} hidden{% endif %}>
+    {%- for p in collections['cabas'].products -%}
+      {%- if p.available -%}{%- assign v = p.first_available_variant -%}
+      <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="cabas" data-img="{{ p.featured_image | image_url: width: 240 }}" data-title="{{ p.title | escape }}">
+        <img src="{{ p.featured_image | image_url: width: 240 }}" alt="{{ p.title | escape }}" width="120" height="150" loading="lazy">
+        <span class="lot__name">{{ p.title }}</span><span class="lot__p">{{ v.price | money }}</span>
+      </button>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  <div class="lot__pick" data-group="pochette"{% if offer == 'cabas' %} hidden{% endif %}>
+    {%- for p in collections['nos-pochettes'].products -%}
+      {%- if p.available -%}{%- assign v = p.first_available_variant -%}
+      <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="pochette" data-img="{{ p.featured_image | image_url: width: 240 }}" data-title="{{ p.title | escape }}">
+        <img src="{{ p.featured_image | image_url: width: 240 }}" alt="{{ p.title | escape }}" width="120" height="150" loading="lazy">
+        <span class="lot__name">{{ p.title }}</span><span class="lot__p">{{ v.price | money }}</span>
+      </button>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="lot__foot">
+    <div class="lot__price"><s data-was></s><strong data-now>—</strong></div>
+    <button type="button" class="lot__cta" data-cta disabled>Ajouter mon trio</button>
+  </div>
+  <p class="lot__hint" data-hint></p>
+  <script type="application/json" data-cur>{"id":{{ cur.id | json }},"price":{{ cur.price | json }},"available":{{ cur.available | json }},"type":{{ offer | json }},"title":{{ product.title | json }},"img":{{ product.featured_image | image_url: width: 240 | json }}}</script>
 </div>
 <style>
-.mp-bundle{margin:20px 0 0;padding:18px 18px 16px;border:1px solid #e5d9cc;border-radius:18px;background:#faf6f1;text-align:center;}
-.mp-bundle__tag{display:inline-block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#b33a18;border:1px solid #b33a18;border-radius:20px;padding:3px 10px;margin-bottom:10px;}
-.mp-bundle__title{font-family:var(--mp-serif,Georgia,serif);font-weight:300;font-size:22px;line-height:1.2;margin:0 0 6px;color:#000;}
-.mp-bundle__text{font-size:13px;line-height:1.5;color:#444;margin:0 0 14px;}
-.mp-bundle__btn{width:100%;height:48px;border:1px solid #000;border-radius:18px;background:#fff;color:#000;font-family:var(--mp-sans,inherit);font-size:12px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:background .2s,color .2s;}
-.mp-bundle__btn:hover{background:#000;color:#fff;}
-.mp-bundle__btn s{opacity:.5;margin-left:6px;}
-.mp-bundle__note{font-size:11px;line-height:1.5;color:#777;margin:10px 0 0;}
+.lot{--lot-bg:#3d2314;--lot-cream:#f6ecdf;--lot-hot:#e2572b;position:relative;margin:22px 0 0;padding:26px 22px 20px;background:var(--lot-bg);color:var(--lot-cream);border-radius:22px;overflow:hidden;text-align:left;}
+.lot__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.lot__title{font-family:var(--mp-serif,Georgia,serif);font-weight:300;font-size:32px;line-height:1.02;margin:0;letter-spacing:-.01em;text-transform:none;color:var(--lot-cream);}
+.lot__title em{font-style:italic;color:#ffb48f;}
+.lot__sticker{flex:none;width:74px;height:74px;border-radius:50%;background:var(--lot-hot);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-12deg);font-size:10px;text-transform:uppercase;letter-spacing:.1em;line-height:1;box-shadow:0 6px 0 rgba(0,0,0,.25);animation:lot-wiggle 3.5s ease-in-out infinite;}
+.lot__sticker b{font-family:var(--mp-serif,Georgia,serif);font-weight:400;font-size:34px;letter-spacing:0;margin-bottom:2px;}
+@keyframes lot-wiggle{0%,86%,100%{transform:rotate(-12deg)}90%{transform:rotate(-2deg) scale(1.06)}95%{transform:rotate(-16deg)}}
+.lot__sub{font-size:13px;line-height:1.5;margin:14px 0 18px;color:rgba(246,236,223,.78);}
+.lot__slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.lot__slot{position:relative;aspect-ratio:4/5;border:1.5px dashed rgba(246,236,223,.45);border-radius:14px;background:rgba(246,236,223,.06);color:var(--lot-cream);cursor:pointer;padding:0;overflow:hidden;transition:transform .15s,border-color .15s;}
+.lot__slot:hover{border-color:var(--lot-cream);}
+.lot__n{font-family:var(--mp-serif,Georgia,serif);font-size:28px;font-weight:200;opacity:.6;}
+.lot__slot i{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-style:normal;font-size:9px;text-transform:uppercase;letter-spacing:.12em;background:var(--lot-hot);color:#fff;padding:3px 7px;border-radius:20px;white-space:nowrap;z-index:2;}
+.lot__slot.is-full{border-style:solid;border-color:var(--lot-cream);}
+.lot__slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.lot__slot.is-full:after{content:"×";position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:14px;line-height:20px;text-align:center;z-index:2;}
+.lot__slot.is-pop{animation:lot-pop .35s ease;}
+@keyframes lot-pop{0%{transform:scale(.85)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.lot__tabs{display:flex;gap:6px;margin-bottom:10px;}
+.lot__tabs button{border:1px solid rgba(246,236,223,.4);background:none;color:var(--lot-cream);border-radius:20px;padding:6px 14px;font:inherit;font-size:11px;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;}
+.lot__tabs button.is-on{background:var(--lot-cream);color:var(--lot-bg);border-color:var(--lot-cream);}
+.lot__pick{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin:0 -22px;padding-left:22px;padding-right:22px;scrollbar-width:none;}
+.lot__pick::-webkit-scrollbar{display:none;}
+.lot__pick[hidden]{display:none;}
+.lot__item{flex:0 0 96px;scroll-snap-align:start;background:var(--lot-cream);color:#000;border:0;border-radius:12px;padding:4px 4px 8px;cursor:pointer;text-align:left;font:inherit;transition:transform .15s;}
+.lot__item:hover{transform:translateY(-3px);}
+.lot__item:active{transform:scale(.96);}
+.lot__item img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:9px;margin-bottom:6px;}
+.lot__name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:10px;line-height:1.3;padding:0 3px;min-height:26px;}
+.lot__p{display:block;font-size:10px;font-weight:700;padding:2px 3px 0;}
+.lot__foot{display:flex;align-items:center;gap:14px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(246,236,223,.18);}
+.lot__price{display:flex;flex-direction:column;line-height:1.1;min-width:84px;}
+.lot__price s{font-size:12px;opacity:.55;min-height:14px;}
+.lot__price strong{font-family:var(--mp-serif,Georgia,serif);font-weight:300;font-size:28px;}
+.lot__cta{flex:1;height:52px;border:0;border-radius:18px;background:var(--lot-hot);color:#fff;font-family:var(--mp-sans,inherit);font-size:12px;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:transform .15s,opacity .15s;}
+.lot__cta:hover:not(:disabled){transform:translateY(-2px);}
+.lot__cta:disabled{opacity:.35;cursor:not-allowed;}
+.lot__hint{font-size:11px;margin:10px 0 0;color:#ffb48f;min-height:15px;}
+.lot.is-shake .lot__slots{animation:lot-shake .3s;}
+@keyframes lot-shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media (max-width:767px){.lot__title{font-size:28px;}}
 </style>
 <script>
 (function(){
-  var box = document.currentScript.parentNode.querySelector('[data-bundle]');
-  if (!box) return;
-  var btn = box.querySelector('[data-bundle-add]');
-  if (!btn) return;
-  btn.addEventListener('click', function(){
-    var form = document.querySelector('.mp__form');
-    if (!form) return;
-    var qty = form.querySelector('input[name="quantity"]');
-    if (qty) qty.value = 3;
-    var add = form.querySelector('[name="add"]');
-    if (form.requestSubmit) { form.requestSubmit(add || undefined); } else { form.submit(); }
+  var lot = document.querySelector('[data-lot]');
+  if (!lot || lot.dataset.ready) return;
+  lot.dataset.ready = '1';
+  var mode = lot.getAttribute('data-mode');
+  var slots = [].slice.call(lot.querySelectorAll('[data-slot]'));
+  var picks = [null, null, null];
+  var cta = lot.querySelector('[data-cta]');
+  var hint = lot.querySelector('[data-hint]');
+  var wasEl = lot.querySelector('[data-was]');
+  var nowEl = lot.querySelector('[data-now]');
+  function money(c){ return '€' + (c/100).toFixed(2).replace('.', ','); }
+  function render(){
+    slots.forEach(function(s, i){
+      var p = picks[i];
+      var img = s.querySelector('img');
+      if (img) img.remove();
+      s.classList.toggle('is-full', !!p);
+      if (p) { var im = document.createElement('img'); im.src = p.img; im.alt = p.title; s.appendChild(im); s.setAttribute('title', p.title); }
+      else { s.removeAttribute('title'); }
+    });
+    var chosen = picks.filter(Boolean);
+    var sum = 0, min = Infinity, nCabas = 0;
+    chosen.forEach(function(p){ sum += p.price; if (p.price < min) min = p.price; if (p.type === 'cabas') nCabas++; });
+    var left = 3 - chosen.length;
+    var ok = left === 0 && (mode !== 'cabas' || nCabas >= 2);
+    if (chosen.length === 3) { wasEl.textContent = money(sum); nowEl.textContent = money(sum - min); }
+    else { wasEl.textContent = ''; nowEl.textContent = chosen.length ? money(sum) : '—'; }
+    cta.disabled = !ok;
+    cta.textContent = ok ? 'Ajouter mon trio' : (left > 0 ? 'Encore ' + left + ' à choisir' : 'Ajouter mon trio');
+    if (left === 0 && !ok) hint.textContent = 'Il faut au moins 2 cabas dans le trio.';
+    else if (ok) hint.textContent = 'Bien joué : ' + money(min) + ' offerts.';
+    else hint.textContent = '';
+  }
+  function add(p){
+    var i = picks.indexOf(null);
+    if (i === -1) { lot.classList.remove('is-shake'); void lot.offsetWidth; lot.classList.add('is-shake'); hint.textContent = 'Trio complet : touchez un sac pour le retirer.'; return; }
+    picks[i] = p; render();
+    slots[i].classList.remove('is-pop'); void slots[i].offsetWidth; slots[i].classList.add('is-pop');
+  }
+  lot.querySelectorAll('.lot__item').forEach(function(b){
+    b.addEventListener('click', function(){
+      add({ id: +b.dataset.id, price: +b.dataset.price, type: b.dataset.type, img: b.dataset.img, title: b.dataset.title });
+    });
   });
+  slots.forEach(function(s, i){ s.addEventListener('click', function(){ if (picks[i]) { picks[i] = null; render(); } }); });
+  lot.querySelectorAll('[data-tab]').forEach(function(t){
+    t.addEventListener('click', function(){
+      lot.querySelectorAll('[data-tab]').forEach(function(x){ x.classList.toggle('is-on', x === t); });
+      lot.querySelectorAll('[data-group]').forEach(function(g){ g.hidden = g.getAttribute('data-group') !== t.getAttribute('data-tab'); });
+    });
+  });
+  try {
+    var cur = JSON.parse(lot.querySelector('[data-cur]').textContent);
+    if (cur.available) { picks[0] = { id: cur.id, price: cur.price, type: cur.type, img: cur.img, title: cur.title }; }
+  } catch (e) {}
+  cta.addEventListener('click', function(){
+    var items = {};
+    picks.forEach(function(p){ if (p) items[p.id] = (items[p.id] || 0) + 1; });
+    var payload = { items: Object.keys(items).map(function(id){ return { id: +id, quantity: items[id] }; }) };
+    cta.disabled = true; cta.textContent = 'Ajout…';
+    fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function(r){ if (!r.ok) throw r; return r.json(); })
+      .then(function(){ window.location.href = '/cart'; })
+      .catch(function(){ cta.disabled = false; cta.textContent = 'Ajouter mon trio'; hint.textContent = 'Oups, un modèle n\'est plus dispo. Changez-le et réessayez.'; });
+  });
+  render();
 })();
 </script>
 {%- endif -%}
