@@ -26,6 +26,29 @@
         "url_2": ""
       }
     },
+    "featured-1": {
+      "type": "featured-products-banner",
+      "blocks": {
+        "banner-1": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2397.jpg",
+            "heading": "Le prêt-à-porter",
+            "button_label": "Découvrir",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "banner-1"
+      ],
+      "settings": {
+        "collection": "cabas-riviera",
+        "products_to_show": 4,
+        "heading": "Les indispensables",
+        "button_label": "Découvrir"
+      }
+    },
     "hero-banners-1": {
       "type": "hero-banners",
       "blocks": {
@@ -55,29 +78,6 @@
         "banner-2"
       ],
       "settings": {}
-    },
-    "featured-1": {
-      "type": "featured-products-banner",
-      "blocks": {
-        "banner-1": {
-          "type": "banner",
-          "settings": {
-            "image": "shopify://shop_images/EED0E29C-190F-4742-AA5A-3653CBD2F488.png",
-            "heading": "Le prêt-à-porter",
-            "button_label": "Découvrir",
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "banner-1"
-      ],
-      "settings": {
-        "collection": "cabas-riviera",
-        "products_to_show": 4,
-        "heading": "Les indispensables",
-        "button_label": "Découvrir"
-      }
     },
     "hero-banners-2": {
       "type": "hero-banners",
