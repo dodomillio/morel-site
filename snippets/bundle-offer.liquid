@@ -1,4 +1,4 @@
-{%- comment -%} Composeur de lot : 2 cabas + 1 sac offert / 3 pochettes dont 1 offerte. Remise appliquée par les réductions automatiques Shopify. {%- endcomment -%}
+{%- comment -%} Le Trio : 2 cabas + 1 sac offert / 3 pochettes dont 1 offerte. Remise appliquée par les réductions automatiques Shopify. {%- endcomment -%}
 {%- liquid
   assign offer = ''
   for c in product.collections
@@ -17,34 +17,38 @@
 -%}
 {%- if offer != '' -%}
 <div class="lot" data-lot data-mode="{{ offer }}">
-  <div class="lot__top">
-    <h3 class="lot__title">
-      {%- if offer == 'cabas' -%}Prenez 3 sacs,<br><em>payez-en 2.</em>{%- else -%}3 pochettes,<br><em>une offerte.</em>{%- endif -%}
-    </h3>
-    <span class="lot__sticker"><b>1</b>offert</span>
-  </div>
+  <div class="lot__bar"><span>Le Trio</span><span>2 + 1</span></div>
+
+  <h3 class="lot__title">
+    {%- if offer == 'cabas' -%}Deux cabas achetés,<br><em>le troisième offert.</em>{%- else -%}Deux pochettes achetées,<br><em>la troisième offerte.</em>{%- endif -%}
+  </h3>
   <p class="lot__sub">
-    {%- if offer == 'cabas' -%}Composez votre trio : 2 cabas + 1 cabas ou pochette au choix. Le moins cher, c'est pour nous.{%- else -%}Mixez les modèles et les couleurs comme vous voulez. La moins chère, c'est pour nous.{%- endif -%}
+    {%- if offer == 'cabas' -%}Composez votre trio. Le troisième peut être un cabas ou une pochette&nbsp;: le moins cher vous est offert.{%- else -%}Composez votre trio, mixez les couleurs&nbsp;: la moins chère vous est offerte.{%- endif -%}
   </p>
 
   <div class="lot__slots">
-    <button type="button" class="lot__slot" data-slot="0" aria-label="Choix 1"><span class="lot__n">1</span></button>
-    <button type="button" class="lot__slot" data-slot="1" aria-label="Choix 2"><span class="lot__n">2</span></button>
-    <button type="button" class="lot__slot lot__slot--gift" data-slot="2" aria-label="Choix 3"><span class="lot__n">3</span><i>offert</i></button>
+    <button type="button" class="lot__slot" data-slot="0"><span class="lot__cap">01</span><span class="lot__frame"><span class="lot__plus"></span></span></button>
+    <button type="button" class="lot__slot" data-slot="1"><span class="lot__cap">02</span><span class="lot__frame"><span class="lot__plus"></span></span></button>
+    <button type="button" class="lot__slot" data-slot="2"><span class="lot__cap">03 <b>Offert</b></span><span class="lot__frame"><span class="lot__plus"></span></span></button>
   </div>
 
-  {%- if offer == 'cabas' -%}
-  <div class="lot__tabs">
-    <button type="button" class="is-on" data-tab="cabas">Cabas</button>
-    <button type="button" data-tab="pochette">Pochettes</button>
+  <div class="lot__bill" data-bill></div>
+
+  <div class="lot__choose">
+    <span class="lot__label">Choisir</span>
+    {%- if offer == 'cabas' -%}
+    <div class="lot__tabs">
+      <button type="button" class="is-on" data-tab="cabas">Cabas</button>
+      <button type="button" data-tab="pochette">Pochettes</button>
+    </div>
+    {%- endif -%}
   </div>
-  {%- endif -%}
 
   <div class="lot__pick" data-group="cabas"{% if offer != 'cabas' %} hidden{% endif %}>
     {%- for p in collections['cabas'].products -%}
       {%- if p.available -%}{%- assign v = p.first_available_variant -%}
-      <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="cabas" data-img="{{ p.featured_image | image_url: width: 240 }}" data-title="{{ p.title | escape }}">
-        <img src="{{ p.featured_image | image_url: width: 240 }}" alt="{{ p.title | escape }}" width="120" height="150" loading="lazy">
+      <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="cabas" data-img="{{ p.featured_image | image_url: width: 300 }}" data-title="{{ p.title | escape }}">
+        <img src="{{ p.featured_image | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy">
         <span class="lot__name">{{ p.title }}</span><span class="lot__p">{{ v.price | money }}</span>
       </button>
       {%- endif -%}
@@ -53,66 +57,72 @@
   <div class="lot__pick" data-group="pochette"{% if offer == 'cabas' %} hidden{% endif %}>
     {%- for p in collections['nos-pochettes'].products -%}
       {%- if p.available -%}{%- assign v = p.first_available_variant -%}
-      <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="pochette" data-img="{{ p.featured_image | image_url: width: 240 }}" data-title="{{ p.title | escape }}">
-        <img src="{{ p.featured_image | image_url: width: 240 }}" alt="{{ p.title | escape }}" width="120" height="150" loading="lazy">
+      <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="pochette" data-img="{{ p.featured_image | image_url: width: 300 }}" data-title="{{ p.title | escape }}">
+        <img src="{{ p.featured_image | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy">
         <span class="lot__name">{{ p.title }}</span><span class="lot__p">{{ v.price | money }}</span>
       </button>
       {%- endif -%}
     {%- endfor -%}
   </div>
 
-  <div class="lot__foot">
-    <div class="lot__price"><s data-was></s><strong data-now>—</strong></div>
-    <button type="button" class="lot__cta" data-cta disabled>Ajouter mon trio</button>
+  <div class="lot__total">
+    <span>Total</span>
+    <span class="lot__amount"><s data-was></s><strong data-now>—</strong></span>
   </div>
+  <button type="button" class="lot__cta" data-cta disabled>Ajouter le trio</button>
   <p class="lot__hint" data-hint></p>
-  <script type="application/json" data-cur>{"id":{{ cur.id | json }},"price":{{ cur.price | json }},"available":{{ cur.available | json }},"type":{{ offer | json }},"title":{{ product.title | json }},"img":{{ product.featured_image | image_url: width: 240 | json }}}</script>
+  <script type="application/json" data-cur>{"id":{{ cur.id | json }},"price":{{ cur.price | json }},"available":{{ cur.available | json }},"type":{{ offer | json }},"title":{{ product.title | json }},"img":{{ product.featured_image | image_url: width: 300 | json }}}</script>
 </div>
 <style>
 .mp__grid>*{min-width:0;}
-.lot{min-width:0;max-width:100%;}
-.lot__pick{contain:inline-size;}
-.lot{--lot-bg:#3d2314;--lot-cream:#f6ecdf;--lot-hot:#e2572b;position:relative;margin:22px 0 0;padding:26px 22px 20px;background:var(--lot-bg);color:var(--lot-cream);border-radius:22px;overflow:hidden;text-align:left;}
-.lot__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
-.lot__title{font-family:var(--mp-serif,Georgia,serif);font-weight:300;font-size:32px;line-height:1.02;margin:0;letter-spacing:-.01em;text-transform:none;color:var(--lot-cream);}
-.lot__title em{font-style:italic;color:#ffb48f;}
-.lot__sticker{flex:none;width:74px;height:74px;border-radius:50%;background:var(--lot-hot);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-12deg);font-size:10px;text-transform:uppercase;letter-spacing:.1em;line-height:1;box-shadow:0 6px 0 rgba(0,0,0,.25);animation:lot-wiggle 3.5s ease-in-out infinite;}
-.lot__sticker b{font-family:var(--mp-serif,Georgia,serif);font-weight:400;font-size:34px;letter-spacing:0;margin-bottom:2px;}
-@keyframes lot-wiggle{0%,86%,100%{transform:rotate(-12deg)}90%{transform:rotate(-2deg) scale(1.06)}95%{transform:rotate(-16deg)}}
-.lot__sub{font-size:13px;line-height:1.5;margin:14px 0 18px;color:rgba(246,236,223,.78);}
-.lot__slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
-.lot__slot{position:relative;aspect-ratio:4/5;border:1.5px dashed rgba(246,236,223,.45);border-radius:14px;background:rgba(246,236,223,.06);color:var(--lot-cream);cursor:pointer;padding:0;overflow:hidden;transition:transform .15s,border-color .15s;}
-.lot__slot:hover{border-color:var(--lot-cream);}
-.lot__n{font-family:var(--mp-serif,Georgia,serif);font-size:28px;font-weight:200;opacity:.6;}
-.lot__slot i{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-style:normal;font-size:9px;text-transform:uppercase;letter-spacing:.12em;background:var(--lot-hot);color:#fff;padding:3px 7px;border-radius:20px;white-space:nowrap;z-index:2;}
-.lot__slot.is-full{border-style:solid;border-color:var(--lot-cream);}
-.lot__slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-.lot__slot.is-full:after{content:"×";position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:14px;line-height:20px;text-align:center;z-index:2;}
-.lot__slot.is-pop{animation:lot-pop .35s ease;}
-@keyframes lot-pop{0%{transform:scale(.85)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
-.lot__tabs{display:flex;gap:6px;margin-bottom:10px;}
-.lot__tabs button{border:1px solid rgba(246,236,223,.4);background:none;color:var(--lot-cream);border-radius:20px;padding:6px 14px;font:inherit;font-size:11px;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;}
-.lot__tabs button.is-on{background:var(--lot-cream);color:var(--lot-bg);border-color:var(--lot-cream);}
-.lot__pick{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin:0 -22px;padding-left:22px;padding-right:22px;scrollbar-width:none;}
+.lot{min-width:0;max-width:100%;margin:40px 0 0;color:#000;font-family:var(--mp-sans,inherit);}
+.lot__bar{display:flex;justify-content:space-between;border-top:1px solid #000;padding-top:10px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;}
+.lot__title{font-family:var(--mp-serif,Georgia,serif);font-weight:200;font-size:34px;line-height:1.05;letter-spacing:-.015em;margin:26px 0 14px;text-transform:none;font-stretch:normal;}
+.lot__title em{font-style:italic;}
+.lot__sub{font-size:13px;line-height:1.55;color:#5c5650;margin:0 0 28px;max-width:34ch;}
+.lot__slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.lot__slot{display:flex;flex-direction:column;gap:8px;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#000;font:inherit;}
+.lot__cap{font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
+.lot__cap b{font-weight:400;color:#b33a18;margin-left:4px;}
+.lot__frame{position:relative;display:block;width:100%;aspect-ratio:4/5;background:#f3efe9;overflow:hidden;}
+.lot__plus{position:absolute;left:50%;top:50%;width:18px;height:18px;transform:translate(-50%,-50%);}
+.lot__plus:before,.lot__plus:after{content:"";position:absolute;left:50%;top:50%;background:#000;transform:translate(-50%,-50%);}
+.lot__plus:before{width:18px;height:1px;}.lot__plus:after{width:1px;height:18px;}
+.lot__slot:hover .lot__plus{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s;}
+.lot__frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:lot-in .45s cubic-bezier(.2,.7,.2,1);}
+.lot__slot.is-full .lot__frame:after{content:"Retirer";position:absolute;left:0;right:0;bottom:0;padding:6px 0;background:rgba(255,255,255,.92);font-size:9px;letter-spacing:.14em;text-transform:uppercase;text-align:center;transform:translateY(100%);transition:transform .2s;}
+.lot__slot.is-full:hover .lot__frame:after{transform:none;}
+@keyframes lot-in{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+.lot__bill{margin:18px 0 0;}
+.lot__row{display:flex;align-items:baseline;gap:8px;font-size:12px;line-height:1.4;padding:7px 0;border-bottom:1px solid #e6e1da;}
+.lot__row i{font-style:normal;font-size:10px;color:#8a8178;width:18px;flex:none;}
+.lot__row span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lot__row em{font-style:normal;white-space:nowrap;}
+.lot__row.is-gift em s{color:#8a8178;margin-right:6px;}
+.lot__row.is-gift em b{font-weight:400;color:#b33a18;}
+.lot__choose{display:flex;align-items:baseline;justify-content:space-between;margin:30px 0 12px;}
+.lot__label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;}
+.lot__tabs{display:flex;gap:18px;}
+.lot__tabs button{background:none;border:0;padding:0 0 3px;font:inherit;font-size:12px;color:#8a8178;cursor:pointer;border-bottom:1px solid transparent;}
+.lot__tabs button.is-on{color:#000;border-bottom-color:#000;}
+.lot__pick{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;contain:inline-size;padding-bottom:4px;}
 .lot__pick::-webkit-scrollbar{display:none;}
 .lot__pick[hidden]{display:none;}
-.lot__item{flex:0 0 96px;scroll-snap-align:start;background:var(--lot-cream);color:#000;border:0;border-radius:12px;padding:4px 4px 8px;cursor:pointer;text-align:left;font:inherit;transition:transform .15s;}
-.lot__item:hover{transform:translateY(-3px);}
-.lot__item:active{transform:scale(.96);}
-.lot__item img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:9px;margin-bottom:6px;}
-.lot__name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:10px;line-height:1.3;padding:0 3px;min-height:26px;}
-.lot__p{display:block;font-size:10px;font-weight:700;padding:2px 3px 0;}
-.lot__foot{display:flex;align-items:center;gap:14px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(246,236,223,.18);}
-.lot__price{display:flex;flex-direction:column;line-height:1.1;min-width:84px;}
-.lot__price s{font-size:12px;opacity:.55;min-height:14px;}
-.lot__price strong{font-family:var(--mp-serif,Georgia,serif);font-weight:300;font-size:28px;}
-.lot__cta{flex:1;height:52px;border:0;border-radius:18px;background:var(--lot-hot);color:#fff;font-family:var(--mp-sans,inherit);font-size:12px;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:transform .15s,opacity .15s;}
-.lot__cta:hover:not(:disabled){transform:translateY(-2px);}
-.lot__cta:disabled{opacity:.35;cursor:not-allowed;}
-.lot__hint{font-size:11px;margin:10px 0 0;color:#ffb48f;min-height:15px;}
+.lot__item{flex:0 0 31%;scroll-snap-align:start;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#000;font:inherit;}
+.lot__item img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;background:#f3efe9;margin-bottom:8px;transition:opacity .2s;}
+.lot__item:hover img{opacity:.8;}
+.lot__name{display:block;font-size:11px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lot__p{display:block;font-size:11px;color:#8a8178;margin-top:2px;}
+.lot__total{display:flex;justify-content:space-between;align-items:baseline;margin:30px 0 14px;padding-top:14px;border-top:1px solid #000;font-size:10px;letter-spacing:.18em;text-transform:uppercase;}
+.lot__amount{display:flex;align-items:baseline;gap:10px;letter-spacing:0;text-transform:none;}
+.lot__amount s{font-size:13px;color:#8a8178;}
+.lot__amount strong{font-family:var(--mp-serif,Georgia,serif);font-weight:300;font-size:26px;}
+.lot__cta{width:100%;height:52px;border:0;border-radius:18px;background:#000;color:#fff;font-family:var(--mp-sans,inherit);font-size:12px;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:opacity .2s;}
+.lot__cta:disabled{background:#e9e4dd;color:#8a8178;cursor:not-allowed;}
+.lot__hint{font-size:11px;color:#5c5650;margin:10px 0 0;min-height:15px;text-align:center;}
 .lot.is-shake .lot__slots{animation:lot-shake .3s;}
-@keyframes lot-shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-@media (max-width:767px){.lot__title{font-size:28px;}}
+@keyframes lot-shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@media (max-width:767px){.lot__title{font-size:30px;}.lot__item{flex-basis:38%;}}
 </style>
 <script>
 (function(){
@@ -124,41 +134,44 @@
   var picks = [null, null, null];
   var cta = lot.querySelector('[data-cta]');
   var hint = lot.querySelector('[data-hint]');
+  var bill = lot.querySelector('[data-bill]');
   var wasEl = lot.querySelector('[data-was]');
   var nowEl = lot.querySelector('[data-now]');
   function money(c){ return '€' + (c/100).toFixed(2).replace('.', ','); }
+  function esc(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
   function render(){
     slots.forEach(function(s, i){
       var p = picks[i];
-      var img = s.querySelector('img');
-      if (img) img.remove();
+      var frame = s.querySelector('.lot__frame');
+      var img = frame.querySelector('img');
+      if (img && (!p || img.getAttribute('data-id') !== String(p.id) + '-' + i)) { img.remove(); img = null; }
       s.classList.toggle('is-full', !!p);
-      if (p) { var im = document.createElement('img'); im.src = p.img; im.alt = p.title; s.appendChild(im); s.setAttribute('title', p.title); }
-      else { s.removeAttribute('title'); }
+      if (p && !img) { var im = document.createElement('img'); im.src = p.img; im.alt = p.title; im.setAttribute('data-id', p.id + '-' + i); frame.appendChild(im); }
     });
     var chosen = picks.filter(Boolean);
-    var sum = 0, min = Infinity, nCabas = 0;
-    chosen.forEach(function(p){ sum += p.price; if (p.price < min) min = p.price; if (p.type === 'cabas') nCabas++; });
-    var left = 3 - chosen.length;
-    var ok = left === 0 && (mode !== 'cabas' || nCabas >= 2);
-    if (chosen.length === 3) { wasEl.textContent = money(sum); nowEl.textContent = money(sum - min); }
+    var sum = 0, min = Infinity, minIdx = -1, nCabas = 0;
+    picks.forEach(function(p, i){ if (!p) return; sum += p.price; if (p.price < min) { min = p.price; minIdx = i; } if (p.type === 'cabas') nCabas++; });
+    var full = chosen.length === 3;
+    var ok = full && (mode !== 'cabas' || nCabas >= 2);
+    bill.innerHTML = picks.map(function(p, i){
+      if (!p) return '';
+      var gift = ok && i === minIdx;
+      return '<div class="lot__row' + (gift ? ' is-gift' : '') + '"><i>0' + (i + 1) + '</i><span>' + esc(p.title) + '</span><em>' + (gift ? '<s>' + money(p.price) + '</s><b>Offert</b>' : money(p.price)) + '</em></div>';
+    }).join('');
+    if (ok) { wasEl.textContent = money(sum); nowEl.textContent = money(sum - min); }
     else { wasEl.textContent = ''; nowEl.textContent = chosen.length ? money(sum) : '—'; }
     cta.disabled = !ok;
-    cta.textContent = ok ? 'Ajouter mon trio' : (left > 0 ? 'Encore ' + left + ' à choisir' : 'Ajouter mon trio');
-    if (left === 0 && !ok) hint.textContent = 'Il faut au moins 2 cabas dans le trio.';
-    else if (ok) hint.textContent = 'Bien joué : ' + money(min) + ' offerts.';
-    else hint.textContent = '';
+    var left = 3 - chosen.length;
+    cta.textContent = ok ? 'Ajouter le trio' : (left > 0 ? 'Encore ' + left + (left > 1 ? ' pièces' : ' pièce') + ' à choisir' : 'Ajouter le trio');
+    hint.textContent = (full && !ok) ? 'Le trio doit contenir au moins deux cabas.' : '';
   }
   function add(p){
     var i = picks.indexOf(null);
-    if (i === -1) { lot.classList.remove('is-shake'); void lot.offsetWidth; lot.classList.add('is-shake'); hint.textContent = 'Trio complet : touchez un sac pour le retirer.'; return; }
+    if (i === -1) { lot.classList.remove('is-shake'); void lot.offsetWidth; lot.classList.add('is-shake'); hint.textContent = 'Votre trio est complet. Touchez une pièce pour la retirer.'; return; }
     picks[i] = p; render();
-    slots[i].classList.remove('is-pop'); void slots[i].offsetWidth; slots[i].classList.add('is-pop');
   }
   lot.querySelectorAll('.lot__item').forEach(function(b){
-    b.addEventListener('click', function(){
-      add({ id: +b.dataset.id, price: +b.dataset.price, type: b.dataset.type, img: b.dataset.img, title: b.dataset.title });
-    });
+    b.addEventListener('click', function(){ add({ id: +b.dataset.id, price: +b.dataset.price, type: b.dataset.type, img: b.dataset.img, title: b.dataset.title }); });
   });
   slots.forEach(function(s, i){ s.addEventListener('click', function(){ if (picks[i]) { picks[i] = null; render(); } }); });
   lot.querySelectorAll('[data-tab]').forEach(function(t){
@@ -179,7 +192,7 @@
     fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) })
       .then(function(r){ if (!r.ok) throw r; return r.json(); })
       .then(function(){ window.location.href = '/cart'; })
-      .catch(function(){ cta.disabled = false; cta.textContent = 'Ajouter mon trio'; hint.textContent = 'Oups, un modèle n\'est plus dispo. Changez-le et réessayez.'; });
+      .catch(function(){ cta.disabled = false; cta.textContent = 'Ajouter le trio'; hint.textContent = 'Une pièce n\'est plus disponible. Changez-la et réessayez.'; });
   });
   render();
 })();
