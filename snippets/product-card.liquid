@@ -1,5 +1,6 @@
 {%- comment -%} Expects: product {%- endcomment -%}
 <a class="product-card" href="{{ product.url }}">
+  {%- unless product.available -%}<span class="product-card__badge">Épuisé</span>{%- endunless -%}
   {%- if product.featured_image -%}
     <img class="product-card__image" src="{{ product.featured_image | image_url: width: 800 }}" width="400" alt="{{ product.title | escape }}" loading="lazy">
   {%- else -%}
