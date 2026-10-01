@@ -45,8 +45,8 @@
       "settings": {
         "collection": "cabas-riviera",
         "products_to_show": 4,
-        "heading": "Les indispensables",
-        "button_label": "Découvrir"
+        "heading": "LES INTEMPORELS",
+        "button_label": "découvrir"
       }
     },
     "hero-banners-1": {
@@ -55,7 +55,7 @@
         "banner-1": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/IMG_4188.jpg",
+            "image": "shopify://shop_images/IMG_1117.jpg",
             "heading": "Collection Été",
             "subheading": "",
             "button_label": "Découvrir",
@@ -66,8 +66,8 @@
           "type": "banner",
           "settings": {
             "image": "shopify://shop_images/pompon_fluo_orange.png",
-            "heading": "La personnalisation",
-            "subheading": "De retour",
+            "heading": "NOS pompon",
+            "subheading": "Les meilleures couleurs",
             "button_label": "Découvrir",
             "url": ""
           }
