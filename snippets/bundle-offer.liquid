@@ -69,6 +69,9 @@
   <script type="application/json" data-cur>{"id":{{ cur.id | json }},"price":{{ cur.price | json }},"available":{{ cur.available | json }},"type":{{ offer | json }},"title":{{ product.title | json }},"img":{{ product.featured_image | image_url: width: 240 | json }}}</script>
 </div>
 <style>
+.mp__grid>*{min-width:0;}
+.lot{min-width:0;max-width:100%;}
+.lot__pick{contain:inline-size;}
 .lot{--lot-bg:#3d2314;--lot-cream:#f6ecdf;--lot-hot:#e2572b;position:relative;margin:22px 0 0;padding:26px 22px 20px;background:var(--lot-bg);color:var(--lot-cream);border-radius:22px;overflow:hidden;text-align:left;}
 .lot__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
 .lot__title{font-family:var(--mp-serif,Georgia,serif);font-weight:300;font-size:32px;line-height:1.02;margin:0;letter-spacing:-.01em;text-transform:none;color:var(--lot-cream);}
