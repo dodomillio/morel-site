@@ -14,6 +14,11 @@
     endfor
   endif
   assign cur = product.selected_or_first_available_variant
+  if product.images.size > 1
+    assign cur_im = product.images[1]
+  else
+    assign cur_im = product.featured_image
+  endif
   if offer == 'cabas'
     assign word = 'cabas'
     assign gift = 'offert'
@@ -65,9 +70,9 @@
 
     <div class="lot__pick" data-group="cabas"{% if offer != 'cabas' %} hidden{% endif %}>
       {%- for p in collections['cabas'].products -%}
-        {%- if p.available -%}{%- assign v = p.first_available_variant -%}
-        <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="cabas" data-img="{{ p.featured_image | image_url: width: 300 }}" data-title="{{ p.title | escape }}">
-          <span class="lot__thumb"><img src="{{ p.featured_image | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy"><span class="lot__add">+ Ajouter</span></span>
+        {%- if p.available -%}{%- assign v = p.first_available_variant -%}{%- if p.images.size > 1 -%}{%- assign im = p.images[1] -%}{%- else -%}{%- assign im = p.featured_image -%}{%- endif -%}
+        <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="cabas" data-img="{{ im | image_url: width: 300 }}" data-title="{{ p.title | escape }}">
+          <span class="lot__thumb"><img src="{{ im | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy"><span class="lot__add">+ Ajouter</span></span>
           <span class="lot__name">{{ p.title }}</span><span class="lot__p">{{ v.price | money }}</span>
         </button>
         {%- endif -%}
@@ -75,9 +80,9 @@
     </div>
     <div class="lot__pick" data-group="pochette"{% if offer == 'cabas' %} hidden{% endif %}>
       {%- for p in collections['nos-pochettes'].products -%}
-        {%- if p.available -%}{%- assign v = p.first_available_variant -%}
-        <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="pochette" data-img="{{ p.featured_image | image_url: width: 300 }}" data-title="{{ p.title | escape }}">
-          <span class="lot__thumb"><img src="{{ p.featured_image | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy"><span class="lot__add">+ Ajouter</span></span>
+        {%- if p.available -%}{%- assign v = p.first_available_variant -%}{%- if p.images.size > 1 -%}{%- assign im = p.images[1] -%}{%- else -%}{%- assign im = p.featured_image -%}{%- endif -%}
+        <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="pochette" data-img="{{ im | image_url: width: 300 }}" data-title="{{ p.title | escape }}">
+          <span class="lot__thumb"><img src="{{ im | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy"><span class="lot__add">+ Ajouter</span></span>
           <span class="lot__name">{{ p.title }}</span><span class="lot__p">{{ v.price | money }}</span>
         </button>
         {%- endif -%}
@@ -91,7 +96,7 @@
     <button type="button" class="lot__cta" data-cta disabled>Ajouter le trio</button>
     <p class="lot__hint" data-hint></p>
   </div>
-  <script type="application/json" data-cur>{"id":{{ cur.id | json }},"price":{{ cur.price | json }},"available":{{ cur.available | json }},"type":{{ offer | json }},"title":{{ product.title | json }},"img":{{ product.featured_image | image_url: width: 300 | json }}}</script>
+  <script type="application/json" data-cur>{"id":{{ cur.id | json }},"price":{{ cur.price | json }},"available":{{ cur.available | json }},"type":{{ offer | json }},"title":{{ product.title | json }},"img":{{ cur_im | image_url: width: 300 | json }}}</script>
 </div>
 <style>
 .mp__grid>*{min-width:0;}
