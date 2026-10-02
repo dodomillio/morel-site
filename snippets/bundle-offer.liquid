@@ -28,7 +28,7 @@
   endif
 -%}
 {%- if offer != '' and teaser -%}
-<a href="#le-trio" class="trio-teaser" data-trio-teaser>2 achetés = 1 {{ gift }}</a>
+<a href="#le-trio" class="trio-teaser" data-trio-teaser>2 achetés = 1 offert</a>
 <style>
 .trio-teaser{display:block;margin:-6px 0 24px;text-align:center;font-family:var(--mp-sans,inherit);font-weight:700;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:#b33a18;text-decoration:none;}
 .trio-teaser:hover{text-decoration:underline;text-underline-offset:4px;}
@@ -39,14 +39,12 @@
 {%- elsif offer != '' -%}
 <div class="lot" id="le-trio" data-lot data-mode="{{ offer }}">
   <div class="lot__ticker" aria-hidden="true"><div class="lot__track">
-    {%- for i in (1..8) -%}<span>Achetez-en 2</span><b>✦</b><span>Le 3<sup>e</sup> {{ gift }}</span><b>✦</b>{%- endfor -%}
+    {%- for i in (1..8) -%}<span>Achetez-en 2</span><b>✦</b><span>Le 3<sup>e</sup> offert</span><b>✦</b>{%- endfor -%}
   </div></div>
 
   <div class="lot__body">
-    <h3 class="lot__title">2 {{ word }} achetés,<br><em>le 3<sup>e</sup> {{ gift }}.</em></h3>
-    <p class="lot__sub">
-      {%- if offer == 'cabas' -%}Choisissez vos 3 pièces, modèles et couleurs au choix. Le 3<sup>e</sup> peut être un cabas ou une pochette&nbsp;: le moins cher est pour nous.{%- else -%}Choisissez vos 3 pochettes, modèles et couleurs au choix&nbsp;: la moins chère est pour nous.{%- endif -%}
-    </p>
+    <h3 class="lot__title">2 achetés,<br><em>le 3<sup>e</sup> offert.</em></h3>
+    <p class="lot__sub">Composez votre trio en mixant cabas et pochettes, modèles et couleurs au choix&nbsp;: le moins cher des trois vous est offert.</p>
 
     <div class="lot__eq">
       <button type="button" class="lot__slot" data-slot="0"><span class="lot__frame"><span class="lot__plus"></span></span><span class="lot__cap">Payé</span></button>
@@ -60,12 +58,10 @@
 
     <div class="lot__choose">
       <span class="lot__label">Choisir mes pièces</span>
-      {%- if offer == 'cabas' -%}
       <div class="lot__tabs">
-        <button type="button" class="is-on" data-tab="cabas">Cabas</button>
-        <button type="button" data-tab="pochette">Pochettes</button>
+        <button type="button" class="{% if offer == 'cabas' %}is-on{% endif %}" data-tab="cabas">Cabas</button>
+        <button type="button" class="{% if offer == 'pochette' %}is-on{% endif %}" data-tab="pochette">Pochettes</button>
       </div>
-      {%- endif -%}
     </div>
 
     <div class="lot__pick" data-group="cabas"{% if offer != 'cabas' %} hidden{% endif %}>
@@ -196,7 +192,7 @@
     var sum = 0, min = Infinity, minIdx = -1, nCabas = 0;
     picks.forEach(function(p, i){ if (!p) return; sum += p.price; if (p.price < min) { min = p.price; minIdx = i; } if (p.type === 'cabas') nCabas++; });
     var full = chosen.length === 3;
-    var ok = full && (mode !== 'cabas' || nCabas >= 2);
+    var ok = full;
     bill.innerHTML = picks.map(function(p, i){
       if (!p) return '';
       var gift = ok && i === minIdx;

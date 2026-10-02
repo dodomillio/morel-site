@@ -9,11 +9,11 @@
       {%- if k == 1 -%}
         {%- assign col = section.settings.col_cabas | default: collections['cabas'] -%}
         {%- if section.settings.col_cabas == blank -%}{%- assign col = collections['cabas'] -%}{%- endif -%}
-        {%- assign line1 = '2 cabas achetés' -%}{%- assign line2 = 'le 3<sup>e</sup> offert.' -%}{%- assign note = 'Cabas ou pochette en 3e pièce' -%}
+        {%- assign line1 = 'Cabas' -%}{%- assign line2 = '2 achetés, le 3<sup>e</sup> offert.' -%}{%- assign note = 'À mixer avec les pochettes : le moins cher est offert' -%}
       {%- else -%}
         {%- assign col = section.settings.col_pochettes -%}
         {%- if col == blank -%}{%- assign col = collections['nos-pochettes'] -%}{%- endif -%}
-        {%- assign line1 = '2 pochettes achetées' -%}{%- assign line2 = 'la 3<sup>e</sup> offerte.' -%}{%- assign note = 'Modèles et couleurs au choix' -%}
+        {%- assign line1 = 'Pochettes' -%}{%- assign line2 = '2 achetées, la 3<sup>e</sup> offerte.' -%}{%- assign note = 'À mixer avec les cabas : le moins cher est offert' -%}
       {%- endif -%}
       {%- assign shown = 0 -%}{%- assign first_url = col.url -%}
       <div class="otr__card">
@@ -64,7 +64,7 @@
   "name": "Offre Trio",
   "settings": [
     { "type": "text", "id": "kicker", "label": "Accroche", "default": "2 achetés = 1 offert" },
-    { "type": "text", "id": "heading", "label": "Titre", "default": "Composez votre trio" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "3 articles achetés, le moins cher offert" },
     { "type": "collection", "id": "col_cabas", "label": "Collection cabas" },
     { "type": "collection", "id": "col_pochettes", "label": "Collection pochettes" },
     { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Composer mon trio" }
