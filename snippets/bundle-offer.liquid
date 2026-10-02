@@ -112,7 +112,7 @@
 .lot__slot{display:flex;flex-direction:column;gap:8px;background:none;border:0;padding:0;cursor:pointer;color:#000;font:inherit;min-width:0;}
 .lot__frame{position:relative;display:block;width:100%;aspect-ratio:4/5;background:var(--sand);overflow:hidden;border-radius:10px;}
 .lot__cap{font-size:10px;letter-spacing:.16em;text-transform:uppercase;text-align:center;}
-.lot__slot--gift .lot__cap{color:var(--hot);font-weight:700;}
+.lot__slot--gift:not(.is-full) .lot__cap,.lot__slot.is-gift .lot__cap{color:var(--hot);font-weight:700;}.lot__slot--gift.is-full .lot__frame{animation:none;}
 .lot__slot--gift .lot__frame{background:var(--hot);}
 .lot__free{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--mp-serif,Georgia,serif);font-style:italic;font-size:22px;line-height:1;}
 .lot__free small{font-family:var(--mp-sans,inherit);font-style:normal;font-size:10px;letter-spacing:.14em;margin-top:6px;opacity:.85;}
@@ -122,7 +122,7 @@
 .lot__plus:before,.lot__plus:after{content:"";position:absolute;left:50%;top:50%;background:#000;transform:translate(-50%,-50%);}
 .lot__plus:before{width:20px;height:1px;}.lot__plus:after{width:1px;height:20px;}
 .lot__frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:lot-in .45s cubic-bezier(.2,.7,.2,1);z-index:1;}
-.lot__slot--gift.is-full .lot__frame:before{content:"Offert";position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--hot);color:#fff;font-size:10px;letter-spacing:.16em;text-transform:uppercase;text-align:center;padding:6px 0;}
+.lot__slot.is-gift .lot__frame:before{content:"Offert";position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--hot);color:#fff;font-size:10px;letter-spacing:.16em;text-transform:uppercase;text-align:center;padding:6px 0;}
 .lot__slot.is-full .lot__frame:after{content:"×";position:absolute;top:6px;right:6px;z-index:2;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.92);font-size:14px;line-height:20px;text-align:center;color:#000;}
 @keyframes lot-in{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
 .lot__bill{margin:16px 0 0;}
@@ -198,6 +198,7 @@
       var gift = ok && i === minIdx;
       return '<div class="lot__row' + (gift ? ' is-gift' : '') + '"><i>0' + (i + 1) + '</i><span>' + esc(p.title) + '</span><em>' + (gift ? '<s>' + money(p.price) + '</s><b>Offert</b>' : money(p.price)) + '</em></div>';
     }).join('');
+    slots.forEach(function(s, i){ var isG = ok && i === minIdx; s.classList.toggle('is-gift', isG); s.querySelector('.lot__cap').textContent = (isG || (!ok && i === 2 && !picks[2])) ? 'Offert' : 'Payé'; });
     if (ok) { wasEl.textContent = money(sum); nowEl.textContent = money(sum - min); saveEl.textContent = 'Vous économisez ' + money(min); }
     else { wasEl.textContent = ''; nowEl.textContent = chosen.length ? money(sum) : '—'; saveEl.textContent = ''; }
     cta.disabled = !ok;
