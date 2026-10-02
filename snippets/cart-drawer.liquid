@@ -1,43 +1,267 @@
-<aside class="cart-drawer" data-cart-drawer aria-label="Panier">
-  <div class="drawer__head">
-    <h2>Panier <span data-cart-count-label>({{ cart.item_count }})</span></h2>
-    <button class="icon-btn" data-cart-close aria-label="Fermer le panier">&times;</button>
+{%- comment -%} Panier tiroir — style Atelier (quantités, suppression, recommandations, code promo, paiement express) {%- endcomment -%}
+<aside class="cart-drawer cd" data-cart-drawer aria-label="Panier">
+  <div class="cd__head">
+    <h2 class="cd__title">Panier <span class="cd__count" data-cart-count-label>{% if cart.item_count > 0 %}({{ cart.item_count }}){% endif %}</span></h2>
+    <button type="button" class="cd__close" data-cart-close aria-label="Fermer le panier"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
   </div>
 
   {%- if cart.item_count > 0 -%}
-    <div class="cart-drawer__items">
+  <div class="cd__scroll">
+    <ul class="cd__items">
       {%- for item in cart.items -%}
-        <div class="cart-line">
-          {%- if item.image -%}
-            <img class="cart-line__image" src="{{ item.image | image_url: width: 160 }}" width="64" height="64" alt="{{ item.title | escape }}">
-          {%- else -%}
-            <span class="placeholder-img placeholder-img--product placeholder-img--mini"><span>Produit</span></span>
-          {%- endif -%}
-          <div class="cart-line__info">
-            <p class="cart-line__title">{{ item.product.title }}</p>
-            {%- unless item.variant.title == 'Default Title' -%}
-              <p class="cart-line__variant">{{ item.variant.title }}</p>
+      <li class="cd__item" data-key="{{ item.key }}" data-product="{{ item.product_id }}">
+        <a href="{{ item.url }}" class="cd__img">
+          {%- if item.image -%}<img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.title | escape }}" width="80" height="80" loading="lazy">{%- endif -%}
+        </a>
+        <div class="cd__info">
+          <div class="cd__top">
+            <a href="{{ item.url }}" class="cd__name">{{ item.product.title }}</a>
+            <div class="cd__price">
+              {%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- endif -%}
+              <strong>{{ item.final_line_price | money }}</strong>
+            </div>
+          </div>
+          {%- unless item.product.has_only_default_variant -%}<p class="cd__variant">{{ item.variant.title }}</p>{%- endunless -%}
+          {%- for p in item.properties -%}{%- assign f = p.first | slice: 0 -%}{%- if p.last != blank and f != '_' -%}<p class="cd__variant">{{ p.first }} : {{ p.last }}</p>{%- endif -%}{%- endfor -%}
+          {%- assign shown = '' -%}
+          {%- for a in item.discount_allocations -%}
+            {%- assign t = a.discount_application.title -%}
+            {%- unless shown contains t -%}
+            <p class="cd__disc"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6.6.5H11a.5.5 0 0 1 .5.5v4.4a1 1 0 0 1-.3.7l-5.1 5.1a1 1 0 0 1-1.4 0L.8 7.3a1 1 0 0 1 0-1.4L5.9.8a1 1 0 0 1 .7-.3zM9 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg><span>{{ t }}</span></p>
+            {%- assign shown = shown | append: t | append: '|' -%}
             {%- endunless -%}
-            <p class="cart-line__price">{{ item.final_line_price | money }}</p>
+          {%- endfor -%}
+          <div class="cd__actions">
+            <button type="button" class="cd__del" data-cd-qty="0" aria-label="Supprimer {{ item.product.title | escape }}"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M7 5V3.5h4V5M4.5 5l.8 10h7.4l.8-10M7.5 8v4.5M10.5 8v4.5"/></svg></button>
+            <div class="cd__qty">
+              <button type="button" data-cd-qty="{{ item.quantity | minus: 1 }}" aria-label="Diminuer la quantité"{% if item.quantity <= 1 %} disabled{% endif %}>−</button>
+              <span>{{ item.quantity }}</span>
+              <button type="button" data-cd-qty="{{ item.quantity | plus: 1 }}" aria-label="Augmenter la quantité">+</button>
+            </div>
           </div>
         </div>
+      </li>
       {%- endfor -%}
-    </div>
+    </ul>
 
-    <form method="post" action="{{ routes.cart_url }}" class="cart-drawer__footer">
-      <div class="cart-drawer__total">
-        <span>Total</span>
-        <span>{{ cart.total_price | money }}</span>
+    <div class="cd__reco" data-cd-reco data-product-id="{{ cart.items.first.product_id }}" hidden>
+      <div class="cd__reco-head">
+        <h3>Vous aimeriez peut-être</h3>
+        <div>
+          <button type="button" data-cd-prev aria-label="Précédent"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg></button>
+          <button type="button" data-cd-next aria-label="Suivant"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></button>
+        </div>
       </div>
-      <button class="btn btn--primary" name="checkout" type="submit">Procéder au paiement</button>
-      <a class="btn btn--bordered" href="{{ routes.cart_url }}">Voir le panier</a>
-      <p class="cart-drawer__small-print">Taxes incluses. Frais de livraison calculés lors du paiement.</p>
-    </form>
-  {%- else -%}
-    <div class="cart-drawer__empty">
-      <p class="cart-drawer__empty-title">Il n'y a actuellement aucun article dans votre panier.</p>
-      <p>Veuillez consulter nos recommandations ou continuer vos achats.</p>
-      <button class="btn btn--primary" data-cart-close>Continuer les achats</button>
+      <div class="cd__reco-track" data-cd-track></div>
     </div>
+  </div>
+
+  <div class="cd__foot">
+    <details class="cd__promo" data-cd-promo>
+      <summary>Ajouter un code de promo <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5l4 4 4-4"/></svg></summary>
+      <div class="cd__promo-form">
+        <input type="text" data-cd-code placeholder="Code de promo" autocomplete="off" aria-label="Code de promo">
+        <button type="button" data-cd-apply>Appliquer</button>
+      </div>
+      <p class="cd__promo-msg" data-cd-msg></p>
+    </details>
+    {%- if cart.discount_codes.size > 0 -%}
+    <div class="cd__codes">
+      {%- for c in cart.discount_codes -%}<span class="cd__code{% unless c.applicable %} is-off{% endunless %}">{{ c.code }}<button type="button" data-cd-remove-code="{{ c.code | escape }}" aria-label="Retirer le code">×</button></span>{%- endfor -%}
+    </div>
+    {%- endif -%}
+    {%- if cart.total_discount > 0 -%}
+    <div class="cd__row"><span>Réduction</span><span>-{{ cart.total_discount | money }}</span></div>
+    {%- endif -%}
+    <div class="cd__row cd__row--total"><span>Sous-total</span><strong>{{ cart.total_price | money }}</strong></div>
+    <form action="{{ routes.cart_url }}" method="post" class="cd__checkout">
+      <button type="submit" name="checkout" class="cd__btn">Finaliser votre achat</button>
+    </form>
+    {%- if additional_checkout_buttons -%}<div class="cd__dyn">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
+    <p class="cd__small">Taxes incluses. Frais de livraison calculés lors du paiement.</p>
+  </div>
+  {%- else -%}
+  <div class="cart-drawer__empty">
+    <p class="cart-drawer__empty-title">Il n'y a actuellement aucun article dans votre panier.</p>
+    <p>Veuillez consulter nos recommandations ou continuer vos achats.</p>
+    <button type="button" class="btn btn--primary" data-cart-close>Continuer les achats</button>
+  </div>
   {%- endif -%}
 </aside>
+
+<style>
+.cart-drawer.cd{width:92%;max-width:420px;background:#fff;color:#000}
+.cd__head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #e6e6e6;box-shadow:0 2px 8px rgba(0,0,0,.05);position:relative;z-index:1}
+.cd__title{margin:0;font-size:20px;font-weight:700;letter-spacing:0;text-transform:none}
+.cd__count{font-size:15px;font-weight:400;color:#6b6b6b}
+.cd__close{display:flex;padding:6px;border:0;background:none;color:#000;cursor:pointer}
+.cd__scroll{flex:1 1 auto;min-height:0;overflow-y:auto}
+.cd__items{list-style:none;margin:0;padding:0 20px}
+.cd__item{display:flex;gap:14px;padding:18px 0;border-bottom:1px solid #e6e6e6}
+.cd__img{flex:0 0 80px;width:80px;height:80px;border-radius:6px;overflow:hidden;background:#f2f2f2;display:block}
+.cd__img img{width:100%;height:100%;object-fit:cover;display:block}
+.cd__info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.cd__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.cd__name{font-size:15px;line-height:1.35;color:#000;text-decoration:none}
+.cd__price{text-align:right;white-space:nowrap;font-size:15px}
+.cd__price s{display:block;font-size:12px;color:#8a8a8a}
+.cd__price strong{font-weight:700}
+.cd__variant{margin:0;font-size:13px;color:#6b6b6b}
+.cd__disc{display:flex;align-items:flex-start;gap:6px;margin:2px 0 0;font-size:13px;line-height:1.4;color:#000}
+.cd__disc svg{flex:none;margin-top:3px}
+.cd__actions{display:flex;align-items:center;justify-content:flex-end;gap:14px;margin-top:8px}
+.cd__del{display:flex;padding:4px;border:0;background:none;color:#000;cursor:pointer}
+.cd__qty{display:flex;align-items:center;height:36px;background:#efefef;border-radius:999px}
+.cd__qty button{width:38px;height:36px;border:0;background:none;color:#000;font-size:18px;cursor:pointer}
+.cd__qty button:disabled{color:#b5b5b5;cursor:default}
+.cd__qty span{min-width:22px;text-align:center;font-size:14px}
+.cd__reco{margin-top:16px;padding:18px 20px 20px;background:#ededed}
+.cd__reco-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cd__reco-head h3{margin:0;font-size:15px;font-weight:700;letter-spacing:0;text-transform:none}
+.cd__reco-head button{padding:4px 6px;border:0;background:none;color:#000;cursor:pointer}
+.cd__reco-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.cd__reco-track::-webkit-scrollbar{display:none}
+.cd__card{flex:0 0 100%;box-sizing:border-box;display:flex;align-items:center;gap:14px;padding:14px;background:#fff;border-radius:8px;scroll-snap-align:start}
+.cd__card img{flex:none;width:64px;height:64px;object-fit:cover;border-radius:4px;background:#f2f2f2}
+.cd__card-info{flex:1;min-width:0;font-size:14px;line-height:1.4}
+.cd__card-info a{display:block;color:#000;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cd__add{padding:10px 14px;border:0;border-radius:8px;background:#000;color:#fff;font-size:14px;white-space:nowrap;cursor:pointer}
+.cd__foot{padding:14px 20px 18px;border-top:1px solid #e6e6e6;background:#fff}
+.cd__promo summary{display:flex;align-items:center;gap:8px;padding:4px 0 10px;font-size:15px;list-style:none;cursor:pointer}
+.cd__promo summary::-webkit-details-marker{display:none}
+.cd__promo summary svg{transition:transform .2s}
+.cd__promo[open] summary svg{transform:rotate(180deg)}
+.cd__promo-form{display:flex;gap:8px;margin-bottom:8px}
+.cd__promo-form input{flex:1;min-width:0;height:42px;padding:0 12px;border:1px solid #d5d5d5;border-radius:8px;font-size:14px}
+.cd__promo-form button{height:42px;padding:0 16px;border:1px solid #000;border-radius:8px;background:#fff;color:#000;font-size:14px;cursor:pointer}
+.cd__promo-msg{margin:0 0 6px;font-size:12px;color:#b33a18}
+.cd__promo-msg:empty{display:none}
+.cd__codes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.cd__code{display:inline-flex;align-items:center;gap:4px;padding:4px 6px 4px 10px;background:#efefef;border-radius:999px;font-size:12px;text-transform:uppercase}
+.cd__code.is-off{opacity:.5;text-decoration:line-through}
+.cd__code button{border:0;background:none;font-size:14px;line-height:1;cursor:pointer}
+.cd__row{display:flex;justify-content:space-between;margin:4px 0;font-size:15px}
+.cd__row--total{margin:10px 0 14px;font-size:18px}
+.cd__row--total strong{font-weight:700}
+.cd__btn{width:100%;height:54px;border:0;border-radius:8px;background:#000;color:#fff;font-size:16px;cursor:pointer}
+.cd__dyn{margin-top:10px}
+.cd__small{margin:10px 0 0;font-size:11px;color:#8a8a8a;text-align:center}
+.cd.is-busy .cd__scroll,.cd.is-busy .cd__foot{opacity:.5;pointer-events:none;transition:opacity .2s}
+</style>
+
+<script>
+(function(){
+  var d = document.querySelector('[data-cart-drawer]');
+  if (!d || d.dataset.cdReady) return;
+  d.dataset.cdReady = '1';
+  var root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+  var recoCache = {};
+  var promoOpen = false;
+  function money(c){ return '€' + (c / 100).toFixed(2).replace('.', ','); }
+  function esc(s){ var e = document.createElement('div'); e.textContent = s == null ? '' : s; return e.innerHTML; }
+  function busy(on){ d.classList.toggle('is-busy', on); }
+  function post(u, b){
+    return fetch(root + u, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(b) })
+      .then(function(r){ if (!r.ok) throw r; return r.json(); });
+  }
+  function refresh(msg){
+    return fetch(location.pathname + location.search, { credentials: 'same-origin' })
+      .then(function(r){ return r.text(); })
+      .then(function(h){
+        var n = new DOMParser().parseFromString(h, 'text/html').querySelector('[data-cart-drawer]');
+        if (n) d.innerHTML = n.innerHTML;
+        return fetch(root + 'cart.js').then(function(r){ return r.json(); });
+      })
+      .then(function(c){
+        document.querySelectorAll('[data-cart-count]').forEach(function(el){ el.textContent = c.item_count; });
+        var p = d.querySelector('[data-cd-promo]');
+        if (p && (promoOpen || msg)) p.open = true;
+        var m = d.querySelector('[data-cd-msg]');
+        if (m && msg) m.textContent = msg;
+        reco();
+      })
+      .catch(function(){})
+      .then(function(){ busy(false); });
+  }
+  function setCodes(list){ return post('cart/update.js', { discount: list.join(',') }); }
+  function applyCode(code){
+    busy(true);
+    fetch(root + 'cart.js').then(function(r){ return r.json(); })
+      .then(function(c){
+        var cur = (c.discount_codes || []).map(function(x){ return x.code; }).filter(function(x){ return x.toLowerCase() !== code.toLowerCase(); });
+        cur.push(code);
+        return setCodes(cur);
+      })
+      .then(function(c){
+        var ok = (c.discount_codes || []).some(function(x){ return x.code.toLowerCase() === code.toLowerCase() && x.applicable; });
+        return refresh(ok ? '' : 'Ce code n’est pas valide pour votre panier.');
+      })
+      .catch(function(){ refresh('Impossible d’appliquer ce code.'); });
+  }
+  function removeCode(code){
+    busy(true);
+    fetch(root + 'cart.js').then(function(r){ return r.json(); })
+      .then(function(c){
+        return setCodes((c.discount_codes || []).map(function(x){ return x.code; }).filter(function(x){ return x !== code; }));
+      })
+      .then(function(){ return refresh(); }, function(){ return refresh(); });
+  }
+  function loadReco(pid){
+    if (recoCache[pid]) return Promise.resolve(recoCache[pid]);
+    function get(intent){
+      return fetch(root + 'recommendations/products.json?product_id=' + pid + '&limit=8&intent=' + intent)
+        .then(function(r){ return r.ok ? r.json() : { products: [] }; })
+        .then(function(j){ return j.products || []; });
+    }
+    return get('complementary').then(function(list){ return list.length ? list : get('related'); })
+      .then(function(list){ recoCache[pid] = list; return list; });
+  }
+  function reco(){
+    var box = d.querySelector('[data-cd-reco]');
+    if (!box || !box.dataset.productId) return;
+    var inCart = [].map.call(d.querySelectorAll('[data-product]'), function(x){ return x.dataset.product; });
+    loadReco(box.dataset.productId).then(function(list){
+      list = list.filter(function(x){ return x.available && inCart.indexOf(String(x.id)) < 0; });
+      if (!list.length) { box.hidden = true; return; }
+      box.querySelector('[data-cd-track]').innerHTML = list.map(function(x){
+        var v = (x.variants || []).filter(function(v){ return v.available; })[0] || (x.variants || [])[0];
+        var img = x.featured_image || '';
+        if (img) img += (img.indexOf('?') > -1 ? '&' : '?') + 'width=160';
+        return '<div class="cd__card">' + (img ? '<img src="' + esc(img) + '" alt="" loading="lazy">' : '') +
+          '<div class="cd__card-info"><a href="' + esc(x.url) + '">' + esc(x.title) + '</a><span>' + money(v ? v.price : x.price) + '</span></div>' +
+          (v ? '<button type="button" class="cd__add" data-cd-add="' + v.id + '">+ Ajouter</button>' : '') + '</div>';
+      }).join('');
+      box.hidden = false;
+    }).catch(function(){});
+  }
+  d.addEventListener('toggle', function(e){ if (e.target.matches && e.target.matches('[data-cd-promo]')) promoOpen = e.target.open; }, true);
+  d.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && e.target.matches('[data-cd-code]')) { e.preventDefault(); var b = d.querySelector('[data-cd-apply]'); if (b) b.click(); }
+  });
+  d.addEventListener('click', function(e){
+    var t = e.target.closest('button');
+    if (!t || !d.contains(t)) return;
+    if (t.hasAttribute('data-cart-close')) {
+      var o = document.querySelector('[data-overlay]');
+      if (o) o.click(); else { d.classList.remove('is-open'); document.body.classList.remove('no-scroll'); }
+    } else if (t.hasAttribute('data-cd-qty')) {
+      var li = t.closest('[data-key]');
+      busy(true);
+      post('cart/change.js', { id: li.dataset.key, quantity: +t.getAttribute('data-cd-qty') }).then(function(){ return refresh(); }, function(){ return refresh(); });
+    } else if (t.hasAttribute('data-cd-add')) {
+      t.disabled = true; busy(true);
+      post('cart/add.js', { items: [{ id: +t.getAttribute('data-cd-add'), quantity: 1 }] }).then(function(){ return refresh(); }, function(){ return refresh(); });
+    } else if (t.hasAttribute('data-cd-apply')) {
+      var inp = d.querySelector('[data-cd-code]');
+      var code = inp ? inp.value.trim() : '';
+      if (code) applyCode(code);
+    } else if (t.hasAttribute('data-cd-remove-code')) {
+      removeCode(t.getAttribute('data-cd-remove-code'));
+    } else if (t.hasAttribute('data-cd-prev') || t.hasAttribute('data-cd-next')) {
+      var tr = d.querySelector('[data-cd-track]');
+      if (tr) tr.scrollBy({ left: (t.hasAttribute('data-cd-prev') ? -1 : 1) * tr.clientWidth, behavior: 'smooth' });
+    }
+  });
+  reco();
+})();
+</script>
