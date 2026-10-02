@@ -1,6 +1,21 @@
 {%- comment -%} Expects: product {%- endcomment -%}
+{%- liquid
+  assign trio = ''
+  for c in product.collections
+    if c.handle == 'cabas'
+      assign trio = '2 + 1 offert'
+    endif
+  endfor
+  if trio == ''
+    for c in product.collections
+      if c.handle == 'nos-pochettes'
+        assign trio = '2 + 1 offerte'
+      endif
+    endfor
+  endif
+-%}
 <a class="product-card" href="{{ product.url }}">
-  {%- unless product.available -%}<span class="product-card__badge">Épuisé</span>{%- endunless -%}
+  {%- unless product.available -%}<span class="product-card__badge">Épuisé</span>{%- endunless -%}{%- if trio != '' and product.available -%}<span class="product-card__trio">{{ trio }}</span><style>.product-card__trio{position:absolute;top:10px;left:10px;z-index:2;font-family:"Red Hat Text",var(--font-body),sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#b33a18;background:rgba(255,255,255,.92);padding:5px 9px;border-radius:20px;pointer-events:none;}</style>{%- endif -%}
   {%- if product.featured_image -%}
     <img class="product-card__image" src="{{ product.featured_image | image_url: width: 800 }}" width="400" alt="{{ product.title | escape }}" loading="lazy">
   {%- else -%}
