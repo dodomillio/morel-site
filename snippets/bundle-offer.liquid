@@ -23,17 +23,10 @@
   endif
 -%}
 {%- if offer != '' and teaser -%}
-<a href="#le-trio" class="trio-teaser" data-trio-teaser>
-  <span class="trio-teaser__big">2 achetés <i>=</i> 1 {{ gift }}</span>
-  <span class="trio-teaser__go">Composer mon trio <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>
-</a>
+<a href="#le-trio" class="trio-teaser" data-trio-teaser>2 achetés = 1 {{ gift }}</a>
 <style>
-.trio-teaser{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-4px 0 26px;padding:13px 16px;background:#b33a18;color:#fff;text-decoration:none;border-radius:14px;font-family:var(--mp-sans,inherit);}
-.trio-teaser__big{font-family:var(--mp-serif,Georgia,serif);font-size:20px;font-weight:400;line-height:1;white-space:nowrap;}
-.trio-teaser__big i{font-style:normal;opacity:.7;margin:0 2px;}
-.trio-teaser__go{display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;}
-.trio-teaser:hover .trio-teaser__go svg{transform:translateY(2px);transition:transform .2s;}
-@media (max-width:767px){.trio-teaser{justify-content:center;flex-direction:column;gap:6px;}.trio-teaser__big{font-size:22px;}}
+.trio-teaser{display:block;margin:-6px 0 24px;text-align:center;font-family:var(--mp-sans,inherit);font-weight:700;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:#b33a18;text-decoration:none;}
+.trio-teaser:hover{text-decoration:underline;text-underline-offset:4px;}
 </style>
 <script>
 (function(){var t=document.querySelector('[data-trio-teaser]');if(!t)return;t.addEventListener('click',function(e){var el=document.getElementById('le-trio');if(!el)return;e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});});})();
