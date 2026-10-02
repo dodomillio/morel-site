@@ -10,7 +10,7 @@
 {
   "current": {
     "logo_image": "shopify://shop_images/morel-4.png",
-    "color_header_bg": "#482810",
+    "color_header_bg": "#000000",
     "color_header_fg": "#ffffff",
     "color_footer_bg": "#482810",
     "color_footer_fg": "#ffffff",
