@@ -3,8 +3,19 @@
     <div class="featured-products__grid">
       {%- assign coll = section.settings.collection -%}
       {%- if coll != blank -%}
-        {%- for product in coll.products limit: section.settings.products_to_show -%}
-          {% render 'product-card', product: product %}
+        {%- comment -%} Produits en stock d'abord, épuisés ensuite seulement s'il reste de la place {%- endcomment -%}
+        {%- assign shown = 0 -%}
+        {%- for product in coll.products -%}
+          {%- if product.available and shown < section.settings.products_to_show -%}
+            {% render 'product-card', product: product %}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for product in coll.products -%}
+          {%- unless product.available -%}{%- if shown < section.settings.products_to_show -%}
+            {% render 'product-card', product: product %}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}{%- endunless -%}
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..section.settings.products_to_show) -%}
