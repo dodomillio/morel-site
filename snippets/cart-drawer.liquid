@@ -144,7 +144,7 @@
 .cd__row--total{margin:10px 0 14px;font-size:18px}
 .cd__row--total strong{font-weight:700}
 .cd__btn{width:100%;height:54px;border:0;border-radius:8px;background:#000;color:#fff;font-size:16px;cursor:pointer}
-.cd__dyn{margin-top:10px}
+.cd__dyn{margin-top:10px} .cd__err{margin:12px 20px 0;padding:10px 12px;background:#fbeae5;color:#b33a18;border-radius:8px;font-size:13px;line-height:1.4}
 .cd__small{margin:10px 0 0;font-size:11px;color:#8a8a8a;text-align:center}
 .cd.is-busy .cd__scroll,.cd.is-busy .cd__foot{opacity:.5;pointer-events:none;transition:opacity .2s}
 </style>
@@ -159,12 +159,12 @@
   var promoOpen = false;
   function money(c){ return '€' + (c / 100).toFixed(2).replace('.', ','); }
   function esc(s){ var e = document.createElement('div'); e.textContent = s == null ? '' : s; return e.innerHTML; }
-  function busy(on){ d.classList.toggle('is-busy', on); }
+  function busy(on){ d.classList.toggle('is-busy', on); } function fail(r){ return (r && r.json ? r.json().catch(function(){ return {}; }) : Promise.resolve({})).then(function(j){ return refresh('', j.description || j.message || 'Une erreur est survenue.'); }); }
   function post(u, b){
     return fetch(root + u, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(b) })
       .then(function(r){ if (!r.ok) throw r; return r.json(); });
   }
-  function refresh(msg){
+  function refresh(msg, err){
     return fetch(location.pathname + location.search, { credentials: 'same-origin' })
       .then(function(r){ return r.text(); })
       .then(function(h){
@@ -177,7 +177,7 @@
         var p = d.querySelector('[data-cd-promo]');
         if (p && (promoOpen || msg)) p.open = true;
         var m = d.querySelector('[data-cd-msg]');
-        if (m && msg) m.textContent = msg;
+        if (m && msg) m.textContent = msg; var sc = d.querySelector('.cd__scroll'); if (err && sc) sc.insertAdjacentHTML('afterbegin', '<p class="cd__err">' + esc(err) + '</p>');
         reco();
       })
       .catch(function(){})
@@ -204,7 +204,7 @@
       .then(function(c){
         return setCodes((c.discount_codes || []).map(function(x){ return x.code; }).filter(function(x){ return x !== code; }));
       })
-      .then(function(){ return refresh(); }, function(){ return refresh(); });
+      .then(function(){ return refresh(); }, fail);
   }
   function loadReco(pid){
     if (recoCache[pid]) return Promise.resolve(recoCache[pid]);
@@ -247,10 +247,10 @@
     } else if (t.hasAttribute('data-cd-qty')) {
       var li = t.closest('[data-key]');
       busy(true);
-      post('cart/change.js', { id: li.dataset.key, quantity: +t.getAttribute('data-cd-qty') }).then(function(){ return refresh(); }, function(){ return refresh(); });
+      post('cart/change.js', { id: li.dataset.key, quantity: +t.getAttribute('data-cd-qty') }).then(function(){ return refresh(); }, fail);
     } else if (t.hasAttribute('data-cd-add')) {
       t.disabled = true; busy(true);
-      post('cart/add.js', { items: [{ id: +t.getAttribute('data-cd-add'), quantity: 1 }] }).then(function(){ return refresh(); }, function(){ return refresh(); });
+      post('cart/add.js', { items: [{ id: +t.getAttribute('data-cd-add'), quantity: 1 }] }).then(function(){ return refresh(); }, fail);
     } else if (t.hasAttribute('data-cd-apply')) {
       var inp = d.querySelector('[data-cd-code]');
       var code = inp ? inp.value.trim() : '';
