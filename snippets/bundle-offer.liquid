@@ -233,7 +233,7 @@
     cta.disabled = true; cta.textContent = 'Ajout…';
     fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) })
       .then(function(r){ if (!r.ok) throw r; return r.json(); })
-      .then(function(){ window.location.href = '/cart'; })
+      .then(function(){ if (window.cdOpen) { cta.disabled = false; cta.textContent = 'Ajouter le trio'; render(); window.cdOpen(); } else { window.location.href = '/cart'; } })
       .catch(function(){ cta.disabled = false; cta.textContent = 'Ajouter le trio'; hint.textContent = 'Une pièce n\'est plus disponible. Changez-la et réessayez.'; });
   });
   render();
