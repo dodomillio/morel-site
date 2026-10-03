@@ -14,8 +14,8 @@
 <aside class="cart-drawer cd" data-cart-drawer data-cd-root="drawer" aria-label="Panier">
 {%- endif -%}
   <div class="cd__head">
-    <h2 class="cd__title">Panier <span class="cd__count" data-cart-count-label>{% if cart.item_count > 0 %}({{ cart.item_count }}){% endif %}</span></h2>
-    <button type="button" class="cd__close" data-cart-close aria-label="Fermer le panier"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
+    <h2 class="cd__title">Panier</h2>
+    <button type="button" class="cd__close" data-cart-close aria-label="Fermer le panier"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg></button></div><div class="cd__ship">livraison offerte dès 70€ d'achat
   </div>
 
   {%- if cart.item_count > 0 -%}
@@ -102,7 +102,7 @@
     {%- if cart.total_discount > 0 -%}
     <div class="cd__row"><span>Réduction</span><span>-{{ cart.total_discount | money }}</span></div>
     {%- endif -%}
-    <div class="cd__row cd__row--total"><span>Sous-total</span><strong>{{ cart.total_price | money }}</strong></div>
+    <div class="cd__row cd__row--total"><span>Subtotal</span><strong>{{ cart.total_price | money }}</strong></div>
     <form action="{{ routes.cart_url }}" method="post" class="cd__checkout">
       <button type="submit" name="checkout" class="cd__btn">Finaliser votre achat</button>
     </form>
@@ -196,7 +196,7 @@
 .cd--page .cd__reco{margin:20px 0 0;border-radius:10px}
 .cd--page .cd__err{margin:12px 0 0}
 .cd--page .cd__foot{padding:18px 0 0;border-top:0}
-.cd--page .cart-drawer__empty{padding:40px 0;text-align:center}
+.cd--page .cart-drawer__empty{padding:40px 0;text-align:center} .cd__head{box-shadow:none;border-bottom:0} .cd__ship{background:#000;color:#fff;text-align:center;font-weight:700;font-size:15px;line-height:1.3;padding:14px 16px} .cd--page .cd__ship{border-radius:8px;margin-bottom:4px} .cd__btn{border-radius:10px} .cd__dyn{--shopify-accelerated-checkout-button-border-radius:999px;--shopify-accelerated-checkout-button-block-size:42px} @media (max-width:749px){.cart-drawer.cd{width:100%;max-width:100%}}
 </style>
 
 <script>
@@ -298,7 +298,7 @@
       }
     });
   }
-  function init(){ roots().forEach(bind); }
+  function init(){ roots().forEach(bind); } window.cdOpen = function(){ return refresh(null).then(function(){ var b = document.querySelector('[data-cart-open]'); if (b) b.click(); }); }; document.addEventListener('submit', function(e){ var f = e.target; if (e.defaultPrevented || !f.matches || !f.matches('form[action*="/cart/add"]')) return; e.preventDefault(); var btn = f.querySelector('[type="submit"]'); if (btn) btn.disabled = true; fetch(root + 'cart/add.js', { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(f) }).then(function(r){ if (!r.ok) throw r; return window.cdOpen(); }).catch(function(){ f.submit(); }).then(function(){ if (btn) btn.disabled = false; }); });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
   document.addEventListener('shopify:section:load', init);
 })();
