@@ -7,13 +7,13 @@
         {%- assign shown = 0 -%}
         {%- for product in coll.products -%}
           {%- if product.available and shown < section.settings.products_to_show -%}
-            {% render 'product-card', product: product %}
+            {% render 'product-card', product: product, second_image: true %}
             {%- assign shown = shown | plus: 1 -%}
           {%- endif -%}
         {%- endfor -%}
         {%- for product in coll.products -%}
           {%- unless product.available -%}{%- if shown < section.settings.products_to_show -%}
-            {% render 'product-card', product: product %}
+            {% render 'product-card', product: product, second_image: true %}
             {%- assign shown = shown | plus: 1 -%}
           {%- endif -%}{%- endunless -%}
         {%- endfor -%}
