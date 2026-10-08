@@ -1,18 +1,10 @@
 {%- comment -%} Offre : une pochette Milo ou Capri offerte dès 120 € d'achat. Remise appliquée par la réduction automatique Shopify. Appel avec teaser: true pour la ligne sous le prix. {%- endcomment -%}
 {%- if teaser -%}
-<a href="#pochette-offerte" class="trio-teaser" data-gift-teaser>Une pochette offerte dès 120 € d'achat</a>
-<style>
-.trio-teaser{display:block;margin:-8px 0 24px;text-align:center;font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-weight:400;font-size:21px;line-height:1.2;letter-spacing:0;text-transform:none;color:#b33a18;text-decoration:none;}
-.trio-teaser:hover{text-decoration:underline;text-underline-offset:4px;}
-</style>
-<script>
-(function(){var t=document.querySelector('[data-gift-teaser]');if(!t)return;t.addEventListener('click',function(e){var el=document.getElementById('pochette-offerte');if(!el)return;e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});});})();
-</script>
 {%- else -%}
 <div class="gft" id="pochette-offerte" data-gift>
-  <h3 class="gft__title">Une pochette offerte dès 120 € d'achat</h3>
+  
   <p class="gft__state" data-gift-state>&nbsp;</p>
-  <div class="gft__bar"><span data-gift-fill></span></div>
+  <div class="gft__bar"><span data-gift-fill></span></div><div class="gft__ends"><span>0 €</span><span>120 € · pochette offerte</span></div>
   <p class="gft__note" data-gift-note>Une fois débloquée, choisissez votre pochette Milo ou Capri et son coloris. D'une valeur de 45 à 52 €, elle passe à 0 € dans votre panier.</p>
   <div class="gft__choose" data-gift-choose hidden>
     <div class="gft__models">
@@ -50,12 +42,12 @@
 </div>
 <style>
 .mp__grid>*{min-width:0;}
-.gft{min-width:0;max-width:100%;margin:32px 0 0;padding:28px 0 0;border-top:1px solid #e5e5e5;color:#000;font-family:var(--mp-sans,inherit);scroll-margin-top:90px;}
+.gft{min-width:0;max-width:100%;margin:28px 0 0;padding:24px 0 0;border-top:1px solid #e5e5e5;color:#000;font-family:var(--mp-sans,inherit);scroll-margin-top:90px;}
 .gft__title{font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-weight:300;font-size:26px;line-height:1.15;margin:0 0 14px;text-transform:none;letter-spacing:0;font-stretch:normal;}
 .gft__state{font-size:15px;line-height:1.4;margin:0 0 12px;min-height:21px;}
 .gft__state b{font-weight:400;font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-style:italic;font-size:19px;color:#b33a18;}
-.gft__bar{height:1px;background:#e5e5e5;position:relative;margin-bottom:14px;}
-.gft__bar span{position:absolute;left:0;top:-1px;height:3px;width:0;background:#000;transition:width .6s ease;}
+.gft__bar{height:12px;border-radius:12px;background:#f3e6dc;position:relative;overflow:hidden;margin-bottom:8px;}
+.gft__bar span{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:12px;background:linear-gradient(90deg,#e8774f,#b33a18);transition:width .8s cubic-bezier(.2,.7,.2,1);overflow:hidden;}.gft__bar span:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-100%);animation:gft-shine 2.4s ease-in-out infinite;}@keyframes gft-shine{to{transform:translateX(100%)}}.gft__ends{display:flex;justify-content:space-between;font-size:11px;color:#8a8178;margin-bottom:14px;}.gft__ends span:last-child{color:#b33a18;}
 .gft__note{font-size:12px;line-height:1.55;color:#666;margin:0;}
 .gft__note[hidden]{display:none;}
 .gft__choose{margin-top:22px;}
