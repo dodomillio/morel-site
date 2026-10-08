@@ -33,9 +33,10 @@
           "type": "banner",
           "settings": {
             "image": "shopify://shop_images/IMG_2397.jpg",
-            "heading": "Le prêt-à-porter",
+            "heading": "La pochette Milo",
             "button_label": "Découvrir",
-            "url": ""
+            "url": "shopify://collections/la-milo",
+            "subheading": "tressée à la main, pompon signature inclus"
           }
         }
       },
@@ -63,9 +64,10 @@
           "type": "banner",
           "settings": {
             "image": "shopify://shop_images/6337FE6F-10B3-4A2D-A8B2-82856BAE45F0.jpg",
-            "heading": "Le cabas Riviera",
+            "heading": "Le Nomad",
             "button_label": "Découvrir",
-            "url": "shopify://collections/cabas-riviera"
+            "url": "shopify://collections/le-nomad",
+            "subheading": "osier naturel et fibre tressée à la main"
           }
         }
       },
@@ -93,7 +95,8 @@
         "banner_heading": "Édition limitée",
         "banner_url": "shopify://collections/cabas",
         "collection": "accessoires-sac-fait-main",
-        "heading": "Nos pompons"
+        "heading": "Nos pompons",
+        "banner_subheading": "pièces en petite série"
       }
     },
     "reviews-1": {
