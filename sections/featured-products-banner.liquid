@@ -1,5 +1,37 @@
 <section class="two-column-row">
   <div class="featured-products">
+    {%- assign coll = section.settings.collection -%}
+    {%- if section.settings.products.count > 4 -%}
+    <div class="fp-pager" data-fp-pager>
+      <div class="fp-pager__track" data-fp-track>
+        {%- for product in section.settings.products limit: 12 -%}
+          {%- assign m = forloop.index0 | modulo: 4 -%}
+          {%- if m == 0 -%}<div class="featured-products__grid fp-pager__page">{%- endif -%}
+          {% render 'product-card', product: product, second_image: section.settings.second_image %}
+          {%- if m == 3 or forloop.last -%}</div>{%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div class="fp-pager__dots" data-fp-dots>
+        {%- assign pages = section.settings.products.count | at_most: 12 | plus: 3 | divided_by: 4 -%}
+        {%- for i in (1..pages) -%}<button type="button" class="fp-pager__dot{% if forloop.first %} is-active{% endif %}" aria-label="Page {{ i }}" data-fp-dot="{{ forloop.index0 }}"></button>{%- endfor -%}
+      </div>
+    </div>
+    <style>
+      .fp-pager{min-width:0;width:100%;}
+      .fp-pager__track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+      .fp-pager__track::-webkit-scrollbar{display:none;}
+      .fp-pager__page{flex:0 0 100%;min-width:0;scroll-snap-align:start;box-sizing:border-box;}
+      .fp-pager__dots{display:flex;justify-content:center;gap:8px;padding:14px 0 6px;}
+      .fp-pager__dot{width:7px;height:7px;border-radius:50%;border:1px solid #111;background:transparent;padding:0;cursor:pointer;}
+      .fp-pager__dot.is-active{background:#111;}
+    </style>
+    <script>
+      (function(){document.querySelectorAll('[data-fp-pager]').forEach(function(p){if(p.__fp)return;p.__fp=1;var t=p.querySelector('[data-fp-track]'),d=p.querySelectorAll('[data-fp-dot]');
+        function act(){var i=Math.round(t.scrollLeft/t.clientWidth);d.forEach(function(x,j){x.classList.toggle('is-active',j===i);});}
+        t.addEventListener('scroll',function(){window.requestAnimationFrame(act);},{passive:true});
+        d.forEach(function(x){x.addEventListener('click',function(){t.scrollTo({left:t.clientWidth*parseInt(x.getAttribute('data-fp-dot'),10),behavior:'smooth'});});});});})();
+    </script>
+    {%- else -%}
     <div class="featured-products__grid">
       {%- assign coll = section.settings.collection -%}
       {%- if section.settings.products != blank -%}
@@ -30,6 +62,7 @@
         {%- endfor -%}
       {%- endif -%}
     </div>
+    {%- endif -%}
     <div class="featured-products__bottom">
       <h2 class="featured-products__title">{{ section.settings.heading }}</h2>
       <a class="featured-products__cta" href="{{ coll.url | default: '#' }}">{{ section.settings.button_label }}</a>
