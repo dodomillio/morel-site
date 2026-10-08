@@ -153,16 +153,6 @@
         "description": "10 place de l'Exemple, 75000 Paris",
         "url": ""
       }
-    },
-    "duo_products_9JE3r8": {
-      "type": "duo-products",
-      "name": "Grille produits",
-      "settings": {
-        "collection": "pochette-syenna-1",
-        "limit": 4,
-        "image_index": 2,
-        "badge": ""
-      }
     }
   },
   "order": [
@@ -172,7 +162,6 @@
     "hero-banners-1",
     "hero-banners-2",
     "ticker-1",
-    "full-width-1",
-    "duo_products_9JE3r8"
+    "full-width-1"
   ]
 }
