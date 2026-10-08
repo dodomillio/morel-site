@@ -23,6 +23,7 @@
   <style>
     .pt-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 12px;padding:24px var(--gutter,20px);grid-column:1/-1;flex:0 0 100%;width:100%;box-sizing:border-box;}
     .pt-grid .product-card{min-width:0;}
+    @media (min-width:768px){.pt-grid{order:3;}}
     @media (max-width:767px){.pt-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:20px 16px;}}
   </style>
 
