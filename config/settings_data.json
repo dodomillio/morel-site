@@ -26,9 +26,9 @@
       "footer": {
         "type": "footer",
         "settings": {
-          "about_menu": "",
-          "help_menu": "",
-          "legal_menu": "",
+          "about_menu": "morel",
+          "help_menu": "des-questions",
+          "legal_menu": "legal",
           "newsletter_incentive": "Profitez de -10% sur votre première commande"
         }
       }
