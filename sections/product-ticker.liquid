@@ -12,19 +12,19 @@
     </span>
   </a>
 
-  <div class="pt-grid">
-    {%- if section.settings.grid_products.count > 0 -%}
-      {%- for product in section.settings.grid_products -%}{% render 'product-card', product: product %}{%- endfor -%}
-    {%- else -%}
-      {%- for product in collections['le-solen'].products limit: 2 -%}{% render 'product-card', product: product %}{%- endfor -%}
-      {%- for product in collections['le-nomad'].products limit: 2 -%}{% render 'product-card', product: product %}{%- endfor -%}
-    {%- endif -%}
+  <div class="featured-products pt-grid">
+    <div class="featured-products__grid">
+      {%- if section.settings.grid_products.count > 0 -%}
+        {%- for product in section.settings.grid_products -%}{% render 'product-card', product: product %}{%- endfor -%}
+      {%- else -%}
+        {%- for product in collections['le-solen'].products limit: 2 -%}{% render 'product-card', product: product %}{%- endfor -%}
+        {%- for product in collections['le-nomad'].products limit: 2 -%}{% render 'product-card', product: product %}{%- endfor -%}
+      {%- endif -%}
+    </div>
   </div>
   <style>
-    .pt-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 12px;padding:24px var(--gutter,20px);grid-column:1/-1;flex:0 0 100%;width:100%;box-sizing:border-box;}
-    .pt-grid .product-card{min-width:0;}
-    @media (min-width:768px){.pt-grid{order:3;}}
-    @media (max-width:767px){.pt-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:20px 16px;}}
+    .pt-grid{grid-column:1/-1;flex:0 0 100%;width:100%;min-width:0;box-sizing:border-box;}
+    @media (min-width:768px){.pt-grid{order:3;}.pt-grid .featured-products__grid{grid-template-columns:repeat(4,minmax(0,1fr)) !important;}}
   </style>
 
   <div class="product-ticker">
