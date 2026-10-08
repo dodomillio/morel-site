@@ -1,74 +1,46 @@
-{%- comment -%} Offre Trio : met en avant 2 achetés = 1 offert pour les cabas et les pochettes. {%- endcomment -%}
+{%- comment -%} Section : une pochette Milo ou Capri offerte dès 120 € d'achat. {%- endcomment -%}
 <section class="otr">
   <div class="otr__head">
     <p class="otr__kicker">{{ section.settings.kicker }}</p>
     <h2 class="otr__title">{{ section.settings.heading }}</h2>
+    <p class="otr__sub">{{ section.settings.text }}</p>
   </div>
-  <div class="otr__grid">
-    {%- for k in (1..2) -%}
-      {%- if k == 1 -%}
-        {%- assign col = section.settings.col_cabas | default: collections['cabas'] -%}
-        {%- if section.settings.col_cabas == blank -%}{%- assign col = collections['cabas'] -%}{%- endif -%}
-        {%- assign line1 = 'Cabas' -%}{%- assign line2 = '2 achetés, le 3<sup>e</sup> offert.' -%}{%- assign note = 'À mixer avec les pochettes : le moins cher est offert' -%}
-      {%- else -%}
-        {%- assign col = section.settings.col_pochettes -%}
-        {%- if col == blank -%}{%- assign col = collections['nos-pochettes'] -%}{%- endif -%}
-        {%- assign line1 = 'Pochettes' -%}{%- assign line2 = '2 achetées, la 3<sup>e</sup> offerte.' -%}{%- assign note = 'À mixer avec les cabas : le moins cher est offert' -%}
-      {%- endif -%}
-      {%- assign shown = 0 -%}{%- assign first_url = col.url -%}
-      <div class="otr__card">
-        <div class="otr__eq">
-          {%- for p in col.products -%}
-            {%- if p.available and shown < 3 -%}
-              {%- if shown == 0 -%}{%- assign first_url = p.url | append: '#le-trio' -%}{%- endif -%}
-              {%- if p.images.size > 1 -%}{%- assign im = p.images[1] -%}{%- else -%}{%- assign im = p.featured_image -%}{%- endif -%}
-              {%- if shown > 0 -%}<span class="otr__op">{% if shown == 1 %}+{% else %}={% endif %}</span>{%- endif -%}
-              <span class="otr__pic{% if shown == 2 %} otr__pic--gift{% endif %}">
-                <img src="{{ im | image_url: width: 400 }}" alt="{{ p.title | escape }}" width="200" height="250" loading="lazy">
-                {%- if shown == 2 -%}<b>Offert</b>{%- endif -%}
-              </span>
-              {%- assign shown = shown | plus: 1 -%}
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-        <h3 class="otr__line">{{ line1 }},<br><em>{{ line2 }}</em></h3>
-        <p class="otr__note">{{ note }}</p>
-        <a class="otr__cta" href="{{ first_url }}">{{ section.settings.button_label }}</a>
-      </div>
+  <div class="otr__row">
+    {%- assign shown = 0 -%}
+    {%- assign gift_cols = 'la-milo,pochette-capri' | split: ',' -%}
+    {%- for h in gift_cols -%}
+      {%- for p in collections[h].products -%}
+        {%- if p.available and shown < 4 -%}
+          {%- if p.images.size > 1 -%}{%- assign im = p.images[1] -%}{%- else -%}{%- assign im = p.featured_image -%}{%- endif -%}
+          <a class="otr__pic" href="{{ p.url }}"><img src="{{ im | image_url: width: 500 }}" alt="{{ p.title | escape }}" width="250" height="312" loading="lazy"><span>{{ p.title }}</span></a>
+          {%- assign shown = shown | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
     {%- endfor -%}
   </div>
+  <a class="otr__cta" href="{{ section.settings.button_url | default: '/collections/cabas' }}">{{ section.settings.button_label }}</a>
 </section>
 <style>
 .otr{padding:64px 40px;background:#fff;color:#000;font-family:"Red Hat Text",var(--font-body),sans-serif;text-align:center;}
-.otr__head{margin-bottom:40px;}
-.otr__kicker{display:inline-block;margin:0 0 14px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b33a18;}
-.otr__title{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:44px;line-height:1.05;letter-spacing:-.015em;margin:0;text-transform:none;font-stretch:normal;}
-.otr__grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1200px;margin:0 auto;}
-.otr__card{background:#f3efe9;border-radius:18px;padding:32px 28px 30px;display:flex;flex-direction:column;align-items:center;min-width:0;}
-.otr__eq{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-bottom:26px;}
-.otr__op{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:30px;line-height:1;flex:none;}
-.otr__pic{position:relative;flex:1 1 0;min-width:0;max-width:150px;border-radius:10px;overflow:hidden;background:#fff;}
-.otr__pic img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;}
-.otr__pic--gift{outline:2px solid #b33a18;outline-offset:-2px;}
-.otr__pic--gift b{position:absolute;left:0;right:0;bottom:0;background:#b33a18;color:#fff;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 0;}
-.otr__line{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:32px;line-height:1.05;letter-spacing:-.015em;margin:0 0 10px;text-transform:none;font-stretch:normal;}
-.otr__line em{font-style:italic;color:#b33a18;}
-.otr__line sup{font-size:.55em;}
-.otr__note{font-size:13px;color:#5c5650;margin:0 0 22px;}
-.otr__cta{display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 34px;border-radius:18px;background:#b33a18;color:#fff;text-decoration:none;font-size:12px;letter-spacing:.06em;text-transform:uppercase;transition:transform .15s;}
-.otr__cta:hover{transform:translateY(-1px);}
-@media (max-width:767px){.otr{padding:44px 16px;}.otr__title{font-size:32px;}.otr__grid{grid-template-columns:1fr;gap:14px;}.otr__card{padding:24px 16px;}.otr__line{font-size:28px;}.otr__op{font-size:24px;}}
+.otr__kicker{margin:0 0 14px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b33a18;}
+.otr__title{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:44px;line-height:1.05;letter-spacing:-.015em;margin:0 0 12px;text-transform:none;font-stretch:normal;}
+.otr__sub{font-size:14px;color:#5c5650;margin:0 auto 36px;max-width:46ch;}
+.otr__row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1100px;margin:0 auto 34px;}
+.otr__pic{display:block;color:#000;text-decoration:none;font-size:12px;}
+.otr__pic img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:12px;background:#f3efe9;margin-bottom:10px;}
+.otr__cta{display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 34px;border-radius:18px;background:#b33a18;color:#fff;text-decoration:none;font-size:12px;letter-spacing:.06em;text-transform:uppercase;}
+@media (max-width:767px){.otr{padding:44px 16px;}.otr__title{font-size:32px;}.otr__row{grid-template-columns:repeat(2,1fr);gap:10px;}}
 </style>
 {% schema %}
 {
-  "name": "Offre Trio",
+  "name": "Pochette offerte",
   "settings": [
-    { "type": "text", "id": "kicker", "label": "Accroche", "default": "2 achetés = 1 offert" },
-    { "type": "text", "id": "heading", "label": "Titre", "default": "3 articles achetés, le moins cher offert" },
-    { "type": "collection", "id": "col_cabas", "label": "Collection cabas" },
-    { "type": "collection", "id": "col_pochettes", "label": "Collection pochettes" },
-    { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Composer mon trio" }
+    { "type": "text", "id": "kicker", "label": "Accroche", "default": "Offert dès 120 € d'achat" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Une pochette Milo ou Capri offerte" },
+    { "type": "text", "id": "text", "label": "Texte", "default": "Dès 120 € d'achat, choisissez votre pochette préférée : elle vous est offerte." },
+    { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Découvrir les cabas" },
+    { "type": "url", "id": "button_url", "label": "Lien du bouton" }
   ],
-  "presets": [ { "name": "Offre Trio" } ]
+  "presets": [ { "name": "Pochette offerte" } ]
 }
 {% endschema %}

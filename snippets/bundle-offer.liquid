@@ -1,242 +1,105 @@
-{%- comment -%} Le Trio : 2 achetés = 1 offert. Remise appliquée par les réductions automatiques Shopify. Appel avec teaser: true pour le bandeau sous le prix. {%- endcomment -%}
-{%- liquid
-  assign offer = ''
-  for c in product.collections
-    if c.handle == 'cabas'
-      assign offer = 'cabas'
-    endif
-  endfor
-  if offer == ''
-    for c in product.collections
-      if c.handle == 'nos-pochettes'
-        assign offer = 'pochette'
-      endif
-    endfor
-  endif
-  assign cur = product.selected_or_first_available_variant
-  if product.images.size > 1
-    assign cur_im = product.images[1]
-  else
-    assign cur_im = product.featured_image
-  endif
-  if offer == 'cabas'
-    assign word = 'cabas'
-    assign gift = 'offert'
-  else
-    assign word = 'pochettes'
-    assign gift = 'offerte'
-  endif
--%}
-{%- if offer != '' and teaser -%}
-<a href="#le-trio" class="trio-teaser" data-trio-teaser>2 achetés = 1 offert</a>
+{%- comment -%} Offre : une pochette Milo ou Capri offerte dès 120 € d'achat. La remise est appliquée par la réduction automatique Shopify. Appel avec teaser: true pour la ligne sous le prix. {%- endcomment -%}
+{%- assign gift_cols = 'la-milo,pochette-capri' | split: ',' -%}
+{%- if teaser -%}
+<a href="#pochette-offerte" class="trio-teaser" data-gift-teaser>Une pochette offerte dès 120 € d'achat</a>
 <style>
-.trio-teaser{display:block;margin:-6px 0 24px;text-align:center;font-family:var(--mp-sans,inherit);font-weight:700;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:#b33a18;text-decoration:none;}
+.trio-teaser{display:block;margin:-6px 0 24px;text-align:center;font-family:var(--mp-sans,inherit);font-weight:700;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:#b33a18;text-decoration:none;}
 .trio-teaser:hover{text-decoration:underline;text-underline-offset:4px;}
 </style>
 <script>
-(function(){var t=document.querySelector('[data-trio-teaser]');if(!t)return;t.addEventListener('click',function(e){var el=document.getElementById('le-trio');if(!el)return;e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});});})();
+(function(){var t=document.querySelector('[data-gift-teaser]');if(!t)return;t.addEventListener('click',function(e){var el=document.getElementById('pochette-offerte');if(!el)return;e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});});})();
 </script>
-{%- elsif offer != '' -%}
-<div class="lot" id="le-trio" data-lot data-mode="{{ offer }}">
-  <div class="lot__ticker" aria-hidden="true"><div class="lot__track">
-    {%- for i in (1..8) -%}<span>Achetez-en 2</span><b>✦</b><span>Le 3<sup>e</sup> offert</span><b>✦</b>{%- endfor -%}
-  </div></div>
-
-  <div class="lot__body">
-    <h3 class="lot__title">2 achetés,<br><em>le 3<sup>e</sup> offert.</em></h3>
-    <p class="lot__sub">Mixez cabas et pochettes&nbsp;: le moins cher des trois est offert.</p>
-
-    <div class="lot__eq">
-      <button type="button" class="lot__slot" data-slot="0"><span class="lot__frame"><span class="lot__plus"></span></span><span class="lot__cap">Payé</span></button>
-      <span class="lot__op">+</span>
-      <button type="button" class="lot__slot" data-slot="1"><span class="lot__frame"><span class="lot__plus"></span></span><span class="lot__cap">Payé</span></button>
-      <span class="lot__op">+</span>
-      <button type="button" class="lot__slot lot__slot--gift" data-slot="2"><span class="lot__frame"><span class="lot__free">Offert<small>0&nbsp;€</small></span></span><span class="lot__cap">Offert</span></button>
-    </div>
-
-    <div class="lot__bill" data-bill></div>
-
-    <div class="lot__choose">
-      <span class="lot__label">Choisir mes pièces</span>
-      <div class="lot__tabs">
-        <button type="button" class="{% if offer == 'cabas' %}is-on{% endif %}" data-tab="cabas">Cabas</button>
-        <button type="button" class="{% if offer == 'pochette' %}is-on{% endif %}" data-tab="pochette">Pochettes</button>
-      </div>
-    </div>
-
-    <div class="lot__pick" data-group="cabas"{% if offer != 'cabas' %} hidden{% endif %}>
-      {%- for p in collections['cabas'].products -%}
-        {%- if p.available -%}{%- assign v = p.first_available_variant -%}{%- if p.images.size > 1 -%}{%- assign im = p.images[1] -%}{%- else -%}{%- assign im = p.featured_image -%}{%- endif -%}
-        <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="cabas" data-img="{{ im | image_url: width: 300 }}" data-title="{{ p.title | escape }}">
-          <span class="lot__thumb"><img src="{{ im | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy"><span class="lot__add">+ Ajouter</span></span>
-          <span class="lot__name">{{ p.title }}</span><span class="lot__p">{{ v.price | money }}</span>
-        </button>
+{%- else -%}
+<div class="gft" id="pochette-offerte" data-gift>
+  <p class="gft__kicker">Offert dès 120 € d'achat</p>
+  <h3 class="gft__title">Une pochette<br><em>offerte.</em></h3>
+  <p class="gft__sub">Dès 120 € d'achat, choisissez une pochette Milo ou Capri&nbsp;: elle passe à 0 € dans votre panier.</p>
+  <div class="gft__bar"><span data-gift-fill></span></div>
+  <p class="gft__state" data-gift-state>&nbsp;</p>
+  <div class="gft__pick">
+    {%- for h in gift_cols -%}
+      {%- for p in collections[h].products -%}
+        {%- if p.available -%}
+          {%- assign v = p.first_available_variant -%}
+          {%- if p.images.size > 1 -%}{%- assign im = p.images[1] -%}{%- else -%}{%- assign im = p.featured_image -%}{%- endif -%}
+          <button type="button" class="gft__item" data-gift-id="{{ v.id }}" data-gift-pid="{{ p.id }}">
+            <span class="gft__thumb"><img src="{{ im | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy"></span>
+            <span class="gft__name">{{ p.title }}</span>
+            <span class="gft__p"><s>{{ v.price | money }}</s> Offerte</span>
+          </button>
         {%- endif -%}
       {%- endfor -%}
-    </div>
-    <div class="lot__pick" data-group="pochette"{% if offer == 'cabas' %} hidden{% endif %}>
-      {%- for p in collections['nos-pochettes'].products -%}
-        {%- if p.available -%}{%- assign v = p.first_available_variant -%}{%- if p.images.size > 1 -%}{%- assign im = p.images[1] -%}{%- else -%}{%- assign im = p.featured_image -%}{%- endif -%}
-        <button type="button" class="lot__item" data-id="{{ v.id }}" data-price="{{ v.price }}" data-type="pochette" data-img="{{ im | image_url: width: 300 }}" data-title="{{ p.title | escape }}">
-          <span class="lot__thumb"><img src="{{ im | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy"><span class="lot__add">+ Ajouter</span></span>
-          <span class="lot__name">{{ p.title }}</span><span class="lot__p">{{ v.price | money }}</span>
-        </button>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-
-    <div class="lot__total">
-      <div><span class="lot__label">Total</span><span class="lot__save" data-save></span></div>
-      <span class="lot__amount"><s data-was></s><strong data-now>—</strong></span>
-    </div>
-    <button type="button" class="lot__cta" data-cta disabled>Ajouter le trio</button>
-    <p class="lot__hint" data-hint></p>
+    {%- endfor -%}
   </div>
-  <script type="application/json" data-cur>{"id":{{ cur.id | json }},"price":{{ cur.price | json }},"available":{{ cur.available | json }},"type":{{ offer | json }},"title":{{ product.title | json }},"img":{{ cur_im | image_url: width: 300 | json }}}</script>
+  <p class="gft__hint" data-gift-hint></p>
 </div>
 <style>
 .mp__grid>*{min-width:0;}
-.lot{--hot:#b33a18;--sand:#f3efe9;min-width:0;max-width:100%;margin:36px 0 0;color:#000;font-family:var(--mp-sans,inherit);border:1.5px solid var(--hot);border-radius:18px;overflow:hidden;scroll-margin-top:90px;}
-.lot__ticker{background:var(--hot);color:#fff;overflow:hidden;white-space:nowrap;padding:10px 0;}
-.lot__track{display:inline-flex;align-items:center;gap:16px;animation:lot-tick 22s linear infinite;font-size:11px;letter-spacing:.16em;text-transform:uppercase;}
-.lot__track b{font-weight:400;font-size:10px;opacity:.8;}
-.lot__track sup{font-size:.7em;}
-@keyframes lot-tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.lot__body{padding:26px 20px 22px;}
-.lot__title{font-family:var(--mp-serif,Georgia,serif);font-weight:200;font-size:38px;line-height:1.02;letter-spacing:-.02em;margin:0 0 12px;text-transform:none;font-stretch:normal;}
-.lot__title em{font-style:italic;color:var(--hot);}
-.lot__title sup,.lot__sub sup{font-size:.55em;}
-.lot__sub{font-size:13px;line-height:1.55;color:#5c5650;margin:0 0 24px;}
-.lot__eq{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:start;gap:6px;}
-.lot__op{font-family:var(--mp-serif,Georgia,serif);font-weight:200;font-size:26px;line-height:1;align-self:center;margin-top:-22px;color:#000;}
-.lot__slot{display:flex;flex-direction:column;gap:8px;background:none;border:0;padding:0;cursor:pointer;color:#000;font:inherit;min-width:0;}
-.lot__frame{position:relative;display:block;width:100%;aspect-ratio:4/5;background:var(--sand);overflow:hidden;border-radius:10px;}
-.lot__cap{font-size:10px;letter-spacing:.16em;text-transform:uppercase;text-align:center;}
-.lot__slot--gift:not(.is-full) .lot__cap,.lot__slot.is-gift .lot__cap{color:var(--hot);font-weight:700;}.lot__slot--gift.is-full .lot__frame{animation:none;}
-.lot__slot--gift .lot__frame{background:var(--hot);}
-.lot__free{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--mp-serif,Georgia,serif);font-style:italic;font-size:22px;line-height:1;}
-.lot__free small{font-family:var(--mp-sans,inherit);font-style:normal;font-size:10px;letter-spacing:.14em;margin-top:6px;opacity:.85;}
-.lot__slot--gift .lot__frame{animation:lot-glow 2.6s ease-in-out infinite;}
-@keyframes lot-glow{0%,100%{box-shadow:0 0 0 0 rgba(179,58,24,.0)}50%{box-shadow:0 0 0 5px rgba(179,58,24,.18)}}
-.lot__plus{position:absolute;left:50%;top:50%;width:20px;height:20px;transform:translate(-50%,-50%);}
-.lot__plus:before,.lot__plus:after{content:"";position:absolute;left:50%;top:50%;background:#000;transform:translate(-50%,-50%);}
-.lot__plus:before{width:20px;height:1px;}.lot__plus:after{width:1px;height:20px;}
-.lot__frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:lot-in .45s cubic-bezier(.2,.7,.2,1);z-index:1;}
-.lot__slot.is-gift .lot__frame:before{content:"Offert";position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--hot);color:#fff;font-size:10px;letter-spacing:.16em;text-transform:uppercase;text-align:center;padding:6px 0;}
-.lot__slot.is-full .lot__frame:after{content:"×";position:absolute;top:6px;right:6px;z-index:2;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.92);font-size:14px;line-height:20px;text-align:center;color:#000;}
-@keyframes lot-in{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
-.lot__bill{margin:16px 0 0;}
-.lot__row{display:flex;align-items:baseline;gap:8px;font-size:12px;line-height:1.4;padding:7px 0;border-bottom:1px solid #e6e1da;}
-.lot__row i{font-style:normal;font-size:10px;color:#8a8178;width:18px;flex:none;}
-.lot__row span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.lot__row em{font-style:normal;white-space:nowrap;}
-.lot__row.is-gift{color:var(--hot);}
-.lot__row.is-gift em s{color:#8a8178;margin-right:6px;}
-.lot__row.is-gift em b{font-weight:700;}
-.lot__choose{display:flex;align-items:baseline;justify-content:space-between;margin:26px 0 12px;}
-.lot__label{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;}
-.lot__tabs{display:flex;gap:18px;}
-.lot__tabs button{background:none;border:0;padding:0 0 3px;font:inherit;font-size:12px;color:#8a8178;cursor:pointer;border-bottom:1px solid transparent;}
-.lot__tabs button.is-on{color:#000;border-bottom-color:#000;}
-.lot__pick{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;contain:inline-size;padding-bottom:4px;}
-.lot__pick::-webkit-scrollbar{display:none;}
-.lot__pick[hidden]{display:none;}
-.lot__item{flex:0 0 calc((100% - 20px) / 3);width:calc((100% - 20px) / 3);min-width:0;scroll-snap-align:start;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#000;font:inherit;}
-.lot__thumb{position:relative;display:block;margin-bottom:8px;border-radius:10px;overflow:hidden;}
-.lot__thumb img{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;background:var(--sand);}
-.lot__add{position:absolute;left:6px;right:6px;bottom:6px;background:#fff;color:#000;font-size:10px;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:7px 0;border-radius:8px;transform:translateY(130%);transition:transform .2s;}
-.lot__item:hover .lot__add{transform:none;}
-@media (hover:none){.lot__add{transform:none;}}
-.lot__name{display:block;font-size:11px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.lot__p{display:block;font-size:11px;color:#8a8178;margin-top:2px;}
-.lot__total{display:flex;justify-content:space-between;align-items:flex-end;margin:26px 0 14px;padding-top:14px;border-top:1px solid #000;}
-.lot__save{display:block;margin-top:4px;font-size:12px;color:var(--hot);font-weight:700;min-height:16px;}
-.lot__amount{display:flex;align-items:baseline;gap:10px;}
-.lot__amount s{font-size:14px;color:#8a8178;}
-.lot__amount strong{font-family:var(--mp-serif,Georgia,serif);font-weight:300;font-size:30px;}
-.lot__cta{width:100%;height:54px;border:0;border-radius:18px;background:var(--hot);color:#fff;font-family:var(--mp-sans,inherit);font-size:12px;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:transform .15s;}
-.lot__cta:hover:not(:disabled){transform:translateY(-1px);}
-.lot__cta:disabled{background:#e9e4dd;color:#8a8178;cursor:not-allowed;}
-.lot__hint{font-size:11px;color:#5c5650;margin:10px 0 0;min-height:15px;text-align:center;}
-.lot.is-shake .lot__eq{animation:lot-shake .3s;}
-@keyframes lot-shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-@media (max-width:767px){.lot__title{font-size:32px;}.lot__item{flex-basis:38%;width:38%;}.lot__body{padding:22px 16px 18px;}}
-@media (prefers-reduced-motion:reduce){.lot__track,.lot__slot--gift .lot__frame{animation:none;}}
-/* compact */ .lot{margin:30px 0;} .lot__ticker{padding:8px 0;} .lot__body{padding:20px 18px 18px;} .lot__title{font-size:30px;margin:0 0 9px;} .lot__sub{font-size:12.5px;line-height:1.5;margin:0 0 18px;} .lot__eq{gap:5px;} .lot__op{font-size:23px;margin-top:-19px;} .lot__slot{gap:6px;} .lot__frame{aspect-ratio:9/10;} .lot__cap{font-size:9.5px;} .lot__bill{margin:13px 0 0;} .lot__row{padding:6px 0;font-size:11.5px;} .lot__choose{margin:20px 0 10px;} .lot__item{flex-basis:33%;width:33%;} .lot__thumb{margin-bottom:6px;} .lot__thumb img{aspect-ratio:9/10;} .lot__total{margin:20px 0 12px;padding-top:12px;} .lot__amount strong{font-size:27px;} .lot__cta{height:50px;} .lot__hint{margin:8px 0 0;} .lot__title,.lot__sub{text-align:center;}
+.gft{min-width:0;max-width:100%;margin:36px 0 0;padding:26px 20px 22px;border:1.5px solid #b33a18;border-radius:18px;color:#000;font-family:var(--mp-sans,inherit);scroll-margin-top:90px;}
+.gft__kicker{margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#b33a18;}
+.gft__title{font-family:var(--mp-serif,Georgia,serif);font-weight:200;font-size:36px;line-height:1.02;letter-spacing:-.02em;margin:0 0 12px;text-transform:none;font-stretch:normal;}
+.gft__title em{font-style:italic;color:#b33a18;}
+.gft__sub{font-size:13px;line-height:1.55;color:#5c5650;margin:0 0 20px;}
+.gft__bar{height:6px;border-radius:6px;background:#efe9e2;overflow:hidden;}
+.gft__bar span{display:block;height:100%;width:0;background:#b33a18;border-radius:6px;transition:width .5s ease;}
+.gft__state{font-size:13px;margin:10px 0 20px;min-height:18px;}
+.gft.is-ok .gft__state{color:#b33a18;font-weight:700;}
+.gft__pick{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;contain:inline-size;padding-bottom:4px;}
+.gft__pick::-webkit-scrollbar{display:none;}
+.gft__item{flex:0 0 calc((100% - 20px) / 3);width:calc((100% - 20px) / 3);min-width:0;scroll-snap-align:start;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#000;font:inherit;}
+.gft__thumb{display:block;border-radius:10px;overflow:hidden;margin-bottom:8px;background:#f3efe9;}
+.gft__thumb img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;transition:transform .3s;}
+.gft__item:hover .gft__thumb img{transform:scale(1.03);}
+.gft__name{display:block;font-size:11px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gft__p{display:block;font-size:11px;margin-top:2px;color:#b33a18;font-weight:700;}
+.gft__p s{color:#8a8178;font-weight:400;margin-right:4px;}
+.gft__item[disabled]{cursor:wait;opacity:.6;}
+.gft__hint{font-size:12px;color:#5c5650;margin:12px 0 0;min-height:16px;text-align:center;}
+@media (max-width:767px){.gft__title{font-size:30px;}.gft__item{flex-basis:38%;width:38%;}.gft{padding:22px 16px 18px;}}
 </style>
 <script>
 (function(){
-  var lot = document.querySelector('[data-lot]');
-  if (!lot || lot.dataset.ready) return;
-  lot.dataset.ready = '1';
-  var mode = lot.getAttribute('data-mode');
-  var slots = [].slice.call(lot.querySelectorAll('[data-slot]'));
-  var picks = [null, null, null];
-  var cta = lot.querySelector('[data-cta]');
-  var hint = lot.querySelector('[data-hint]');
-  var bill = lot.querySelector('[data-bill]');
-  var saveEl = lot.querySelector('[data-save]');
-  var wasEl = lot.querySelector('[data-was]');
-  var nowEl = lot.querySelector('[data-now]');
+  var box = document.querySelector('[data-gift]');
+  if (!box || box.dataset.ready) return;
+  box.dataset.ready = '1';
+  var MIN = 12000;
+  var fill = box.querySelector('[data-gift-fill]');
+  var state = box.querySelector('[data-gift-state]');
+  var hint = box.querySelector('[data-gift-hint]');
+  var pids = [].map.call(box.querySelectorAll('[data-gift-pid]'), function(b){ return +b.dataset.giftPid; });
+  var info = { left: MIN, has: false };
   function money(c){ return '€' + (c/100).toFixed(2).replace('.', ','); }
-  function esc(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-  function render(){
-    slots.forEach(function(s, i){
-      var p = picks[i];
-      var frame = s.querySelector('.lot__frame');
-      var img = frame.querySelector('img');
-      if (img && (!p || img.getAttribute('data-id') !== String(p.id) + '-' + i)) { img.remove(); img = null; }
-      s.classList.toggle('is-full', !!p);
-      if (p && !img) { var im = document.createElement('img'); im.src = p.img; im.alt = p.title; im.setAttribute('data-id', p.id + '-' + i); frame.appendChild(im); }
-    });
-    var chosen = picks.filter(Boolean);
-    var sum = 0, min = Infinity, minIdx = -1, nCabas = 0;
-    picks.forEach(function(p, i){ if (!p) return; sum += p.price; if (p.price < min) { min = p.price; minIdx = i; } if (p.type === 'cabas') nCabas++; });
-    var full = chosen.length === 3;
-    var ok = full;
-    bill.innerHTML = picks.map(function(p, i){
-      if (!p) return '';
-      var gift = ok && i === minIdx;
-      return '<div class="lot__row' + (gift ? ' is-gift' : '') + '"><i>0' + (i + 1) + '</i><span>' + esc(p.title) + '</span><em>' + (gift ? '<s>' + money(p.price) + '</s><b>Offert</b>' : money(p.price)) + '</em></div>';
-    }).join('');
-    slots.forEach(function(s, i){ var isG = ok && i === minIdx; s.classList.toggle('is-gift', isG); s.querySelector('.lot__cap').textContent = (isG || (!ok && i === 2 && !picks[2])) ? 'Offert' : 'Payé'; });
-    if (ok) { wasEl.textContent = money(sum); nowEl.textContent = money(sum - min); saveEl.textContent = 'Vous économisez ' + money(min); }
-    else { wasEl.textContent = ''; nowEl.textContent = chosen.length ? money(sum) : '—'; saveEl.textContent = ''; }
-    cta.disabled = !ok;
-    var left = 3 - chosen.length;
-    cta.textContent = ok ? 'Ajouter le trio · ' + money(min) + ' offerts' : (left > 0 ? 'Encore ' + left + (left > 1 ? ' pièces' : ' pièce') + ' à choisir' : 'Ajouter le trio');
-    hint.textContent = (full && !ok) ? 'Le trio doit contenir au moins deux cabas.' : '';
+  function refresh(){
+    return fetch('/cart.js', { credentials: 'same-origin' }).then(function(r){ return r.json(); }).then(function(c){
+      var has = c.items.some(function(i){ return pids.indexOf(i.product_id) > -1 && i.final_line_price === 0; });
+      var left = Math.max(0, MIN - c.total_price);
+      info = { left: left, has: has };
+      fill.style.width = Math.min(100, c.total_price / MIN * 100) + '%';
+      box.classList.toggle('is-ok', left === 0);
+      if (has) state.textContent = 'Votre pochette offerte est dans votre panier.';
+      else if (left > 0) state.textContent = c.total_price > 0 ? 'Plus que ' + money(left) + ' pour recevoir votre pochette offerte.' : 'Ajoutez 120 € d\'articles et recevez une pochette offerte.';
+      else state.textContent = 'Vous y avez droit : choisissez votre pochette offerte ci-dessous.';
+    }).catch(function(){});
   }
-  function add(p){
-    var i = picks.indexOf(null);
-    if (i === -1) { lot.classList.remove('is-shake'); void lot.offsetWidth; lot.classList.add('is-shake'); hint.textContent = 'Votre trio est complet. Touchez une pièce pour la retirer.'; return; }
-    picks[i] = p; render();
-  }
-  lot.querySelectorAll('.lot__item').forEach(function(b){
-    b.addEventListener('click', function(){ add({ id: +b.dataset.id, price: +b.dataset.price, type: b.dataset.type, img: b.dataset.img, title: b.dataset.title }); });
-  });
-  slots.forEach(function(s, i){ s.addEventListener('click', function(){ if (picks[i]) { picks[i] = null; render(); } else { var g = lot.querySelector('.lot__pick:not([hidden])'); if (g) g.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } }); });
-  lot.querySelectorAll('[data-tab]').forEach(function(t){
-    t.addEventListener('click', function(){
-      lot.querySelectorAll('[data-tab]').forEach(function(x){ x.classList.toggle('is-on', x === t); });
-      lot.querySelectorAll('[data-group]').forEach(function(g){ g.hidden = g.getAttribute('data-group') !== t.getAttribute('data-tab'); });
+  box.querySelectorAll('[data-gift-id]').forEach(function(b){
+    b.addEventListener('click', function(){
+      if (info.has) { hint.textContent = 'Une seule pochette offerte par commande.'; return; }
+      if (info.left > 0) { hint.textContent = 'Ajoutez encore ' + money(info.left) + ' d\'articles à votre panier pour en profiter.'; return; }
+      b.disabled = true; hint.textContent = 'Ajout de votre pochette…';
+      fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: [{ id: +b.dataset.giftId, quantity: 1 }] }) })
+        .then(function(r){ if (!r.ok) throw r; return r.json(); })
+        .then(function(){ hint.textContent = 'Votre pochette offerte a été ajoutée.'; refresh(); if (window.cdOpen) { try { window.cdOpen(); return; } catch(e){} } window.location.href = '/cart'; })
+        .catch(function(){ hint.textContent = 'Cette pochette n\'est plus disponible, choisissez-en une autre.'; })
+        .then(function(){ b.disabled = false; });
     });
   });
-  try {
-    var cur = JSON.parse(lot.querySelector('[data-cur]').textContent);
-    if (cur.available) { picks[0] = { id: cur.id, price: cur.price, type: cur.type, img: cur.img, title: cur.title }; }
-  } catch (e) {}
-  cta.addEventListener('click', function(){
-    var items = {};
-    picks.forEach(function(p){ if (p) items[p.id] = (items[p.id] || 0) + 1; });
-    var payload = { items: Object.keys(items).map(function(id){ return { id: +id, quantity: items[id] }; }) };
-    cta.disabled = true; cta.textContent = 'Ajout…';
-    fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) })
-      .then(function(r){ if (!r.ok) throw r; return r.json(); })
-      .then(function(){ if (window.cdOpen) { cta.disabled = false; cta.textContent = 'Ajouter le trio'; render(); window.cdOpen(); } else { window.location.href = '/cart'; } })
-      .catch(function(){ cta.disabled = false; cta.textContent = 'Ajouter le trio'; hint.textContent = 'Une pièce n\'est plus disponible. Changez-la et réessayez.'; });
-  });
-  render();
+  if (window.fetch && !window.__giftFetch) {
+    window.__giftFetch = true;
+    var f = window.fetch;
+    window.fetch = function(u){ var p = f.apply(this, arguments); try { var s = String(u && u.url || u); if (/\/cart\/(add|change|update|clear)/.test(s)) p.then(function(){ setTimeout(refresh, 400); }); } catch(e){} return p; };
+  }
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) refresh(); });
+  refresh();
 })();
 </script>
 {%- endif -%}
