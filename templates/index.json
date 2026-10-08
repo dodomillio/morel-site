@@ -34,9 +34,9 @@
           "settings": {
             "image": "shopify://shop_images/IMG_2397.jpg",
             "heading": "La pochette Milo",
+            "subheading": "le basique obligatoire",
             "button_label": "Découvrir",
-            "url": "shopify://collections/la-milo",
-            "subheading": "le basique obligatoire"
+            "url": "shopify://collections/la-milo"
           }
         }
       },
@@ -65,9 +65,9 @@
           "settings": {
             "image": "shopify://shop_images/6337FE6F-10B3-4A2D-A8B2-82856BAE45F0.jpg",
             "heading": "Le Nomad",
+            "subheading": "de la plage à la ville",
             "button_label": "Découvrir",
-            "url": "shopify://collections/le-nomad",
-            "subheading": "de la plage à la ville"
+            "url": "shopify://collections/le-nomad"
           }
         }
       },
@@ -93,10 +93,10 @@
       "settings": {
         "banner_image": "shopify://shop_images/Capture_d_ecran_2026-08-27_a_09.25.52.png",
         "banner_heading": "Édition limitée",
+        "banner_subheading": "pièces en petite série",
         "banner_url": "shopify://collections/cabas",
         "collection": "accessoires-sac-fait-main",
-        "heading": "Nos pompons",
-        "banner_subheading": "pièces en petite série"
+        "heading": "Nos pompons"
       }
     },
     "reviews-1": {
@@ -122,17 +122,17 @@
         "banner-1": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/IMG_1117.jpg",
-            "heading": "Collection Été",
-            "subheading": "",
+            "image": "shopify://shop_images/IMG_07262.jpg",
+            "heading": "La pochette Capri",
+            "subheading": "l'élégance du macramé",
             "button_label": "Découvrir",
-            "url": ""
+            "url": "shopify://collections/pochette-capri"
           }
         },
         "banner-2": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/pompon_fluo_orange.png",
+            "image": "shopify://shop_images/IMG_06232.heic",
             "heading": "NOS pompon",
             "subheading": "Les meilleures couleurs",
             "button_label": "Découvrir",
@@ -152,7 +152,7 @@
         "banner-1": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/7E753138-DA24-470D-A16A-A08158006910_2.png",
+            "image": "shopify://shop_images/IMG_11192.jpg",
             "heading": "Le sac seau",
             "subheading": "",
             "button_label": "Découvrir",
@@ -162,7 +162,7 @@
         "banner-2": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/1200_x_628_px_2.jpg",
+            "image": "shopify://shop_images/IMG_06232.heic",
             "heading": "Collaboration",
             "subheading": "",
             "button_label": "Découvrir",
@@ -175,15 +175,6 @@
         "banner-2"
       ],
       "settings": {}
-    },
-    "full-width-1": {
-      "type": "full-width-banner",
-      "settings": {
-        "image": "shopify://shop_images/92632824-7EAC-41EE-BE1D-1B2F7AF9D407.jpg",
-        "heading": "Tressé à la main",
-        "description": "Chaque pièce est façonnée à la main au Maroc. Plus de 3 heures de travail pour un seul sac.",
-        "url": "shopify://pages/a-propos-de-nous"
-      }
     }
   },
   "order": [
@@ -193,7 +184,6 @@
     "ticker-1",
     "reviews-1",
     "hero-banners-1",
-    "hero-banners-2",
-    "full-width-1"
+    "hero-banners-2"
   ]
 }
