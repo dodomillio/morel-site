@@ -17,10 +17,10 @@
       </div>
     </div>
     <style>
-      .fp-pager{min-width:0;width:100%;}
-      .fp-pager__track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+      .featured-products:has(.fp-pager){min-width:0;}.fp-pager{min-width:0;width:100%;max-width:100%;contain:inline-size;}
+      .fp-pager__track{width:100%;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
       .fp-pager__track::-webkit-scrollbar{display:none;}
-      .fp-pager__page{flex:0 0 100%;min-width:0;scroll-snap-align:start;box-sizing:border-box;}
+      .fp-pager__page{flex:0 0 100%;width:100%;min-width:0;display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;scroll-snap-align:start;box-sizing:border-box;}
       .fp-pager__dots{display:flex;justify-content:center;gap:8px;padding:14px 0 6px;}
       .fp-pager__dot{width:7px;height:7px;border-radius:50%;border:1px solid #111;background:transparent;padding:0;cursor:pointer;}
       .fp-pager__dot.is-active{background:#111;}
