@@ -12,8 +12,8 @@
 {%- else -%}
 <div class="gft" id="pochette-offerte" data-gift>
   <div class="gft__head">
-    <h3 class="gft__title">Une pochette offerte</h3>
-    <p class="gft__sub">Dès 120 € d'achat, choisissez votre pochette Milo ou Capri. Elle passe à 0 € dans votre panier.</p>
+    <h3 class="gft__title">Une pochette offerte dès 120 € d'achat</h3>
+    <ol class="gft__steps"><li><span>1</span>Ajoutez au moins 120 € d'articles à votre panier.</li><li><span>2</span>Choisissez ci-dessous votre pochette Milo ou Capri, d'une valeur de 45 à 52 €.</li><li><span>3</span>Elle passe automatiquement à 0 € dans votre panier.</li></ol>
   </div>
   <div class="gft__bar"><span data-gift-fill></span></div>
   <p class="gft__state" data-gift-state>&nbsp;</p>
@@ -40,7 +40,7 @@
 .mp__grid>*{min-width:0;}
 .gft{min-width:0;max-width:100%;margin:32px 0 0;padding:28px 0 0;border-top:1px solid #e5e5e5;color:#000;font-family:var(--mp-sans,inherit);scroll-margin-top:90px;}
 .gft__title{font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-weight:300;font-size:26px;line-height:1.15;margin:0 0 8px;text-transform:none;letter-spacing:0;font-stretch:normal;}
-.gft__sub{font-size:13px;line-height:1.55;color:#555;margin:0 0 22px;}
+.gft__sub{font-size:13px;line-height:1.55;color:#555;margin:0 0 22px;}.gft__steps{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;gap:8px;}.gft__steps li{display:flex;gap:12px;align-items:baseline;font-size:13px;line-height:1.5;color:#333;}.gft__steps span{flex:none;font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-style:italic;font-size:16px;color:#b33a18;width:12px;}
 .gft__bar{height:1px;background:#e5e5e5;position:relative;}
 .gft__bar span{position:absolute;left:0;top:-1px;height:3px;width:0;background:#000;transition:width .6s ease;}
 .gft__state{font-size:12px;letter-spacing:.02em;margin:10px 0 22px;min-height:16px;color:#444;}
@@ -80,8 +80,8 @@
       fill.style.width = Math.min(100, c.total_price / MIN * 100) + '%';
       box.classList.toggle('is-ok', left === 0);
       if (has) state.textContent = 'Votre pochette offerte est dans votre panier.';
-      else if (left > 0) state.textContent = c.total_price > 0 ? 'Plus que ' + money(left) + ' pour recevoir votre pochette offerte.' : 'Ajoutez 120 € d\'articles et recevez une pochette offerte.';
-      else state.textContent = 'Vous y avez droit : choisissez votre pochette offerte ci-dessous.';
+      else if (left > 0) state.textContent = c.total_price > 0 ? 'Plus que ' + money(left) + ' d\'achat pour recevoir votre pochette offerte.' : 'Votre panier est vide : dès 120 € d\'achat, une pochette vous est offerte.';
+      else state.textContent = 'C\'est gagné : choisissez votre pochette offerte ci-dessous.';
     }).catch(function(){});
   }
   box.querySelectorAll('[data-gift-id]').forEach(function(b){
