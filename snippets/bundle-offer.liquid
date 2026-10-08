@@ -1,5 +1,4 @@
-{%- comment -%} Offre : une pochette Milo ou Capri offerte dès 120 € d'achat. La remise est appliquée par la réduction automatique Shopify. Appel avec teaser: true pour la ligne sous le prix. {%- endcomment -%}
-{%- assign gift_cols = 'la-milo,pochette-capri' | split: ',' -%}
+{%- comment -%} Offre : une pochette Milo ou Capri offerte dès 120 € d'achat. Remise appliquée par la réduction automatique Shopify. Appel avec teaser: true pour la ligne sous le prix. {%- endcomment -%}
 {%- if teaser -%}
 <a href="#pochette-offerte" class="trio-teaser" data-gift-teaser>Une pochette offerte dès 120 € d'achat</a>
 <style>
@@ -11,54 +10,77 @@
 </script>
 {%- else -%}
 <div class="gft" id="pochette-offerte" data-gift>
-  <div class="gft__head">
-    <h3 class="gft__title">Une pochette offerte dès 120 € d'achat</h3>
-    <ol class="gft__steps"><li><span>1</span>Ajoutez au moins 120 € d'articles à votre panier.</li><li><span>2</span>Choisissez ci-dessous votre pochette Milo ou Capri, d'une valeur de 45 à 52 €.</li><li><span>3</span>Elle passe automatiquement à 0 € dans votre panier.</li></ol>
-  </div>
-  <div class="gft__bar"><span data-gift-fill></span></div>
+  <h3 class="gft__title">Une pochette offerte dès 120 € d'achat</h3>
   <p class="gft__state" data-gift-state>&nbsp;</p>
-  <div class="gft__pick">
-    {%- for h in gift_cols -%}
-      {%- for p in collections[h].products -%}
-        {%- if p.available -%}
-          {%- assign v = p.first_available_variant -%}
-          {%- assign im = p.featured_image -%}
-          {%- for m in p.images -%}{%- if m.width == m.height -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
-          <button type="button" class="gft__item" data-gift-id="{{ v.id }}" data-gift-pid="{{ p.id }}">
-            <span class="gft__thumb"><img src="{{ im | image_url: width: 400 }}" alt="{{ p.title | escape }}" width="200" height="250" loading="lazy"></span>
-            <span class="gft__name">{{ p.title }}</span>
-            <span class="gft__p"><s>{{ v.price | money }}</s><em>offerte</em></span>
-            <span class="gft__cta">Choisir</span>
-          </button>
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endfor -%}
+  <div class="gft__bar"><span data-gift-fill></span></div>
+  <p class="gft__note" data-gift-note>Une fois débloquée, choisissez votre pochette Milo ou Capri et son coloris. D'une valeur de 45 à 52 €, elle passe à 0 € dans votre panier.</p>
+  <div class="gft__choose" data-gift-choose hidden>
+    <div class="gft__models">
+      <button type="button" class="is-on" data-model="la-milo">Milo</button>
+      <button type="button" data-model="pochette-capri">Capri</button>
+    </div>
+    <div class="gft__preview">
+      <span class="gft__img"><img data-gift-img src="" alt="" width="300" height="375"></span>
+      <div class="gft__pinfo">
+        <p class="gft__pname" data-gift-name></p>
+        <p class="gft__pprice"><s data-gift-price></s> <em>offerte</em></p>
+        <p class="gft__color">Coloris : <span data-gift-color></span></p>
+        <div class="gft__swwrap">
+          {%- assign gift_cols = 'la-milo,pochette-capri' | split: ',' -%}{%- for h in gift_cols -%}
+          <div class="gft__swatches" data-group="{{ h }}"{% unless forloop.first %} hidden{% endunless %}>
+            {%- for p in collections[h].products -%}
+              {%- if p.available -%}
+                {%- assign v = p.first_available_variant -%}
+                {%- assign im = p.featured_image -%}
+                {%- for m in p.images -%}{%- if m.width == m.height -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
+                {%- assign color = p.title | remove: 'Pochette ' | remove: 'Milo ' | remove: 'Capri ' | strip -%}
+                <button type="button" class="gft__sw" data-gift-id="{{ v.id }}" data-gift-pid="{{ p.id }}" data-img="{{ im | image_url: width: 500 }}" data-name="{{ p.title | escape }}" data-color="{{ color | escape }}" data-price="{{ v.price | money }}" title="{{ color | escape }}" aria-label="{{ p.title | escape }}">
+                  <img src="{{ im | image_url: width: 80 }}" alt="" width="30" height="30" loading="lazy">
+                </button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- endfor -%}
+        </div>
+        <button type="button" class="gft__add" data-gift-add>Ajouter ma pochette offerte</button>
+      </div>
+    </div>
   </div>
   <p class="gft__hint" data-gift-hint></p>
 </div>
 <style>
 .mp__grid>*{min-width:0;}
 .gft{min-width:0;max-width:100%;margin:32px 0 0;padding:28px 0 0;border-top:1px solid #e5e5e5;color:#000;font-family:var(--mp-sans,inherit);scroll-margin-top:90px;}
-.gft__title{font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-weight:300;font-size:26px;line-height:1.15;margin:0 0 8px;text-transform:none;letter-spacing:0;font-stretch:normal;}
-.gft__sub{font-size:13px;line-height:1.55;color:#555;margin:0 0 22px;}.gft__steps{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;gap:8px;}.gft__steps li{display:flex;gap:12px;align-items:baseline;font-size:13px;line-height:1.5;color:#333;}.gft__steps span{flex:none;font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-style:italic;font-size:16px;color:#b33a18;width:12px;}
-.gft__bar{height:1px;background:#e5e5e5;position:relative;}
+.gft__title{font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-weight:300;font-size:26px;line-height:1.15;margin:0 0 14px;text-transform:none;letter-spacing:0;font-stretch:normal;}
+.gft__state{font-size:15px;line-height:1.4;margin:0 0 12px;min-height:21px;}
+.gft__state b{font-weight:400;font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-style:italic;font-size:19px;color:#b33a18;}
+.gft__bar{height:1px;background:#e5e5e5;position:relative;margin-bottom:14px;}
 .gft__bar span{position:absolute;left:0;top:-1px;height:3px;width:0;background:#000;transition:width .6s ease;}
-.gft__state{font-size:12px;letter-spacing:.02em;margin:10px 0 22px;min-height:16px;color:#444;}
-.gft.is-ok .gft__state{color:#000;}
-.gft__pick{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;contain:inline-size;padding-bottom:4px;}
-.gft__pick::-webkit-scrollbar{display:none;}
-.gft__item{flex:0 0 calc((100% - 24px) / 3);width:calc((100% - 24px) / 3);min-width:0;scroll-snap-align:start;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#000;font:inherit;}
-.gft__thumb{display:block;margin-bottom:10px;background:#f2f2f2;overflow:hidden;}
-.gft__thumb img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;transition:opacity .25s;}
-.gft__item:hover .gft__thumb img{opacity:.85;}
-.gft__name{display:block;font-size:11px;line-height:1.4;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.gft__p{display:flex;gap:6px;align-items:baseline;font-size:11px;margin-top:2px;}
-.gft__p s{color:#999;}
-.gft__p em{font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-style:italic;font-size:14px;color:#b33a18;}
-.gft__cta{display:inline-block;margin-top:8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid currentColor;padding-bottom:1px;}
-.gft__item[disabled]{cursor:wait;opacity:.6;}
-.gft__hint{font-size:12px;color:#555;margin:14px 0 0;min-height:16px;}
-@media (max-width:767px){.gft__item{flex-basis:40%;width:40%;}.gft__title{font-size:24px;}}
+.gft__note{font-size:12px;line-height:1.55;color:#666;margin:0;}
+.gft__note[hidden]{display:none;}
+.gft__choose{margin-top:22px;}
+.gft__choose[hidden]{display:none;}
+.gft__models{display:flex;gap:22px;margin-bottom:16px;}
+.gft__models button{background:none;border:0;padding:0 0 3px;font:inherit;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#999;cursor:pointer;border-bottom:1px solid transparent;}
+.gft__models button.is-on{color:#000;border-bottom-color:#000;}
+.gft__preview{display:grid;grid-template-columns:42% 1fr;gap:18px;align-items:start;}
+.gft__img{display:block;background:#f2f2f2;}
+.gft__img img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;}
+.gft__pname{font-size:12px;text-transform:uppercase;letter-spacing:.02em;margin:0 0 4px;}
+.gft__pprice{font-size:12px;margin:0 0 14px;}
+.gft__pprice s{color:#999;}
+.gft__pprice em{font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-style:italic;font-size:16px;color:#b33a18;}
+.gft__color{font-size:12px;color:#555;margin:0 0 10px;}
+.gft__color span{color:#000;}
+.gft__swatches{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:20px;}
+.gft__swatches[hidden]{display:none;}
+.gft__sw{width:34px;height:34px;border-radius:50%;padding:2px;border:1px solid #ddd;background:#fff;cursor:pointer;}
+.gft__sw.is-on{border:2px solid #000;padding:1px;}
+.gft__sw img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.gft__add{width:100%;height:48px;border:1px solid #000;border-radius:18px;background:#000;color:#fff;font-family:var(--mp-sans,inherit);font-size:11px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;}
+.gft__add:disabled{opacity:.5;cursor:wait;}
+.gft__hint{font-size:12px;color:#555;margin:12px 0 0;min-height:16px;}
+@media (max-width:767px){.gft__preview{grid-template-columns:40% 1fr;gap:14px;}.gft__title{font-size:24px;}}
 </style>
 <script>
 (function(){
@@ -68,33 +90,54 @@
   var MIN = 12000;
   var fill = box.querySelector('[data-gift-fill]');
   var state = box.querySelector('[data-gift-state]');
+  var note = box.querySelector('[data-gift-note]');
+  var choose = box.querySelector('[data-gift-choose]');
   var hint = box.querySelector('[data-gift-hint]');
-  var pids = [].map.call(box.querySelectorAll('[data-gift-pid]'), function(b){ return +b.dataset.giftPid; });
+  var addBtn = box.querySelector('[data-gift-add]');
+  var img = box.querySelector('[data-gift-img]');
+  var nameEl = box.querySelector('[data-gift-name]');
+  var priceEl = box.querySelector('[data-gift-price]');
+  var colorEl = box.querySelector('[data-gift-color]');
+  var sws = [].slice.call(box.querySelectorAll('.gft__sw'));
+  var pids = sws.map(function(b){ return +b.dataset.giftPid; });
+  var current = null;
   var info = { left: MIN, has: false };
   function money(c){ return '€' + (c/100).toFixed(2).replace('.', ','); }
+  function pick(sw){
+    current = sw;
+    sws.forEach(function(x){ x.classList.toggle('is-on', x === sw); });
+    img.src = sw.dataset.img; img.alt = sw.dataset.name;
+    nameEl.textContent = sw.dataset.name; priceEl.textContent = sw.dataset.price; colorEl.textContent = sw.dataset.color;
+  }
+  function model(m){
+    box.querySelectorAll('[data-model]').forEach(function(b){ b.classList.toggle('is-on', b.dataset.model === m); });
+    box.querySelectorAll('[data-group]').forEach(function(g){ g.hidden = g.dataset.group !== m; });
+    var first = box.querySelector('[data-group="' + m + '"] .gft__sw');
+    if (first) pick(first);
+  }
+  box.querySelectorAll('[data-model]').forEach(function(b){ b.addEventListener('click', function(){ model(b.dataset.model); }); });
+  sws.forEach(function(sw){ sw.addEventListener('click', function(){ pick(sw); }); });
   function refresh(){
     return fetch('/cart.js', { credentials: 'same-origin' }).then(function(r){ return r.json(); }).then(function(c){
       var has = c.items.some(function(i){ return pids.indexOf(i.product_id) > -1 && i.final_line_price === 0; });
       var left = Math.max(0, MIN - c.total_price);
       info = { left: left, has: has };
       fill.style.width = Math.min(100, c.total_price / MIN * 100) + '%';
-      box.classList.toggle('is-ok', left === 0);
-      if (has) state.textContent = 'Votre pochette offerte est dans votre panier.';
-      else if (left > 0) state.textContent = c.total_price > 0 ? 'Plus que ' + money(left) + ' d\'achat pour recevoir votre pochette offerte.' : 'Votre panier est vide : dès 120 € d\'achat, une pochette vous est offerte.';
-      else state.textContent = 'C\'est gagné : choisissez votre pochette offerte ci-dessous.';
+      if (has) { state.textContent = 'Votre pochette offerte est dans votre panier.'; choose.hidden = true; note.hidden = true; }
+      else if (left > 0) { state.innerHTML = 'Plus que <b>' + money(left) + '</b> pour débloquer votre pochette offerte.'; choose.hidden = true; note.hidden = false; }
+      else { state.innerHTML = '<b>Pochette débloquée.</b> Choisissez votre modèle et votre coloris.'; choose.hidden = false; note.hidden = true; }
     }).catch(function(){});
   }
-  box.querySelectorAll('[data-gift-id]').forEach(function(b){
-    b.addEventListener('click', function(){
-      if (info.has) { hint.textContent = 'Une seule pochette offerte par commande.'; return; }
-      if (info.left > 0) { hint.textContent = 'Ajoutez encore ' + money(info.left) + ' d\'articles à votre panier pour en profiter.'; return; }
-      b.disabled = true; hint.textContent = 'Ajout de votre pochette…';
-      fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: [{ id: +b.dataset.giftId, quantity: 1 }] }) })
-        .then(function(r){ if (!r.ok) throw r; return r.json(); })
-        .then(function(){ hint.textContent = 'Votre pochette offerte a été ajoutée.'; refresh(); if (window.cdOpen) { try { window.cdOpen(); return; } catch(e){} } window.location.href = '/cart'; })
-        .catch(function(){ hint.textContent = 'Cette pochette n\'est plus disponible, choisissez-en une autre.'; })
-        .then(function(){ b.disabled = false; });
-    });
+  addBtn.addEventListener('click', function(){
+    if (!current) return;
+    if (info.has) { hint.textContent = 'Une seule pochette offerte par commande.'; return; }
+    if (info.left > 0) { hint.textContent = 'Ajoutez encore ' + money(info.left) + ' d\'achat pour débloquer votre pochette.'; return; }
+    addBtn.disabled = true; hint.textContent = '';
+    fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: [{ id: +current.dataset.giftId, quantity: 1 }] }) })
+      .then(function(r){ if (!r.ok) throw r; return r.json(); })
+      .then(function(){ refresh(); if (window.cdOpen) { try { window.cdOpen(); return; } catch(e){} } window.location.href = '/cart'; })
+      .catch(function(){ hint.textContent = 'Ce coloris n\'est plus disponible, choisissez-en un autre.'; })
+      .then(function(){ addBtn.disabled = false; });
   });
   if (window.fetch && !window.__giftFetch) {
     window.__giftFetch = true;
@@ -102,6 +145,7 @@
     window.fetch = function(u){ var p = f.apply(this, arguments); try { var s = String(u && u.url || u); if (/\/cart\/(add|change|update|clear)/.test(s)) p.then(function(){ setTimeout(refresh, 400); }); } catch(e){} return p; };
   }
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) refresh(); });
+  model('la-milo');
   refresh();
 })();
 </script>

@@ -1,4 +1,4 @@
-{%- comment -%} Message pochette offerte dès 120 € dans le panier (tiroir et page). Les boutons utilisent data-cd-add du panier. {%- endcomment -%}
+{%- comment -%} Pochette offerte dès 120 € dans le panier (tiroir et page). Le bouton utilise data-cd-add du panier. {%- endcomment -%}
 {%- liquid
   assign has_gift = false
   for item in cart.items
@@ -11,43 +11,80 @@
   if pct > 100
     assign pct = 100
   endif
-  assign gift_cols = 'la-milo,pochette-capri' | split: ','
 -%}
-<div class="cdg{% if left <= 0 %} is-ok{% endif %}">
+<div class="cdg">
   {%- if has_gift -%}
     <p class="cdg__txt">Votre pochette offerte est dans votre panier.</p>
   {%- elsif left > 0 -%}
-    <p class="cdg__txt">Plus que {{ left | money }} pour recevoir une pochette Milo ou Capri offerte.</p>
+    <p class="cdg__txt">Plus que <b>{{ left | money }}</b> pour débloquer votre pochette offerte.</p>
     <div class="cdg__bar"><span style="width:{{ pct }}%"></span></div>
   {%- else -%}
-    <p class="cdg__txt">Vous y avez droit : choisissez votre pochette offerte.</p>
-    <div class="cdg__list">
-      {%- for h in gift_cols -%}
-        {%- for p in collections[h].products -%}
-          {%- if p.available -%}
-            {%- assign im = p.featured_image -%}{%- for m in p.images -%}{%- if m.width == m.height -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
-            <div class="cdg__card">
-              <img src="{{ im | image_url: width: 160 }}" alt="{{ p.title | escape }}" width="64" height="80" loading="lazy">
-              <span class="cdg__name">{{ p.title }}</span>
-              <button type="button" class="cdg__add" data-cd-add="{{ p.first_available_variant.id }}">Choisir</button>
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
+    <p class="cdg__txt"><b>Pochette débloquée.</b> Choisissez votre modèle et votre coloris.</p>
+    <div class="cdg__models">
+      <button type="button" class="cdg__model is-on" data-cdg-model="la-milo">Milo</button>
+      <button type="button" class="cdg__model" data-cdg-model="pochette-capri">Capri</button>
+    </div>
+    {%- assign first_id = '' -%}{%- assign first_img = '' -%}{%- assign first_name = '' -%}
+    {%- assign gift_cols = 'la-milo,pochette-capri' | split: ',' -%}{%- for h in gift_cols -%}
+    <div class="cdg__sws" data-cdg-group="{{ h }}"{% unless forloop.first %} hidden{% endunless %}>
+      {%- for p in collections[h].products -%}
+        {%- if p.available -%}
+          {%- assign im = p.featured_image -%}
+          {%- for m in p.images -%}{%- if m.width == m.height -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
+          {%- assign color = p.title | remove: 'Pochette ' | remove: 'Milo ' | remove: 'Capri ' | strip -%}
+          {%- assign is_first = false -%}
+          {%- if first_id == '' -%}{%- assign first_id = p.first_available_variant.id -%}{%- assign first_img = im | image_url: width: 200 -%}{%- assign first_name = p.title -%}{%- assign is_first = true -%}{%- endif -%}
+          <button type="button" class="cdg__sw{% if is_first %} is-on{% endif %}" data-id="{{ p.first_available_variant.id }}" data-img="{{ im | image_url: width: 200 }}" data-name="{{ p.title | escape }}" title="{{ color | escape }}"><img src="{{ im | image_url: width: 60 }}" alt="{{ color | escape }}" width="26" height="26" loading="lazy"></button>
+        {%- endif -%}
       {%- endfor -%}
+    </div>
+    {%- endfor -%}
+    <div class="cdg__sel">
+      <img class="cdg__img" src="{{ first_img }}" alt="" width="56" height="70">
+      <span class="cdg__name">{{ first_name }}</span>
+      <button type="button" class="cdg__add" data-cd-add="{{ first_id }}">Ajouter</button>
     </div>
   {%- endif -%}
 </div>
 <style>
-.cdg{margin:0 0 14px;padding:12px 14px;border:1px solid #e6ddd3;border-radius:12px;background:#faf7f3;font-family:"Red Hat Text",var(--font-body),sans-serif;}
-.cdg.is-ok{border-color:#b33a18;}
-.cdg__txt{margin:0;font-size:12px;line-height:1.45;color:#000;}
-.cdg.is-ok .cdg__txt{color:#b33a18;font-weight:700;}
-.cdg__bar{height:5px;margin-top:9px;border-radius:5px;background:#ece5dd;overflow:hidden;}
-.cdg__bar span{display:block;height:100%;background:#b33a18;border-radius:5px;}
-.cdg__list{display:flex;gap:8px;overflow-x:auto;margin-top:10px;padding-bottom:2px;scrollbar-width:none;contain:inline-size;}
-.cdg__list::-webkit-scrollbar{display:none;}
-.cdg__card{flex:0 0 92px;display:flex;flex-direction:column;gap:5px;}
-.cdg__card img{display:block;width:92px;height:115px;object-fit:cover;border-radius:8px;background:#f3efe9;}
-.cdg__name{font-size:10px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.cdg__add{height:28px;border:0;border-radius:8px;background:#b33a18;color:#fff;font-size:10px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;}
+.cdg{margin:0 0 14px;padding:12px 0 14px;border-bottom:1px solid #e5e5e5;font-family:"Red Hat Text",var(--font-body),sans-serif;}
+.cdg__txt{margin:0;font-size:13px;line-height:1.45;color:#000;}
+.cdg__txt b{font-weight:400;font-family:"Newsreader",Georgia,serif;font-style:italic;font-size:16px;color:#b33a18;}
+.cdg__bar{height:1px;margin-top:10px;background:#e5e5e5;position:relative;}
+.cdg__bar span{position:absolute;left:0;top:-1px;height:3px;background:#000;}
+.cdg__models{display:flex;gap:18px;margin:12px 0 10px;}
+.cdg__model{background:none;border:0;padding:0 0 2px;font:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#999;cursor:pointer;border-bottom:1px solid transparent;}
+.cdg__model.is-on{color:#000;border-bottom-color:#000;}
+.cdg__sws{display:flex;flex-wrap:wrap;gap:7px;}
+.cdg__sws[hidden]{display:none;}
+.cdg__sw{width:30px;height:30px;border-radius:50%;padding:2px;border:1px solid #ddd;background:#fff;cursor:pointer;}
+.cdg__sw.is-on{border:2px solid #000;padding:1px;}
+.cdg__sw img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.cdg__sel{display:flex;align-items:center;gap:12px;margin-top:12px;}
+.cdg__img{width:56px;height:70px;object-fit:cover;background:#f2f2f2;}
+.cdg__name{flex:1;font-size:11px;text-transform:uppercase;}
+.cdg__add{height:34px;padding:0 16px;border:0;border-radius:14px;background:#000;color:#fff;font-size:10px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;}
 </style>
+<script>
+(function(){
+  if (window.__cdgBound) return; window.__cdgBound = true;
+  function pick(box, sw){
+    box.querySelectorAll('.cdg__sw').forEach(function(x){ x.classList.toggle('is-on', x === sw); });
+    var add = box.querySelector('.cdg__add'); if (add) add.setAttribute('data-cd-add', sw.dataset.id);
+    var im = box.querySelector('.cdg__img'); if (im) im.src = sw.dataset.img;
+    var nm = box.querySelector('.cdg__name'); if (nm) nm.textContent = sw.dataset.name;
+  }
+  document.addEventListener('click', function(e){
+    var sw = e.target.closest && e.target.closest('.cdg__sw');
+    if (sw) { e.preventDefault(); e.stopPropagation(); pick(sw.closest('.cdg'), sw); return; }
+    var md = e.target.closest && e.target.closest('[data-cdg-model]');
+    if (md) {
+      e.preventDefault(); e.stopPropagation();
+      var box = md.closest('.cdg'), m = md.getAttribute('data-cdg-model');
+      box.querySelectorAll('[data-cdg-model]').forEach(function(b){ b.classList.toggle('is-on', b === md); });
+      box.querySelectorAll('[data-cdg-group]').forEach(function(g){ g.hidden = g.getAttribute('data-cdg-group') !== m; });
+      var first = box.querySelector('[data-cdg-group="' + m + '"] .cdg__sw'); if (first) pick(box, first);
+    }
+  }, true);
+})();
+</script>
