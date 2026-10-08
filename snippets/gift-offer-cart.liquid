@@ -25,7 +25,7 @@
       {%- for h in gift_cols -%}
         {%- for p in collections[h].products -%}
           {%- if p.available -%}
-            {%- if p.images.size > 1 -%}{%- assign im = p.images[1] -%}{%- else -%}{%- assign im = p.featured_image -%}{%- endif -%}
+            {%- assign im = p.featured_image -%}{%- for m in p.images -%}{%- if m.width == m.height -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
             <div class="cdg__card">
               <img src="{{ im | image_url: width: 160 }}" alt="{{ p.title | escape }}" width="64" height="80" loading="lazy">
               <span class="cdg__name">{{ p.title }}</span>

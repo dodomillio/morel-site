@@ -11,9 +11,10 @@
 </script>
 {%- else -%}
 <div class="gft" id="pochette-offerte" data-gift>
-  <p class="gft__kicker">Offert dès 120 € d'achat</p>
-  <h3 class="gft__title">Une pochette<br><em>offerte.</em></h3>
-  <p class="gft__sub">Dès 120 € d'achat, choisissez une pochette Milo ou Capri&nbsp;: elle passe à 0 € dans votre panier.</p>
+  <div class="gft__head">
+    <h3 class="gft__title">Une pochette offerte</h3>
+    <p class="gft__sub">Dès 120 € d'achat, choisissez votre pochette Milo ou Capri. Elle passe à 0 € dans votre panier.</p>
+  </div>
   <div class="gft__bar"><span data-gift-fill></span></div>
   <p class="gft__state" data-gift-state>&nbsp;</p>
   <div class="gft__pick">
@@ -21,11 +22,13 @@
       {%- for p in collections[h].products -%}
         {%- if p.available -%}
           {%- assign v = p.first_available_variant -%}
-          {%- if p.images.size > 1 -%}{%- assign im = p.images[1] -%}{%- else -%}{%- assign im = p.featured_image -%}{%- endif -%}
+          {%- assign im = p.featured_image -%}
+          {%- for m in p.images -%}{%- if m.width == m.height -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
           <button type="button" class="gft__item" data-gift-id="{{ v.id }}" data-gift-pid="{{ p.id }}">
-            <span class="gft__thumb"><img src="{{ im | image_url: width: 300 }}" alt="{{ p.title | escape }}" width="150" height="188" loading="lazy"></span>
+            <span class="gft__thumb"><img src="{{ im | image_url: width: 400 }}" alt="{{ p.title | escape }}" width="200" height="250" loading="lazy"></span>
             <span class="gft__name">{{ p.title }}</span>
-            <span class="gft__p"><s>{{ v.price | money }}</s> Offerte</span>
+            <span class="gft__p"><s>{{ v.price | money }}</s><em>offerte</em></span>
+            <span class="gft__cta">Choisir</span>
           </button>
         {%- endif -%}
       {%- endfor -%}
@@ -35,27 +38,27 @@
 </div>
 <style>
 .mp__grid>*{min-width:0;}
-.gft{min-width:0;max-width:100%;margin:36px 0 0;padding:26px 20px 22px;border:1.5px solid #b33a18;border-radius:18px;color:#000;font-family:var(--mp-sans,inherit);scroll-margin-top:90px;}
-.gft__kicker{margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#b33a18;}
-.gft__title{font-family:var(--mp-serif,Georgia,serif);font-weight:200;font-size:36px;line-height:1.02;letter-spacing:-.02em;margin:0 0 12px;text-transform:none;font-stretch:normal;}
-.gft__title em{font-style:italic;color:#b33a18;}
-.gft__sub{font-size:13px;line-height:1.55;color:#5c5650;margin:0 0 20px;}
-.gft__bar{height:6px;border-radius:6px;background:#efe9e2;overflow:hidden;}
-.gft__bar span{display:block;height:100%;width:0;background:#b33a18;border-radius:6px;transition:width .5s ease;}
-.gft__state{font-size:13px;margin:10px 0 20px;min-height:18px;}
-.gft.is-ok .gft__state{color:#b33a18;font-weight:700;}
-.gft__pick{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;contain:inline-size;padding-bottom:4px;}
+.gft{min-width:0;max-width:100%;margin:32px 0 0;padding:28px 0 0;border-top:1px solid #e5e5e5;color:#000;font-family:var(--mp-sans,inherit);scroll-margin-top:90px;}
+.gft__title{font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-weight:300;font-size:26px;line-height:1.15;margin:0 0 8px;text-transform:none;letter-spacing:0;font-stretch:normal;}
+.gft__sub{font-size:13px;line-height:1.55;color:#555;margin:0 0 22px;}
+.gft__bar{height:1px;background:#e5e5e5;position:relative;}
+.gft__bar span{position:absolute;left:0;top:-1px;height:3px;width:0;background:#000;transition:width .6s ease;}
+.gft__state{font-size:12px;letter-spacing:.02em;margin:10px 0 22px;min-height:16px;color:#444;}
+.gft.is-ok .gft__state{color:#000;}
+.gft__pick{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;contain:inline-size;padding-bottom:4px;}
 .gft__pick::-webkit-scrollbar{display:none;}
-.gft__item{flex:0 0 calc((100% - 20px) / 3);width:calc((100% - 20px) / 3);min-width:0;scroll-snap-align:start;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#000;font:inherit;}
-.gft__thumb{display:block;border-radius:10px;overflow:hidden;margin-bottom:8px;background:#f3efe9;}
-.gft__thumb img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;transition:transform .3s;}
-.gft__item:hover .gft__thumb img{transform:scale(1.03);}
-.gft__name{display:block;font-size:11px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.gft__p{display:block;font-size:11px;margin-top:2px;color:#b33a18;font-weight:700;}
-.gft__p s{color:#8a8178;font-weight:400;margin-right:4px;}
+.gft__item{flex:0 0 calc((100% - 24px) / 3);width:calc((100% - 24px) / 3);min-width:0;scroll-snap-align:start;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#000;font:inherit;}
+.gft__thumb{display:block;margin-bottom:10px;background:#f2f2f2;overflow:hidden;}
+.gft__thumb img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;transition:opacity .25s;}
+.gft__item:hover .gft__thumb img{opacity:.85;}
+.gft__name{display:block;font-size:11px;line-height:1.4;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gft__p{display:flex;gap:6px;align-items:baseline;font-size:11px;margin-top:2px;}
+.gft__p s{color:#999;}
+.gft__p em{font-family:var(--mp-serif,"Newsreader",Georgia,serif);font-style:italic;font-size:14px;color:#b33a18;}
+.gft__cta{display:inline-block;margin-top:8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid currentColor;padding-bottom:1px;}
 .gft__item[disabled]{cursor:wait;opacity:.6;}
-.gft__hint{font-size:12px;color:#5c5650;margin:12px 0 0;min-height:16px;text-align:center;}
-@media (max-width:767px){.gft__title{font-size:30px;}.gft__item{flex-basis:38%;width:38%;}.gft{padding:22px 16px 18px;}}
+.gft__hint{font-size:12px;color:#555;margin:14px 0 0;min-height:16px;}
+@media (max-width:767px){.gft__item{flex-basis:40%;width:40%;}.gft__title{font-size:24px;}}
 </style>
 <script>
 (function(){
