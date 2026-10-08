@@ -43,17 +43,74 @@
         "banner-1"
       ],
       "settings": {
-        "collection": "les-syenna",
-        "products_to_show": 4,
-        "heading": "Petits accessoires",
-        "button_label": "Découvrir",
+        "second_image": true,
         "products": [
           "pochette-2",
           "pochette-1",
           "pochette-syenna-gold",
           "pochette"
         ],
-        "second_image": true
+        "collection": "les-syenna",
+        "products_to_show": 4,
+        "heading": "Petits accessoires",
+        "button_label": "Découvrir"
+      }
+    },
+    "featured-2": {
+      "type": "featured-products-banner",
+      "blocks": {
+        "banner-1": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/6337FE6F-10B3-4A2D-A8B2-82856BAE45F0.jpg",
+            "heading": "Le cabas Riviera",
+            "button_label": "Découvrir",
+            "url": "shopify://collections/cabas-riviera"
+          }
+        }
+      },
+      "block_order": [
+        "banner-1"
+      ],
+      "settings": {
+        "second_image": false,
+        "products": [
+          "cabas-riviera-royal-sable",
+          "cabas-crochet-sable",
+          "cabas-riviera-brute",
+          "riviera-emeraude-sable"
+        ],
+        "collection": "cabas-riviera",
+        "products_to_show": 4,
+        "heading": "LES INTEMPORELS",
+        "button_label": "découvrir"
+      }
+    },
+    "ticker-1": {
+      "type": "product-ticker",
+      "settings": {
+        "banner_image": "shopify://shop_images/Capture_d_ecran_2026-08-27_a_09.25.52.png",
+        "banner_heading": "Édition limitée",
+        "banner_url": "shopify://collections/cabas",
+        "collection": "accessoires-sac-fait-main",
+        "heading": "Nos pompons"
+      }
+    },
+    "reviews-1": {
+      "type": "apps",
+      "blocks": {
+        "trustoo_carousel": {
+          "type": "shopify://apps/cwilltrustoo-reviews/blocks/text-carousel/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "trustoo_carousel"
+      ],
+      "settings": {
+        "heading": "",
+        "pad_top": 56,
+        "pad_bottom": 56
       }
     },
     "hero-banners-1": {
@@ -116,71 +173,13 @@
       ],
       "settings": {}
     },
-    "ticker-1": {
-      "type": "product-ticker",
-      "settings": {
-        "banner_heading": "Édition limitée",
-        "banner_url": "shopify://collections/cabas",
-        "collection": "accessoires-sac-fait-main",
-        "heading": "Nos pompons",
-        "banner_image": "shopify://shop_images/A4B7521C-81D3-4CB0-B723-AE8D21ECE312_2.jpg",
-        "banner_subheading": "pièces en petite série"
-      }
-    },
-    "featured-2": {
-      "type": "featured-products-banner",
-      "blocks": {
-        "banner-1": {
-          "type": "banner",
-          "settings": {
-            "heading": "Le cabas Riviera",
-            "button_label": "Découvrir",
-            "url": "shopify://collections/cabas-riviera",
-            "image": "shopify://shop_images/6337FE6F-10B3-4A2D-A8B2-82856BAE45F0.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "banner-1"
-      ],
-      "settings": {
-        "collection": "cabas-riviera",
-        "products_to_show": 4,
-        "heading": "LES INTEMPORELS",
-        "button_label": "découvrir",
-        "second_image": false,
-        "products": [
-          "cabas-riviera-royal-sable",
-          "cabas-crochet-sable",
-          "cabas-riviera-brute",
-          "riviera-emeraude-sable"
-        ]
-      }
-    },
     "full-width-1": {
       "type": "full-width-banner",
       "settings": {
+        "image": "shopify://shop_images/92632824-7EAC-41EE-BE1D-1B2F7AF9D407.jpg",
         "heading": "Tressé à la main",
         "description": "Chaque pièce est façonnée à la main au Maroc. Plus de 3 heures de travail pour un seul sac.",
-        "url": "shopify://pages/a-propos-de-nous",
-        "image": "shopify://shop_images/92632824-7EAC-41EE-BE1D-1B2F7AF9D407.jpg"
-      }
-    },
-    "reviews-1": {
-      "type": "apps",
-      "blocks": {
-        "trustoo_carousel": {
-          "type": "shopify://apps/cwilltrustoo-reviews/blocks/text-carousel/c8f15077-6475-4e86-ad06-b66038d5ba2c",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "trustoo_carousel"
-      ],
-      "settings": {
-        "heading": "",
-        "pad_top": 56,
-        "pad_bottom": 56
+        "url": "shopify://pages/a-propos-de-nous"
       }
     }
   },
