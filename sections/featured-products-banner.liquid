@@ -4,20 +4,20 @@
       {%- assign coll = section.settings.collection -%}
       {%- if section.settings.products != blank -%}
         {%- for product in section.settings.products limit: section.settings.products_to_show -%}
-          {% render 'product-card', product: product, second_image: true %}
+          {% render 'product-card', product: product, second_image: section.settings.second_image %}
         {%- endfor -%}
       {%- elsif coll != blank -%}
         {%- comment -%} Produits en stock d'abord, épuisés ensuite seulement s'il reste de la place {%- endcomment -%}
         {%- assign shown = 0 -%}
         {%- for product in coll.products -%}
           {%- if product.available and shown < section.settings.products_to_show -%}
-            {% render 'product-card', product: product, second_image: true %}
+            {% render 'product-card', product: product, second_image: section.settings.second_image %}
             {%- assign shown = shown | plus: 1 -%}
           {%- endif -%}
         {%- endfor -%}
         {%- for product in coll.products -%}
           {%- unless product.available -%}{%- if shown < section.settings.products_to_show -%}
-            {% render 'product-card', product: product, second_image: true %}
+            {% render 'product-card', product: product, second_image: section.settings.second_image %}
             {%- assign shown = shown | plus: 1 -%}
           {%- endif -%}{%- endunless -%}
         {%- endfor -%}
@@ -56,6 +56,7 @@
   "name": "Produits + bannière",
   "max_blocks": 1,
   "settings": [
+    { "type": "checkbox", "id": "second_image", "label": "Afficher la 2e photo des produits", "default": true },
     { "type": "product_list", "id": "products", "label": "Produits choisis (optionnel, remplace la collection)", "limit": 12 },
     { "type": "collection", "id": "collection", "label": "Collection" },
     { "type": "range", "id": "products_to_show", "label": "Nombre de produits", "min": 2, "max": 4, "step": 1, "default": 4 },
