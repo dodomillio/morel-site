@@ -30,7 +30,7 @@
       {%- for p in collections[h].products -%}
         {%- if p.available -%}
           {%- assign im = p.featured_image -%}
-          {%- for m in p.images -%}{%- if m.width == m.height -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
+          {%- for m in p.images -%}{%- assign r = m.width | times: 100 | divided_by: m.height -%}{%- if r >= 95 and r <= 105 and m.width > 1100 -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
           {%- assign color = p.title | remove: 'Pochette ' | remove: 'Milo ' | remove: 'Capri ' | strip -%}
           {%- assign is_first = false -%}
           {%- if first_id == '' -%}{%- assign first_id = p.first_available_variant.id -%}{%- assign first_img = im | image_url: width: 200 -%}{%- assign first_name = p.title -%}{%- assign is_first = true -%}{%- endif -%}

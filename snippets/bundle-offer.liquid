@@ -24,7 +24,7 @@
               {%- if p.available -%}
                 {%- assign v = p.first_available_variant -%}
                 {%- assign im = p.featured_image -%}
-                {%- for m in p.images -%}{%- if m.width == m.height -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
+                {%- for m in p.images -%}{%- assign r = m.width | times: 100 | divided_by: m.height -%}{%- if r >= 95 and r <= 105 and m.width > 1100 -%}{%- assign im = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
                 {%- assign color = p.title | remove: 'Pochette ' | remove: 'Milo ' | remove: 'Capri ' | strip -%}
                 <button type="button" class="gft__sw" data-gift-id="{{ v.id }}" data-gift-pid="{{ p.id }}" data-img="{{ im | image_url: width: 500 }}" data-name="{{ p.title | escape }}" data-color="{{ color | escape }}" data-price="{{ v.price | money }}" title="{{ color | escape }}" aria-label="{{ p.title | escape }}">
                   <img src="{{ im | image_url: width: 80 }}" alt="" width="30" height="30" loading="lazy">
