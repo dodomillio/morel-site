@@ -120,9 +120,10 @@
       "type": "product-ticker",
       "settings": {
         "banner_heading": "Édition limitée",
-        "banner_url": "",
+        "banner_url": "shopify://collections/cabas",
         "collection": "accessoires-sac-fait-main",
-        "heading": "Réassort"
+        "heading": "Réassort",
+        "banner_image": "shopify://shop_images/A4B7521C-81D3-4CB0-B723-AE8D21ECE312_2.jpg"
       }
     },
     "featured-2": {
@@ -131,9 +132,10 @@
         "banner-1": {
           "type": "banner",
           "settings": {
-            "heading": "Trousses de toilette",
+            "heading": "Le cabas Riviera",
             "button_label": "Découvrir",
-            "url": ""
+            "url": "shopify://collections/cabas-riviera",
+            "image": "shopify://shop_images/6337FE6F-10B3-4A2D-A8B2-82856BAE45F0.jpg"
           }
         }
       },
@@ -157,9 +159,10 @@
     "full-width-1": {
       "type": "full-width-banner",
       "settings": {
-        "heading": "Notre boutique",
-        "description": "10 place de l'Exemple, 75000 Paris",
-        "url": ""
+        "heading": "Tressé à la main",
+        "description": "Chaque pièce est façonnée à la main au Maroc. Plus de 3 heures de travail pour un seul sac.",
+        "url": "shopify://pages/a-propos-de-nous",
+        "image": "shopify://shop_images/92632824-7EAC-41EE-BE1D-1B2F7AF9D407.jpg"
       }
     }
   },
