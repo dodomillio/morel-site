@@ -37,14 +37,7 @@
           </div>
           {%- unless item.product.has_only_default_variant -%}<p class="cd__variant">{{ item.variant.title }}</p>{%- endunless -%}
           {%- for p in item.properties -%}{%- assign f = p.first | slice: 0 -%}{%- if p.last != blank and f != '_' -%}<p class="cd__variant">{{ p.first }} : {{ p.last }}</p>{%- endif -%}{%- endfor -%}
-          {%- assign shown = '' -%}
-          {%- for a in item.discount_allocations -%}
-            {%- assign t = a.discount_application.title -%}
-            {%- unless shown contains t -%}
-            <p class="cd__disc"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6.6.5H11a.5.5 0 0 1 .5.5v4.4a1 1 0 0 1-.3.7l-5.1 5.1a1 1 0 0 1-1.4 0L.8 7.3a1 1 0 0 1 0-1.4L5.9.8a1 1 0 0 1 .7-.3zM9 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg><span>{{ t }}</span></p>
-            {%- assign shown = shown | append: t | append: '|' -%}
-            {%- endunless -%}
-          {%- endfor -%}
+          
           <div class="cd__actions">
             <button type="button" class="cd__del" data-cd-qty="0" aria-label="Supprimer {{ item.product.title | escape }}"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M7 5V3.5h4V5M4.5 5l.8 10h7.4l.8-10M7.5 8v4.5M10.5 8v4.5"/></svg></button>
             <div class="cd__qty">
