@@ -14,9 +14,29 @@
       "settings": {
         "short_text": ""
       }
+    },
+    "reviews-1": {
+      "type": "apps",
+      "blocks": {
+        "trustoo_widget": {
+          "type": "shopify://apps/cwilltrustoo-reviews/blocks/review-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "trustoo_widget"
+      ],
+      "settings": {
+        "heading": "",
+        "pad_top": 40,
+        "pad_bottom": 56
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "reviews-1"
   ]
 }

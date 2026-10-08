@@ -164,6 +164,23 @@
         "url": "shopify://pages/a-propos-de-nous",
         "image": "shopify://shop_images/92632824-7EAC-41EE-BE1D-1B2F7AF9D407.jpg"
       }
+    },
+    "reviews-1": {
+      "type": "apps",
+      "blocks": {
+        "trustoo_carousel": {
+          "type": "shopify://apps/cwilltrustoo-reviews/blocks/text-carousel/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "trustoo_carousel"
+      ],
+      "settings": {
+        "heading": "Vos avis",
+        "pad_top": 56,
+        "pad_bottom": 56
+      }
     }
   },
   "order": [
@@ -171,6 +188,7 @@
     "featured-1",
     "featured-2",
     "ticker-1",
+    "reviews-1",
     "hero-banners-1",
     "hero-banners-2",
     "full-width-1"
