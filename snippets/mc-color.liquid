@@ -1,0 +1,21 @@
+{%- comment -%} Couleur d'une pastille à partir du nom du produit {%- endcomment -%}
+{%- liquid
+  assign a = ''
+  assign b = ''
+  assign map = 'royal:#2340b8|sable:#d8c3a0|midnight:#1e2445|brute:#8a5a2e|emeraude:#1f7a50|émeraude:#1f7a50|orange:#e2541f|obsidian:#1b1b1b|obsidi:#1b1b1b|prune:#5b1f2f|gold:#c9a646|nude:#d9b49c|dune:#c6a06f|ivory:#efe8d8|amber:#c47a2c|olive:#6d6b2f|candy:#f08bb0|lagoon:#2aa3a8|solar:#f2c230|coral:#f07160|mocha:#6f4e37|rose:#e9a9b8|pétale:#e9a9b8|petale:#e9a9b8|noir:#111111|black:#111111|blanc:#f4f1ea|lin:#d9cdb5|marron:#6b4128|bordeaux:#6a1f2a|vert:#2f6b3e|bleu:#2f4f9a|rouge:#c22a22|jaune:#f0c93a|écru:#efe6d2|ecru:#efe6d2|chocolat:#4a2c1d|caramel:#b27a3e' | split: '|'
+  for m in map
+    assign kv = m | split: ':'
+    if n contains kv[0]
+      if a == ''
+        assign a = kv[1]
+      elsif b == '' and kv[1] != a
+        assign b = kv[1]
+      endif
+    endif
+  endfor
+  if b != ''
+    echo 'linear-gradient(135deg,' | append: a | append: ' 50%,' | append: b | append: ' 50%)'
+  else
+    echo a
+  endif
+-%}

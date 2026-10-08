@@ -1,167 +1,162 @@
 {%- liquid
-  assign cab_h = 'cabas,cabas-riviera,le-solen,le-nomad'
-  assign poch_h = 'nos-pochettes,la-milo,pochette-capri,les-syenna,pochette-syenna-1,pochette-capri-1'
-  assign cab_list = cab_h | split: ','
-  assign poch_list = poch_h | split: ','
-  assign pills = ''
-  assign pill_all = ''
-  if cab_list contains collection.handle
-    assign pills = 'cabas-riviera:Riviera,le-solen:Solen,le-nomad:Nomad' | split: ','
-    assign pill_all = 'cabas'
-    assign pill_all_label = 'Tous les cabas'
-  elsif poch_list contains collection.handle
-    assign pills = 'la-milo:Milo,pochette-capri:Capri,les-syenna:Syenna' | split: ','
-    assign pill_all = 'nos-pochettes'
-    assign pill_all_label = 'Toutes les pochettes'
-  endif
+  assign model_handles = 'cabas-riviera,le-solen,le-nomad,la-milo,pochette-capri,les-syenna' | split: ','
+  assign total = collection.products_count
 -%}
-<section class="collection-page cp">
-  <div class="cp-head">
-    <a class="cp-head__brand" href="{{ routes.root_url }}" aria-label="{{ shop.name }}"><span class="cp-head__brand-v">MORËL</span><span class="cp-head__brand-h">PARIS</span></a>
-    <div class="cp-head__text">
-      <h1 class="cp-head__title">{{ collection.title }}</h1>
-      {%- if collection.description != blank -%}
-        <div class="collection-page__description cp-head__desc">
-          <div class="collection-page__description-excerpt">{{ collection.description | strip_html | truncatewords: 40 }}</div>
-          <div class="collection-page__description-full" hidden>{{ collection.description }}</div>
-          <button class="collection-page__description-toggle cp-head__more" type="button" data-description-toggle>Plus</button>
-        </div>
-      {%- endif -%}
-      <nav class="breadcrumbs cp-head__crumbs">
-        <a class="breadcrumbs__link" href="{{ routes.root_url }}">Accueil</a>
-        <span>&gt;</span>
-        <span class="breadcrumbs__current-page">{{ collection.title }}</span>
-      </nav>
-    </div>
-  </div>
-
-  <div class="cp-bar">
-    <div class="cp-bar__pills">
-      {%- if pill_all != '' -%}
-        <a class="cp-pill{% if collection.handle == pill_all %} is-active{% endif %}" href="/collections/{{ pill_all }}">{{ pill_all_label }}</a>
-        {%- for p in pills -%}
-          {%- assign pp = p | split: ':' -%}
-          <a class="cp-pill{% if collection.handle == pp[0] %} is-active{% endif %}" href="/collections/{{ pp[0] }}">{{ pp[1] }}</a>
-        {%- endfor -%}
-      {%- elsif section.settings.related_collections.count > 0 -%}
-        <a class="cp-pill is-active" href="{{ collection.url }}">{{ collection.title }}</a>
-        {%- for related in section.settings.related_collections -%}
-          <a class="cp-pill" href="{{ related.url }}">{{ related.title }}</a>
-        {%- endfor -%}
-      {%- endif -%}
-    </div>
-    <button class="cp-bar__filter collection-page__filter-toggle" type="button" data-filter-toggle>Filtrer et trier</button>
-  </div>
-
-  <form class="filter-and-sort" action="{{ collection.url }}" method="get" data-filter-form>
-    <div class="filter-and-sort__group">
-      <div class="filter-and-sort__heading">Trier par</div>
-      <ul class="filter-and-sort__list">
-        {%- for option in collection.sort_options -%}
-          <li>
-            <label class="filter-and-sort__label">
-              <input class="filter-and-sort__input" type="radio" name="sort_by" value="{{ option.value }}" {% if option.value == collection.sort_by %}checked{% endif %}>
-              <span>{{ option.name }}</span>
-            </label>
-          </li>
-        {%- endfor -%}
-      </ul>
-    </div>
-
-    {%- for filter in collection.filters -%}
-      <div class="filter-and-sort__group">
-        <div class="filter-and-sort__heading">{{ filter.label }}</div>
-        <ul class="filter-and-sort__list">
-          {%- for value in filter.values -%}
-            <li>
-              <label class="filter-and-sort__label">
-                <input
-                  class="filter-and-sort__input"
-                  type="checkbox"
-                  name="{{ value.param_name }}"
-                  value="{{ value.value }}"
-                  {% if value.active %}checked{% endif %}
-                  {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                >
-                <span>{{ value.label }} ({{ value.count }})</span>
-              </label>
-            </li>
+<section class="mc" data-mc>
+  <div class="mc-bar">
+    <form class="mc-bar__filters" action="{{ collection.url }}" method="get" data-mc-form>
+      {%- if collection.sort_by != blank -%}<input type="hidden" name="sort_by" value="{{ collection.sort_by }}">{%- endif -%}
+      {%- for filter in collection.filters -%}
+        {%- assign flabel = filter.label -%}
+        {%- if flabel == 'Availability' -%}{%- assign flabel = 'Disponibilité' -%}{%- elsif flabel == 'Price' -%}{%- assign flabel = 'Prix' -%}{%- endif -%}
+        <details class="mc-dd">
+          <summary class="mc-dd__btn">{{ flabel }}<svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></summary>
+          <div class="mc-dd__panel">
+            {%- if filter.type == 'price_range' -%}
+              <div class="mc-price">
+                <label>De<input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '.' }}" placeholder="0" min="0"></label>
+                <label>À<input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '.' }}" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '.' }}" min="0"></label>
+              </div>
+              <button class="mc-dd__apply" type="submit">Appliquer</button>
+            {%- else -%}
+              {%- for value in filter.values -%}
+                {%- assign vlabel = value.label -%}
+                {%- if vlabel == 'In stock' -%}{%- assign vlabel = 'En stock' -%}{%- elsif vlabel == 'Out of stock' -%}{%- assign vlabel = 'Épuisé' -%}{%- endif -%}
+                <label class="mc-check"><input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %} data-mc-auto><span>{{ vlabel }} ({{ value.count }})</span></label>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        </details>
+      {%- endfor -%}
+    </form>
+    <div class="mc-bar__right">
+      <span class="mc-count">{{ total }} article{% if total > 1 %}s{% endif %}</span>
+      <details class="mc-dd mc-dd--right">
+        <summary class="mc-dd__btn">Trier<svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></summary>
+        <div class="mc-dd__panel">
+          {%- for option in collection.sort_options -%}
+            <a class="mc-sort{% if option.value == collection.sort_by %} is-active{% endif %}" href="{{ collection.url }}?sort_by={{ option.value }}">{{ option.name }}</a>
           {%- endfor -%}
-        </ul>
+        </div>
+      </details>
+      <div class="mc-view" role="group" aria-label="Affichage">
+        <button type="button" class="mc-view__btn is-active" data-mc-cols="3" aria-label="3 colonnes"><svg width="14" height="14" viewBox="0 0 14 14"><rect x="0" y="0" width="6" height="6"/><rect x="8" y="0" width="6" height="6"/><rect x="0" y="8" width="6" height="6"/><rect x="8" y="8" width="6" height="6"/></svg></button>
+        <button type="button" class="mc-view__btn" data-mc-cols="4" aria-label="4 colonnes"><svg width="14" height="14" viewBox="0 0 14 14"><rect x="0" y="0" width="3.3" height="3.3"/><rect x="5.3" y="0" width="3.3" height="3.3"/><rect x="10.6" y="0" width="3.3" height="3.3"/><rect x="0" y="5.3" width="3.3" height="3.3"/><rect x="5.3" y="5.3" width="3.3" height="3.3"/><rect x="10.6" y="5.3" width="3.3" height="3.3"/><rect x="0" y="10.6" width="3.3" height="3.3"/><rect x="5.3" y="10.6" width="3.3" height="3.3"/><rect x="10.6" y="10.6" width="3.3" height="3.3"/></svg></button>
       </div>
-    {%- endfor -%}
-
-    <div class="filter-and-sort__buttons">
-      <a class="btn btn--bordered" href="{{ collection.url }}">Effacer les filtres</a>
-      <button class="btn btn--primary" type="submit">Appliquer les filtres</button>
     </div>
-  </form>
+  </div>
 
   {%- paginate collection.products by 48 -%}
-    <div class="collection-page__grid cp-grid">
-      {%- for product in collection.products -%}
-        {%- if product.available -%}{% render 'product-card', product: product %}{%- endif -%}
+    <ul class="mc-grid" data-mc-grid>
+      {%- for pass in (1..2) -%}
+        {%- for product in collection.products -%}
+          {%- if pass == 1 and product.available == false -%}{%- continue -%}{%- endif -%}
+          {%- if pass == 2 and product.available -%}{%- continue -%}{%- endif -%}
+          <li class="mc-card">
+            <a class="mc-card__media" href="{{ product.url }}">
+              {%- unless product.available -%}<span class="mc-card__badge">Épuisé</span>{%- endunless -%}
+              {%- if product.featured_image -%}
+                <img src="{{ product.featured_image | image_url: width: 900 }}" srcset="{{ product.featured_image | image_url: width: 500 }} 500w, {{ product.featured_image | image_url: width: 900 }} 900w" sizes="(max-width: 767px) 50vw, 33vw" alt="{{ product.title | escape }}" loading="lazy" width="900" height="{{ 900 | divided_by: product.featured_image.aspect_ratio | round }}">
+              {%- endif -%}
+            </a>
+            <button class="mc-card__fav" type="button" aria-label="Ajouter aux favoris" aria-pressed="false" data-fav="{{ product.handle }}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.1A4.2 4.2 0 0 1 12 7.6a4.2 4.2 0 0 1 7.5 2.8c0 5.5-7.5 10.1-7.5 10.1z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+            <a class="mc-card__info" href="{{ product.url }}">
+              <span class="mc-card__title">{{ product.title }}</span>
+              <span class="mc-card__price">{{ product.price | money }}</span>
+            </a>
+            {%- assign model = nil -%}
+            {%- for c in product.collections -%}{%- if model_handles contains c.handle -%}{%- assign model = c -%}{%- break -%}{%- endif -%}{%- endfor -%}
+            {%- if model and model.products_count > 1 -%}
+              <div class="mc-sw">
+                {%- for sib in model.products limit: 12 -%}
+                  {%- assign n = sib.title | downcase -%}
+                  {%- capture col -%}{%- render 'mc-color', n: n -%}{%- endcapture -%}
+                  {%- assign col = col | strip -%}
+                  <a class="mc-sw__dot{% if sib.id == product.id %} is-current{% endif %}" href="{{ sib.url }}" title="{{ sib.title | escape }}" style="{% if col != blank %}background:{{ col }};{% elsif sib.featured_image %}background-image:url({{ sib.featured_image | image_url: width: 60 }});{% endif %}"></a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
       {%- endfor -%}
-      {%- for product in collection.products -%}
-        {%- unless product.available -%}{% render 'product-card', product: product %}{%- endunless -%}
-      {%- endfor -%}
-      {%- if collection.products.size == 0 -%}
-        <p class="collection-page__empty">Aucun produit dans cette collection pour le moment.</p>
-      {%- endif -%}
-    </div>
-
+    </ul>
+    {%- if collection.products.size == 0 -%}<p class="mc-empty">Aucun produit pour le moment.</p>{%- endif -%}
     {%- if paginate.pages > 1 -%}
-      <nav class="collection-page__pagination">
-        {%- if paginate.next -%}
-          <a class="btn btn--primary collection-page__load-more" href="{{ paginate.next.url }}">Voir plus</a>
-        {%- endif -%}
-        <div class="collection-page__pagination-links">
-          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; Précédent</a>{%- endif -%}
-          {%- for part in paginate.parts -%}
-            {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}
-          {%- endfor -%}
-          {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Suivant &rarr;</a>{%- endif -%}
-        </div>
+      <nav class="mc-pages">
+        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr;</a>{%- endif -%}
+        {%- for part in paginate.parts -%}{%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}{%- endfor -%}
+        {%- if paginate.next -%}<a href="{{ paginate.next.url }}">&rarr;</a>{%- endif -%}
       </nav>
     {%- endif -%}
   {%- endpaginate -%}
 </section>
 
-
 <style>
-.cp{padding:0 !important;max-width:none !important;}
-.cp-head{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:28px var(--gutter,20px) 28px;align-items:start;}
-.cp-head__brand{display:flex;align-items:flex-start;gap:6px;color:#111;text-decoration:none;font-family:var(--font-heading);font-stretch:125%;font-weight:800;line-height:.9;}
-.cp-head__brand-v{writing-mode:vertical-rl;transform:rotate(180deg);font-size:clamp(30px,2.8vw,42px);letter-spacing:.02em;}
-.cp-head__brand-h{font-size:clamp(22px,2vw,30px);letter-spacing:.02em;}
-.cp-head__text{max-width:520px;padding-top:6px;}
-.cp-head__title{font-family:var(--font-heading);font-stretch:125%;font-weight:800;text-transform:uppercase;letter-spacing:var(--ls,0);font-size:clamp(30px,3vw,44px);line-height:1;margin:0 0 18px;text-align:left;}
-.cp-head__desc{font-size:13px;line-height:1.45;margin:0 0 6px;text-align:left;}
-.cp-head__more{background:none;border:0;padding:0;margin-top:4px;font-size:12px;text-transform:uppercase;text-decoration:underline;letter-spacing:var(--ls,0);cursor:pointer;color:#111;}
-.cp-head__crumbs{margin-top:10px;font-size:12px;justify-content:flex-start;}
-.cp-bar{display:flex;align-items:center;gap:12px;padding:0 var(--gutter,20px) 16px;}
-.cp-bar__pills{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;}
-.cp-bar__pills::-webkit-scrollbar{display:none;}
-.cp-pill{flex:none;padding:9px 14px;background:#f1eeea;color:#111;font-size:12px;text-transform:uppercase;letter-spacing:var(--ls,.4px);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s;}
-.cp-pill:hover{background:#e4dfd8;}
-.cp-pill.is-active{background:#5b2a17;color:#fff;}
-.cp-bar__filter{flex:none;margin-left:auto;padding:10px 16px;background:#5b2a17;color:#fff;border:0;font-size:12px;text-transform:uppercase;letter-spacing:var(--ls,.4px);cursor:pointer;}
-.cp-grid{display:grid !important;grid-template-columns:repeat(4,minmax(0,1fr)) !important;gap:1px !important;background:#e6e1da;border-top:1px solid #e6e1da;border-bottom:1px solid #e6e1da;padding:0 !important;margin:0 !important;}
-.cp-grid > .product-card{background:#fff;display:flex;flex-direction:column;position:relative;min-width:0;}
-.cp-grid .product-card__image{width:100%;aspect-ratio:4/5;object-fit:cover;background:#f1eeea;display:block;margin:0;border-radius:0;}
-.cp-grid .product-card__title{display:block;padding:12px 16px 0;font-size:13px;line-height:1.3;}
-.cp-grid .product-card__price{display:block;padding:2px 16px 14px;font-size:13px;}
-.cp-grid .product-card__badge,.cp-grid [class*="badge"]{background:#fff;color:#111;border-radius:0;font-size:11px;padding:6px 10px;}
+.mc{padding:0 var(--gutter,20px) 56px;}
+.mc-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 18px;font-size:12px;text-transform:uppercase;letter-spacing:var(--ls,.4px);}
+.mc-bar__filters,.mc-bar__right{display:flex;align-items:center;gap:22px;}
+.mc-dd{position:relative;}
+.mc-dd__btn{list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none;}
+.mc-dd__btn::-webkit-details-marker{display:none;}
+.mc-dd[open] .mc-dd__btn svg{transform:rotate(180deg);}
+.mc-dd__panel{position:absolute;top:calc(100% + 10px);left:0;z-index:20;min-width:200px;background:#fff;border:1px solid #e6e1da;padding:14px 16px;display:flex;flex-direction:column;gap:10px;text-transform:none;letter-spacing:0;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.06);}
+.mc-dd--right .mc-dd__panel{left:auto;right:0;}
+.mc-check{display:flex;gap:8px;align-items:center;cursor:pointer;}
+.mc-price{display:flex;gap:10px;}
+.mc-price label{display:flex;flex-direction:column;gap:4px;font-size:12px;}
+.mc-price input{width:80px;padding:6px 8px;border:1px solid #d9d3cb;font:inherit;}
+.mc-dd__apply{align-self:flex-start;padding:8px 14px;background:#111;color:#fff;border:0;font-size:12px;text-transform:uppercase;cursor:pointer;}
+.mc-sort{color:#111;text-decoration:none;}
+.mc-sort.is-active{text-decoration:underline;}
+.mc-count{color:#6b6b6b;}
+.mc-view{display:flex;gap:4px;}
+.mc-view__btn{width:28px;height:28px;display:grid;place-items:center;border:0;background:transparent;cursor:pointer;fill:#b9b4ad;border-radius:4px;}
+.mc-view__btn.is-active{background:#f1eeea;fill:#111;}
+.mc-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 10px;}
+.mc[data-cols="4"] .mc-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+.mc-card{position:relative;min-width:0;}
+.mc-card__media{display:block;position:relative;aspect-ratio:4/5;overflow:hidden;background:#f1eeea;}
+.mc-card__media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease;}
+.mc-card__media:hover img{transform:scale(1.03);}
+.mc-card__badge{position:absolute;top:10px;left:10px;z-index:2;background:#111;color:#fff;font-size:12px;text-transform:uppercase;padding:6px 9px;letter-spacing:var(--ls,.4px);}
+.mc-card__fav{position:absolute;top:10px;right:10px;z-index:3;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.9);display:grid;place-items:center;cursor:pointer;color:#111;}
+.mc-card__fav[aria-pressed="true"] path{fill:#9a2a17;stroke:#9a2a17;}
+.mc-card__info{display:block;padding-top:10px;color:#111;text-decoration:none;}
+.mc-card__title{display:block;font-size:13px;text-transform:uppercase;letter-spacing:var(--ls,.4px);line-height:1.3;}
+.mc-card__price{display:block;font-size:13px;margin-top:2px;}
+.mc-sw{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.mc-sw__dot{width:14px;height:14px;border-radius:50%;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);outline-offset:2px;}
+.mc-sw__dot.is-current{outline:1px solid #111;}
+.mc-empty{padding:40px 0;text-align:center;}
+.mc-pages{display:flex;justify-content:center;gap:14px;padding-top:36px;font-size:13px;}
 @media (max-width:767px){
-  .cp-head{grid-template-columns:1fr;padding:24px 16px 24px;}
-  .cp-head__brand{display:none;}
-  .cp-bar{padding:0 16px 12px;}
-  .cp-bar__filter{padding:9px 12px;}
-  .cp-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
-  .cp-grid .product-card__title{padding:10px 10px 0;font-size:12px;}
-  .cp-grid .product-card__price{padding:2px 10px 12px;font-size:12px;}
+  .mc{padding:0 12px 40px;}
+  .mc-bar{flex-wrap:wrap;gap:12px;padding:16px 0 14px;}
+  .mc-bar__filters,.mc-bar__right{gap:16px;}
+  .mc-view{display:none;}
+  .mc-grid,.mc[data-cols="4"] .mc-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 8px;}
+  .mc-card__title,.mc-card__price{font-size:12px;}
+  .mc-card__fav{width:30px;height:30px;top:8px;right:8px;}
 }
 </style>
+<script>
+(function(){
+  var root=document.querySelector('[data-mc]');if(!root)return;
+  var K='morel_cols',F='morel_favs';
+  function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function set(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function cols(n){root.setAttribute('data-cols',n);root.querySelectorAll('[data-mc-cols]').forEach(function(b){b.classList.toggle('is-active',b.getAttribute('data-mc-cols')==n);});}
+  cols(get(K)||'3');
+  root.querySelectorAll('[data-mc-cols]').forEach(function(b){b.addEventListener('click',function(){var n=b.getAttribute('data-mc-cols');cols(n);set(K,n);});});
+  root.querySelectorAll('[data-mc-auto]').forEach(function(i){i.addEventListener('change',function(){i.form.submit();});});
+  document.addEventListener('click',function(e){root.querySelectorAll('details.mc-dd[open]').forEach(function(d){if(!d.contains(e.target))d.removeAttribute('open');});});
+  var favs=[];try{favs=JSON.parse(get(F)||'[]');}catch(e){}
+  root.querySelectorAll('[data-fav]').forEach(function(b){
+    var h=b.getAttribute('data-fav');b.setAttribute('aria-pressed',favs.indexOf(h)>-1?'true':'false');
+    b.addEventListener('click',function(e){e.preventDefault();var i=favs.indexOf(h);if(i>-1)favs.splice(i,1);else favs.push(h);set(F,JSON.stringify(favs));b.setAttribute('aria-pressed',i>-1?'false':'true');});
+  });
+})();
+</script>
 
 {% schema %}
 {
