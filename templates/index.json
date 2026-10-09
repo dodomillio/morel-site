@@ -180,6 +180,49 @@
         "banner-2"
       ],
       "settings": {}
+    },
+    "collab-1": {
+      "type": "collab-videos",
+      "blocks": {
+        "video-1": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/09e0c40fb07641459957cadf46460549.mp4",
+            "caption": ""
+          }
+        },
+        "video-2": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/540a97f837044cb5b3a7daeb5dc38cbc.mp4",
+            "caption": ""
+          }
+        },
+        "video-3": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/89734ec5024f4e7c93d8093b35de19b1.mov",
+            "caption": ""
+          }
+        },
+        "video-4": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/28b054f48f0142ad82046c2ac183eb19.mov",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "video-1",
+        "video-2",
+        "video-3",
+        "video-4"
+      ],
+      "settings": {
+        "heading": "Collaboration",
+        "subheading": "vu sur les réseaux"
+      }
     }
   },
   "order": [
@@ -189,6 +232,7 @@
     "ticker-1",
     "reviews-1",
     "hero-banners-1",
-    "hero-banners-2"
+    "hero-banners-2",
+    "collab-1"
   ]
 }
