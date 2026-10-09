@@ -1,0 +1,53 @@
+<section class="cv" data-cv>
+  <div class="cv__head">
+    {%- if section.settings.heading != blank -%}<h2 class="cv__title">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.subheading != blank -%}<p class="cv__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+  </div>
+  <div class="cv__row">
+    {%- for block in section.blocks -%}
+      {%- if block.settings.video_url != blank -%}
+      <button type="button" class="cv__card" data-cv-src="{{ block.settings.video_url }}" {{ block.shopify_attributes }} aria-label="Lire la vidéo{% if block.settings.caption != blank %} {{ block.settings.caption | escape }}{% endif %}">
+        <video src="{{ block.settings.video_url }}#t=0.1" preload="metadata" muted playsinline loop></video>
+        <span class="cv__play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M7 4v16l13-8z" fill="currentColor"/></svg></span>
+        {%- if block.settings.caption != blank -%}<span class="cv__cap">{{ block.settings.caption }}</span>{%- endif -%}
+      </button>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  <div class="cv__modal" data-cv-modal hidden>
+    <button type="button" class="cv__close" data-cv-close aria-label="Fermer">&times;</button>
+    <video class="cv__player" data-cv-player controls playsinline></video>
+  </div>
+</section>
+<style>
+.cv{padding:56px 0 64px;}
+.cv__head{text-align:center;padding:0 var(--gutter,20px) 28px;}
+.cv__title{font-family:var(--font-heading);font-stretch:125%;font-weight:800;text-transform:uppercase;letter-spacing:var(--ls,0);font-size:clamp(26px,3vw,40px);line-height:1;margin:0;}
+.cv__sub{font-family:var(--font-italic),"Newsreader",Georgia,serif;font-style:italic;font-size:clamp(18px,1.8vw,22px);color:#9a2a17;margin:8px 0 0;}
+.cv__row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 var(--gutter,20px);scrollbar-width:none;justify-content:center;}
+.cv__row::-webkit-scrollbar{display:none;}
+.cv__card{position:relative;flex:0 0 auto;width:clamp(180px,22vw,280px);aspect-ratio:9/16;border:0;padding:0;background:#111;overflow:hidden;cursor:pointer;scroll-snap-align:start;}
+.cv__card video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;transition:transform .6s ease;}
+.cv__card:hover video{transform:scale(1.03);}
+.cv__play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.92);color:#111;display:grid;place-items:center;}
+.cv__cap{position:absolute;left:12px;right:12px;bottom:12px;color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:var(--ls,.4px);text-align:left;text-shadow:0 1px 8px rgba(0,0,0,.5);}
+.cv__modal{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;}
+.cv__modal[hidden]{display:none;}
+.cv__player{max-width:92vw;max-height:86vh;}
+.cv__close{position:absolute;top:16px;right:20px;background:none;border:0;color:#fff;font-size:34px;line-height:1;cursor:pointer;}
+@media (max-width:767px){.cv{padding:40px 0 48px;}.cv__row{justify-content:flex-start;padding:0 16px;}.cv__card{width:58vw;}}
+</style>
+<script>
+(function(){document.querySelectorAll('[data-cv]').forEach(function(s){if(s.__cv)return;s.__cv=1;
+var m=s.querySelector('[data-cv-modal]'),p=s.querySelector('[data-cv-player]');
+function close(){p.pause();p.removeAttribute('src');p.load();m.hidden=true;}
+s.querySelectorAll('[data-cv-src]').forEach(function(b){b.addEventListener('click',function(){p.src=b.getAttribute('data-cv-src');m.hidden=false;p.play();});
+var v=b.querySelector('video');b.addEventListener('mouseenter',function(){v.play().catch(function(){});});b.addEventListener('mouseleave',function(){v.pause();});});
+s.querySelector('[data-cv-close]').addEventListener('click',close);m.addEventListener('click',function(e){if(e.target===m)close();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)close();});});})();
+</script>
+{% schema %}
+{"name":"Collaboration vidéos","settings":[{"type":"text","id":"heading","label":"Titre","default":"Collaboration"},{"type":"text","id":"subheading","label":"Sous-titre","default":"vu sur les réseaux"}],
+"blocks":[{"type":"video","name":"Vidéo","settings":[{"type":"text","id":"video_url","label":"Lien de la vidéo (.mp4 ou .mov)"},{"type":"text","id":"caption","label":"Légende (ex. @créatrice)"}]}],
+"presets":[{"name":"Collaboration vidéos","blocks":[{"type":"video","settings":{"video_url":"https://cdn.shopify.com/videos/c/o/v/09e0c40fb07641459957cadf46460549.mp4"}},{"type":"video","settings":{"video_url":"https://cdn.shopify.com/videos/c/o/v/540a97f837044cb5b3a7daeb5dc38cbc.mp4"}},{"type":"video","settings":{"video_url":"https://cdn.shopify.com/videos/c/o/v/89734ec5024f4e7c93d8093b35de19b1.mov"}},{"type":"video","settings":{"video_url":"https://cdn.shopify.com/videos/c/o/v/28b054f48f0142ad82046c2ac183eb19.mov"}}]}]}
+{% endschema %}
