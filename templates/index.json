@@ -100,7 +100,8 @@
         "banner_subheading": "pièces en petite série",
         "banner_url": "shopify://collections/cabas",
         "collection": "accessoires-sac-fait-main",
-        "heading": "Nos pompons"
+        "heading": "Nos pompons",
+        "grid_products": []
       }
     },
     "reviews-1": {
@@ -136,11 +137,11 @@
         "banner-2": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/IMG_06232.heic",
-            "heading": "NOS pompon",
-            "subheading": "Les meilleures couleurs",
+            "image": "shopify://shop_images/Capture_d_ecran_2026-08-27_a_09.23.47.png",
+            "heading": "Nos cabas",
+            "subheading": "pour tous les jours",
             "button_label": "Découvrir",
-            "url": ""
+            "url": "shopify://collections/cabas"
           }
         }
       },
@@ -156,17 +157,17 @@
         "banner-1": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/IMG_11192.jpg",
-            "heading": "Le sac seau",
-            "subheading": "",
+            "image": "shopify://shop_images/IMG_1166.jpg",
+            "heading": "Le Solen",
+            "subheading": "tressé en laine, en édition limitée",
             "button_label": "Découvrir",
-            "url": ""
+            "url": "shopify://collections/le-solen"
           }
         },
         "banner-2": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/IMG_06232.heic",
+            "image": "shopify://shop_images/Capture_d_ecran_2026-08-13_a_09.38.14.png",
             "heading": "Collaboration",
             "subheading": "",
             "button_label": "Découvrir",
