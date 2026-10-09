@@ -103,7 +103,16 @@
         "banner_url": "shopify://collections/cabas",
         "collection": "accessoires-sac-fait-main",
         "heading": "Nos pompons",
-        "grid_products": []
+        "grid_products": [
+          "cabas-laine-tressee-femme-solen-midnight",
+          "solen-nude",
+          "nomad-sable",
+          "sac-nomad-mocha",
+          "pochette-crochet-bleu-marine",
+          "pochette-crochet-ecru",
+          "pochette-crochet-kaki",
+          "pochette-crochet-rose-poudre"
+        ]
       }
     },
     "reviews-1": {

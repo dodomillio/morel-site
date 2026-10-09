@@ -13,19 +13,46 @@
   </a>
 
   <div class="featured-products pt-grid">
-    <div class="featured-products__grid">
-      {%- if section.settings.grid_products.count > 0 -%}
-        {%- for product in section.settings.grid_products -%}{% render 'product-card', product: product %}{%- endfor -%}
-      {%- else -%}
-        {%- for product in collections['le-solen'].products limit: 2 -%}{% render 'product-card', product: product %}{%- endfor -%}
-        {%- for product in collections['le-nomad'].products limit: 2 -%}{% render 'product-card', product: product %}{%- endfor -%}
+    {%- liquid
+      assign pt_list = section.settings.grid_products
+      if pt_list.count == 0
+        assign pt_list = collections['le-solen'].products | concat: collections['le-nomad'].products
+      endif
+    -%}
+    <div class="fp-pager" data-fp-pager>
+      <div class="fp-pager__track" data-fp-track>
+        {%- for product in pt_list limit: 12 -%}
+          {%- assign m = forloop.index0 | modulo: 4 -%}
+          {%- if m == 0 -%}<div class="featured-products__grid fp-pager__page">{%- endif -%}
+          {% render 'product-card', product: product %}
+          {%- if m == 3 or forloop.last -%}</div>{%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- assign pages = pt_list.size | at_most: 12 | plus: 3 | divided_by: 4 -%}
+      {%- if pages > 1 -%}
+      <div class="fp-pager__dots" data-fp-dots>
+        {%- for i in (1..pages) -%}<button type="button" class="fp-pager__dot{% if forloop.first %} is-active{% endif %}" aria-label="Page {{ i }}" data-fp-dot="{{ forloop.index0 }}"></button>{%- endfor -%}
+      </div>
       {%- endif -%}
     </div>
   </div>
   <style>
     .pt-grid{grid-column:1/-1;flex:0 0 100%;width:100%;min-width:0;box-sizing:border-box;}
-    @media (min-width:768px){.pt-grid{order:3;}.pt-grid .featured-products__grid{grid-template-columns:repeat(4,minmax(0,1fr)) !important;}}
+    @media (min-width:768px){.pt-grid{order:3;}.pt-grid .fp-pager__page{grid-template-columns:repeat(4,minmax(0,1fr)) !important;}}
+    .pt-grid .fp-pager{min-width:0;width:100%;max-width:100%;contain:inline-size;}
+    .pt-grid .fp-pager__track{width:100%;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+    .pt-grid .fp-pager__track::-webkit-scrollbar{display:none;}
+    .pt-grid .fp-pager__page{flex:0 0 100%;width:100%;min-width:0;scroll-snap-align:start;box-sizing:border-box;display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+    .pt-grid .fp-pager__dots{display:flex;justify-content:center;gap:8px;padding:14px 0 28px;}
+    .pt-grid .fp-pager__dot{width:7px;height:7px;border-radius:50%;border:1px solid #111;background:transparent;padding:0;cursor:pointer;}
+    .pt-grid .fp-pager__dot.is-active{background:#111;}
   </style>
+  <script>
+    (function(){document.querySelectorAll('[data-fp-pager]').forEach(function(p){if(p.__fp)return;p.__fp=1;var t=p.querySelector('[data-fp-track]'),d=p.querySelectorAll('[data-fp-dot]');
+      function act(){var i=Math.round(t.scrollLeft/t.clientWidth);d.forEach(function(x,j){x.classList.toggle('is-active',j===i);});}
+      t.addEventListener('scroll',function(){window.requestAnimationFrame(act);},{passive:true});
+      d.forEach(function(x){x.addEventListener('click',function(){t.scrollTo({left:t.clientWidth*parseInt(x.getAttribute('data-fp-dot'),10),behavior:'smooth'});});});});})();
+  </script>
 
   <div class="product-ticker">
     <div class="product-ticker__inner">
@@ -68,7 +95,7 @@
     { "type": "url", "id": "banner_url", "label": "Lien de la bannière" },
     { "type": "collection", "id": "collection", "label": "Collection du bandeau défilant" },
     { "type": "text", "id": "heading", "label": "Titre du bandeau", "default": "Réassort" },
-    { "type": "product_list", "id": "grid_products", "label": "Grille de produits (sinon 2 Solen + 2 Nomad)", "limit": 8 }
+    { "type": "product_list", "id": "grid_products", "label": "Grille de produits (sinon 2 Solen + 2 Nomad)", "limit": 12 }
   ],
   "presets": [{ "name": "Bannière + produits" }]
 }
