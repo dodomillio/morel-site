@@ -211,9 +211,17 @@
             "video_url": "https://cdn.shopify.com/videos/c/o/v/28b054f48f0142ad82046c2ac183eb19.mov",
             "caption": ""
           }
+        },
+        "video-new-1": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/vp/e914d1a247fc4549b66cc9a35b9c9135/e914d1a247fc4549b66cc9a35b9c9135.SD-480p-0.9Mbps-96925121.mp4",
+            "caption": ""
+          }
         }
       },
       "block_order": [
+        "video-new-1",
         "video-1",
         "video-2",
         "video-3",
