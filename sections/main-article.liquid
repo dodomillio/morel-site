@@ -1,0 +1,17 @@
+<article class="ma">
+  <p class="ma__date">{{ article.published_at | date: '%d/%m/%Y' }}</p>
+  <h1 class="ma__title">{{ article.title }}</h1>
+  {%- if article.image -%}<div class="ma__img">{{ article.image | image_url: width: 1400 | image_tag: alt: article.title }}</div>{%- endif -%}
+  <div class="ma__body rte">{{ article.content }}</div>
+  <a class="ma__back" href="{{ blog.url }}">&larr; Retour au blog</a>
+</article>
+<style>
+.ma{max-width:760px;margin:0 auto;padding:40px var(--gutter,20px) 72px;}
+.ma__date{text-align:center;font-size:11px;color:#6b6b6b;text-transform:uppercase;margin:0 0 10px;}
+.ma__title{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:clamp(32px,4vw,52px);line-height:1.05;text-align:center;margin:0 0 28px;}
+.ma__img img{width:100%;height:auto;display:block;margin-bottom:28px;}
+.ma__body{font-size:15px;line-height:1.7;}
+.ma__body img{max-width:100%;height:auto;}
+.ma__back{display:inline-block;margin-top:36px;font-size:12px;text-transform:uppercase;color:#111;}
+</style>
+{% schema %}{"name":"Article","settings":[]}{% endschema %}

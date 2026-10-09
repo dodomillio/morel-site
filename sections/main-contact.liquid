@@ -1,0 +1,32 @@
+<section class="mcx">
+  <h1 class="mcx__title">{{ page.title }}</h1>
+  {%- if page.content != blank -%}<div class="mcx__content rte">{{ page.content }}</div>{%- endif -%}
+  {%- form 'contact', class: 'mcx__form' -%}
+    {%- if form.posted_successfully? -%}
+      <p class="mcx__ok">Merci, votre message a bien été envoyé. Nous vous répondons sous 24 h.</p>
+    {%- else -%}
+      {%- if form.errors -%}<div class="mcx__err">{{ form.errors | default_errors }}</div>{%- endif -%}
+      <div class="mcx__row">
+        <label>Nom<input type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}"></label>
+        <label>Email *<input type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}"></label>
+      </div>
+      <label>Téléphone<input type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}"></label>
+      <label>Message *<textarea name="contact[body]" rows="6" required>{{ form.body }}</textarea></label>
+      <button type="submit" class="mcx__btn">Envoyer</button>
+    {%- endif -%}
+  {%- endform -%}
+</section>
+<style>
+.mcx{max-width:720px;margin:0 auto;padding:40px var(--gutter,20px) 72px;}
+.mcx__title{font-family:var(--font-heading);font-stretch:125%;font-weight:800;text-transform:uppercase;letter-spacing:var(--ls,0);font-size:clamp(28px,3.4vw,44px);line-height:1;text-align:center;margin:0 0 24px;}
+.mcx__content{font-size:14px;line-height:1.6;margin-bottom:28px;}
+.mcx__form{display:flex;flex-direction:column;gap:14px;}
+.mcx__row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.mcx__form label{display:flex;flex-direction:column;gap:6px;font-size:12px;text-transform:uppercase;letter-spacing:var(--ls,.4px);}
+.mcx__form input,.mcx__form textarea{font:inherit;font-size:15px;text-transform:none;letter-spacing:0;padding:12px 14px;border:1px solid #d9d3cb;background:#fff;border-radius:0;}
+.mcx__btn{align-self:flex-start;padding:14px 28px;background:#111;color:#fff;border:0;font-size:12px;text-transform:uppercase;letter-spacing:var(--ls,.4px);cursor:pointer;}
+.mcx__ok{padding:16px;background:#f1eeea;}
+.mcx__err{color:#9a2a17;font-size:14px;}
+@media (max-width:767px){.mcx__row{grid-template-columns:1fr;}}
+</style>
+{% schema %}{"name":"Page contact","settings":[]}{% endschema %}

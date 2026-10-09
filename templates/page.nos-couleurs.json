@@ -1,0 +1,155 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "image-grid",
+      "blocks": {
+        "img-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/12.png",
+            "caption": ""
+          }
+        },
+        "img-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/5.png",
+            "caption": ""
+          }
+        },
+        "img-3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/10.png",
+            "caption": ""
+          }
+        },
+        "img-4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/1.png",
+            "caption": ""
+          }
+        },
+        "img-5": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/2.png",
+            "caption": ""
+          }
+        },
+        "img-6": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/6.png",
+            "caption": ""
+          }
+        },
+        "img-7": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/15_fb51aad8-0cb6-42d8-8028-2d6f167cf4ca.png",
+            "caption": ""
+          }
+        },
+        "img-8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/13.png",
+            "caption": ""
+          }
+        },
+        "img-9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/7.png",
+            "caption": ""
+          }
+        },
+        "img-10": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/9.png",
+            "caption": ""
+          }
+        },
+        "img-11": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/3.png",
+            "caption": ""
+          }
+        },
+        "img-12": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/4.png",
+            "caption": ""
+          }
+        },
+        "img-13": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Obsidian_Morel.png",
+            "caption": ""
+          }
+        },
+        "img-14": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/14.png",
+            "caption": ""
+          }
+        },
+        "img-15": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/11.png",
+            "caption": ""
+          }
+        },
+        "img-16": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/8.png",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "img-1",
+        "img-2",
+        "img-3",
+        "img-4",
+        "img-5",
+        "img-6",
+        "img-7",
+        "img-8",
+        "img-9",
+        "img-10",
+        "img-11",
+        "img-12",
+        "img-13",
+        "img-14",
+        "img-15",
+        "img-16"
+      ],
+      "settings": {
+        "heading": "Nos couleurs",
+        "subheading": ""
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

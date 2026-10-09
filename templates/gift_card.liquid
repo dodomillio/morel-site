@@ -1,0 +1,7 @@
+{% layout none %}<!doctype html>
+<html lang="{{ request.locale.iso_code }}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Carte cadeau · {{ shop.name }}</title>
+<style>body{margin:0;font-family:-apple-system,Helvetica,Arial,sans-serif;background:#f6f3ee;color:#111;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}.gc{background:#fff;max-width:440px;width:100%;padding:36px 28px;text-align:center}.gc h1{font-family:Georgia,serif;font-weight:300;font-size:30px;margin:0 0 6px}.gc .amt{font-size:34px;margin:18px 0}.gc code{display:block;font-size:18px;letter-spacing:.12em;padding:12px;border:1px dashed #b9b4ad;margin:10px 0 18px}.gc a{display:inline-block;background:#111;color:#fff;padding:12px 22px;text-decoration:none;text-transform:uppercase;font-size:12px}.gc p{font-size:13px;color:#555}</style></head>
+<body><div class="gc"><h1>{{ shop.name }}</h1><p>Votre carte cadeau</p>
+<div class="amt">{{ gift_card.balance | money }}</div>
+{%- if gift_card.expired or gift_card.enabled == false -%}<p>Cette carte cadeau n'est plus valable.</p>{%- else -%}<code>{{ gift_card.code | format_code }}</code>{%- if gift_card.expires_on -%}<p>Valable jusqu'au {{ gift_card.expires_on | date: '%d/%m/%Y' }}</p>{%- endif -%}{%- endif -%}
+<a href="{{ shop.url }}">Utiliser sur la boutique</a></div></body></html>

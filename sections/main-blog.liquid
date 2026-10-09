@@ -1,0 +1,28 @@
+<section class="mb">
+  <h1 class="mb__title">{{ blog.title }}</h1>
+  {%- paginate blog.articles by 12 -%}
+  <div class="mb__grid">
+    {%- for article in blog.articles -%}
+      <a class="mb__card" href="{{ article.url }}">
+        {%- if article.image -%}{{ article.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: article.title }}{%- endif -%}
+        <span class="mb__date">{{ article.published_at | date: '%d/%m/%Y' }}</span>
+        <span class="mb__name">{{ article.title }}</span>
+      </a>
+    {%- else -%}<p>Aucun article pour le moment.</p>
+    {%- endfor -%}
+  </div>
+  {%- if paginate.pages > 1 -%}<nav class="mb__pages">{{ paginate | default_pagination }}</nav>{%- endif -%}
+  {%- endpaginate -%}
+</section>
+<style>
+.mb{padding:40px var(--gutter,20px) 72px;}
+.mb__title{font-family:var(--font-heading);font-stretch:125%;font-weight:800;text-transform:uppercase;font-size:clamp(28px,3.4vw,44px);line-height:1;text-align:center;margin:0 0 28px;}
+.mb__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 12px;}
+.mb__card{color:#111;text-decoration:none;display:flex;flex-direction:column;gap:6px;}
+.mb__card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;}
+.mb__date{font-size:11px;color:#6b6b6b;text-transform:uppercase;}
+.mb__name{font-size:14px;text-transform:uppercase;letter-spacing:var(--ls,.4px);}
+.mb__pages{text-align:center;margin-top:32px;}
+@media (max-width:767px){.mb__grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+</style>
+{% schema %}{"name":"Blog","settings":[]}{% endschema %}
