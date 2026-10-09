@@ -80,7 +80,8 @@
         "disabled": false,
         "settings": {}
       }
-    }
+    },
+    "favicon": "shopify://shop_images/Black_and_White_Typographic_Simple_Minimal_Milk_Studio_Logo-3_2f776ebe-6fc3-4d41-9069-2374ff0a6f30.png"
   },
   "presets": {
     "Default": {

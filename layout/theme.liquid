@@ -6,7 +6,7 @@
 <title>{{ page_title }}{% unless page_title contains shop.name %} &middot; {{ shop.name }}{% endunless %}</title>
 {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
 <link rel="canonical" href="{{ canonical_url }}">
-<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">
+{%- if settings.favicon != blank -%}<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">{%- endif -%}
 {{ content_for_header }}
 {{ 'theme.css' | asset_url | stylesheet_tag }}
 <style>
