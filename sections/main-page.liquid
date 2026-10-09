@@ -1,11 +1,20 @@
-<section class="content-page">
-  <h1 class="content-page__title">{{ page.title }}</h1>
-  <div class="content-page__body">{{ page.content }}</div>
+<section class="pg">
+  <h1 class="pg__title">{{ page.title }}</h1>
+  <div class="pg__body rte">{{ page.content }}</div>
 </section>
-
+<style>
+.pg{max-width:672px;margin:0 auto;padding:110px 0 80px;box-sizing:content-box;font-family:"Red Hat Text",var(--font-body),sans-serif;color:#000;}
+.pg__title{font-family:"Red Hat Text",var(--font-body),sans-serif;font-size:32px;font-weight:400;line-height:1.4;letter-spacing:normal;text-transform:none;text-align:left;margin:0 0 16px;}
+.pg__body{font-size:12px;line-height:1.6;}
+.pg__body p{margin:12px 0;}
+.pg__body h2,.pg__body h3,.pg__body h4,.pg__body h5{font-family:"Newsreader",Georgia,serif;font-size:24px;font-weight:200;line-height:1.1;letter-spacing:normal;text-transform:none;margin:28px 0 6px;}
+.pg__body h2:first-child,.pg__body h3:first-child,.pg__body h4:first-child{margin-top:0;}
+.pg__body h2 strong,.pg__body h3 strong,.pg__body h4 strong{font-weight:400;}
+.pg__body p strong,.pg__body p b{font-weight:700;}
+.pg__body a{color:inherit;text-decoration:underline;}
+.pg__body ul,.pg__body ol{padding-left:18px;margin:12px 0;}
+@media (max-width:767px){.pg{padding:48px 20px 64px;}.pg__title{font-size:26px;}}
+</style>
 {% schema %}
-{
-  "name": "Page de contenu",
-  "settings": []
-}
+{"name":"Page de contenu","settings":[]}
 {% endschema %}

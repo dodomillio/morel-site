@@ -1,32 +1,38 @@
-<section class="mcx">
-  <h1 class="mcx__title">{{ page.title }}</h1>
-  {%- if page.content != blank -%}<div class="mcx__content rte">{{ page.content }}</div>{%- endif -%}
-  {%- form 'contact', class: 'mcx__form' -%}
+<section class="pc">
+  <h1 class="pc__title">{{ page.title }}</h1>
+  {%- if page.content != blank -%}<div class="pc__body rte">{{ page.content }}</div>{%- endif -%}
+  {%- form 'contact', class: 'pc__form' -%}
     {%- if form.posted_successfully? -%}
-      <p class="mcx__ok">Merci, votre message a bien été envoyé. Nous vous répondons sous 24 h.</p>
+      <p class="pc__ok">Merci, votre message a bien été envoyé. Nous vous répondons sous 24 h.</p>
     {%- else -%}
-      {%- if form.errors -%}<div class="mcx__err">{{ form.errors | default_errors }}</div>{%- endif -%}
-      <div class="mcx__row">
-        <label>Nom<input type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}"></label>
-        <label>Email *<input type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}"></label>
+      {%- if form.errors -%}<div class="pc__err">{{ form.errors | default_errors }}</div>{%- endif -%}
+      <div class="pc__row">
+        <label class="pc__f"><span class="visually-hidden">Nom</span><input type="text" name="contact[name]" placeholder="Nom" autocomplete="name" value="{{ form.name }}"></label>
+        <label class="pc__f"><span class="visually-hidden">E-mail</span><input type="email" name="contact[email]" placeholder="E-mail*" autocomplete="email" required value="{{ form.email }}"></label>
       </div>
-      <label>Téléphone<input type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}"></label>
-      <label>Message *<textarea name="contact[body]" rows="6" required>{{ form.body }}</textarea></label>
-      <button type="submit" class="mcx__btn">Envoyer</button>
+      <label class="pc__f"><span class="visually-hidden">Téléphone</span><input type="tel" name="contact[phone]" placeholder="Téléphone" autocomplete="tel" value="{{ form.phone }}"></label>
+      <label class="pc__f"><span class="visually-hidden">Commentaire</span><textarea name="contact[body]" rows="10" placeholder="Commentaire" required>{{ form.body }}</textarea></label>
+      <button type="submit" class="pc__btn">Soumettre</button>
     {%- endif -%}
   {%- endform -%}
 </section>
 <style>
-.mcx{max-width:720px;margin:0 auto;padding:40px var(--gutter,20px) 72px;}
-.mcx__title{font-family:var(--font-heading);font-stretch:125%;font-weight:800;text-transform:uppercase;letter-spacing:var(--ls,0);font-size:clamp(28px,3.4vw,44px);line-height:1;text-align:center;margin:0 0 24px;}
-.mcx__content{font-size:14px;line-height:1.6;margin-bottom:28px;}
-.mcx__form{display:flex;flex-direction:column;gap:14px;}
-.mcx__row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.mcx__form label{display:flex;flex-direction:column;gap:6px;font-size:12px;text-transform:uppercase;letter-spacing:var(--ls,.4px);}
-.mcx__form input,.mcx__form textarea{font:inherit;font-size:15px;text-transform:none;letter-spacing:0;padding:12px 14px;border:1px solid #d9d3cb;background:#fff;border-radius:0;}
-.mcx__btn{align-self:flex-start;padding:14px 28px;background:#111;color:#fff;border:0;font-size:12px;text-transform:uppercase;letter-spacing:var(--ls,.4px);cursor:pointer;}
-.mcx__ok{padding:16px;background:#f1eeea;}
-.mcx__err{color:#9a2a17;font-size:14px;}
-@media (max-width:767px){.mcx__row{grid-template-columns:1fr;}}
+.pc{max-width:672px;margin:0 auto;padding:70px 20px 80px;text-align:center;font-family:"Red Hat Text",var(--font-body),sans-serif;color:#000;}
+.pc__title{font-family:"Newsreader",Georgia,serif;font-size:clamp(36px,4.6vw,48.67px);font-weight:200;line-height:1.4;letter-spacing:normal;text-transform:none;margin:0 0 32px;}
+.pc__body{font-size:16px;line-height:1.4;}
+.pc__body p{margin:0 0 16px;}
+.pc__body strong,.pc__body b{font-weight:700;}
+.pc__form{max-width:494px;margin:32px auto 0;display:flex;flex-direction:column;gap:12px;text-align:left;}
+.pc__row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.pc__f{display:block;}
+.pc__f input,.pc__f textarea{width:100%;box-sizing:border-box;font-family:"Red Hat Text",var(--font-body),sans-serif;font-size:16px;color:#000;background:#fff;border:1px solid rgba(0,0,0,.13);border-radius:0;padding:16px 20px;height:60px;outline:none;}
+.pc__f textarea{height:290px;resize:vertical;}
+.pc__f input:focus,.pc__f textarea:focus{border-color:#000;}
+.pc__btn{align-self:flex-start;background:#b33a18;color:#fff;border:0;border-radius:18px;padding:16px 24px;font-family:"Red Hat Text",var(--font-body),sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;}
+.pc__btn:hover{opacity:.9;}
+.pc__ok{padding:16px;background:#f6f3ee;text-align:center;}
+.pc__err{color:#b33a18;font-size:14px;}
+.visually-hidden{position:absolute !important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+@media (max-width:767px){.pc{padding:40px 20px 64px;}.pc__row{grid-template-columns:1fr;}}
 </style>
 {% schema %}{"name":"Page contact","settings":[]}{% endschema %}
