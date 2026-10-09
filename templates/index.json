@@ -168,10 +168,10 @@
           "type": "banner",
           "settings": {
             "image": "shopify://shop_images/Capture_d_ecran_2026-08-13_a_09.38.14.png",
-            "heading": "Collaboration",
-            "subheading": "",
-            "button_label": "Découvrir",
-            "url": ""
+            "heading": "Elles portent Morël",
+            "subheading": "nos créatrices, vos inspirations",
+            "button_label": "Nous suivre",
+            "url": "https://www.instagram.com/by.morelparis/"
           }
         }
       },
