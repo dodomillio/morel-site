@@ -61,7 +61,22 @@
           </ul>
         </div>
         <a class="mega-menu__featured" href="{{ link.url }}">
-          <span class="placeholder-img placeholder-img--square"><span>Image {{ link.title }}</span></span>
+          {%- liquid
+            assign mm_img = nil
+            if link.handle contains 'cabas' and section.settings.mega_img_cabas
+              assign mm_img = section.settings.mega_img_cabas
+            elsif link.handle contains 'pochette' and section.settings.mega_img_pochettes
+              assign mm_img = section.settings.mega_img_pochettes
+            endif
+            if mm_img == nil and link.type == 'collection_link'
+              if link.object.image
+                assign mm_img = link.object.image
+              else
+                assign mm_img = link.object.products.first.featured_media.preview_image
+              endif
+            endif
+          -%}
+          {%- if mm_img -%}<span class="mega-menu__img">{{ mm_img | image_url: width: 900 | image_tag: loading: 'lazy', alt: link.title }}</span>{%- else -%}<span class="placeholder-img placeholder-img--square"><span>{{ link.title }}</span></span>{%- endif -%}
           <span class="mega-menu__featured-label">{{ link.title }}</span>
         </a>
       </div>
@@ -80,10 +95,13 @@
   <button class="mobile-tabbar__link" data-menu-open aria-label="Menu"><span class="mobile-tabbar__burger"><span></span><span></span><span></span></span></button>
 </nav>
 
+<style>.mega-menu__img{display:block;aspect-ratio:1/1;overflow:hidden;background:#f1eeea;}.mega-menu__img img{width:100%;height:100%;object-fit:cover;display:block;}</style>
 {% schema %}
 {
   "name": "En-tête",
   "settings": [
+    { "type": "image_picker", "id": "mega_img_cabas", "label": "Image du menu Cabas" },
+    { "type": "image_picker", "id": "mega_img_pochettes", "label": "Image du menu Pochettes" },
     { "type": "text", "id": "announcement_text", "label": "Texte du bandeau d'annonce", "default": "✨ Livraison offerte dès 250 € d'achat ✨" },
     { "type": "link_list", "id": "main_menu", "label": "Menu principal", "default": "main-menu" }
   ]
