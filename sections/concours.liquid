@@ -1,0 +1,84 @@
+{%- assign p1 = section.settings.product_1 -%}{%- assign p2 = section.settings.product_2 -%}
+<section class="cz">
+  <div class="cz__head">
+    <p class="cz__kicker">{{ section.settings.kicker }}</p>
+    <h1 class="cz__title">{{ section.settings.heading }}</h1>
+    <p class="cz__sub">{{ section.settings.subheading }}</p>
+  </div>
+  <div class="cz__lot">
+    {%- for p in (1..2) -%}{%- if p == 1 -%}{%- assign pr = p1 -%}{%- else -%}{%- assign pr = p2 -%}{%- endif -%}
+      {%- if pr != blank -%}
+      <a class="cz__item" href="{{ pr.url }}">
+        {%- if pr.featured_image -%}{{ pr.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: pr.title }}{%- endif -%}
+        <span class="cz__item-name">{{ pr.title }}</span>
+        <span class="cz__item-price">valeur {{ pr.price | money }}</span>
+      </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  <div class="cz__body">
+    <div class="cz__how">
+      <h2 class="cz__h2">Comment participer</h2>
+      <div class="rte">{{ section.settings.rules }}</div>
+      <p class="cz__dates">{{ section.settings.dates }}</p>
+    </div>
+    <div class="cz__formwrap">
+      {%- form 'customer', class: 'cz__form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="cz__ok">{{ section.settings.success }}</p>
+        {%- else -%}
+          {%- if form.errors -%}<div class="cz__err">{%- if form.errors contains 'email' -%}Cette adresse est déjà inscrite ou invalide.{%- else -%}{{ form.errors | default_errors }}{%- endif -%}</div>{%- endif -%}
+          <input type="hidden" name="contact[tags]" value="{{ section.settings.tag }}">
+          <label class="cz__f"><span class="visually-hidden">Prénom</span><input type="text" name="contact[first_name]" placeholder="Prénom*" required autocomplete="given-name"></label>
+          <label class="cz__f"><span class="visually-hidden">E-mail</span><input type="email" name="contact[email]" placeholder="E-mail*" required autocomplete="email"></label>
+          <label class="cz__f"><span class="visually-hidden">Compte Instagram</span><input type="text" name="contact[note][instagram]" placeholder="@ Instagram*" required></label>
+          <label class="cz__check"><input type="checkbox" required> <span>J'accepte le règlement du jeu et le traitement de mes données pour cette participation.*</span></label>
+          <label class="cz__check"><input type="checkbox" name="contact[accepts_marketing]" value="true"> <span>J'accepte de recevoir les nouveautés Morël par e-mail (facultatif, désinscription à tout moment).</span></label>
+          <button type="submit" class="cz__btn">Je participe</button>
+          <p class="cz__legal">{{ section.settings.legal }}</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+<style>
+.cz{max-width:1100px;margin:0 auto;padding:56px var(--gutter,20px) 80px;font-family:"Red Hat Text",var(--font-body),sans-serif;color:#000;}
+.cz__head{text-align:center;margin-bottom:36px;}
+.cz__kicker{font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;}
+.cz__title{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:clamp(36px,5vw,60px);line-height:1.05;margin:0;}
+.cz__sub{font-family:"Newsreader",Georgia,serif;font-style:italic;color:#9a2a17;font-size:clamp(18px,2vw,24px);margin:10px 0 0;}
+.cz__lot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:48px;}
+.cz__item{display:flex;flex-direction:column;gap:4px;color:#000;text-decoration:none;}
+.cz__item img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:#f1eeea;margin-bottom:8px;}
+.cz__item-name{font-size:12px;text-transform:uppercase;letter-spacing:.04em;}
+.cz__item-price{font-size:12px;color:#6b6b6b;}
+.cz__body{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.cz__h2{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:28px;margin:0 0 14px;}
+.cz__how .rte{font-size:14px;line-height:1.7;}
+.cz__how .rte ol,.cz__how .rte ul{padding-left:18px;}
+.cz__dates{margin-top:18px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;}
+.cz__form{display:flex;flex-direction:column;gap:12px;}
+.cz__f input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;height:56px;padding:14px 18px;border:1px solid rgba(0,0,0,.13);border-radius:0;background:#fff;}
+.cz__f input:focus{outline:none;border-color:#000;}
+.cz__check{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.5;cursor:pointer;}
+.cz__check input{margin-top:2px;flex:none;}
+.cz__btn{align-self:flex-start;background:#b33a18;color:#fff;border:0;border-radius:18px;padding:16px 28px;font:inherit;font-size:12px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;}
+.cz__legal{font-size:11px;color:#6b6b6b;line-height:1.5;margin:4px 0 0;}
+.cz__ok{padding:18px;background:#f6f3ee;font-size:15px;}
+.cz__err{color:#b33a18;font-size:14px;}
+@media (max-width:767px){.cz{padding:36px 16px 56px;}.cz__body{grid-template-columns:1fr;gap:32px;}}
+</style>
+{% schema %}
+{"name":"Concours","settings":[
+{"type":"text","id":"kicker","label":"Surtitre","default":"Jeu concours"},
+{"type":"text","id":"heading","label":"Titre","default":"Gagnez un cabas et sa pochette"},
+{"type":"text","id":"subheading","label":"Sous-titre","default":"du 13 au 22 novembre"},
+{"type":"product","id":"product_1","label":"Produit 1 du lot"},
+{"type":"product","id":"product_2","label":"Produit 2 du lot"},
+{"type":"richtext","id":"rules","label":"Comment participer","default":"<ol><li>Remplissez le formulaire ci-contre.</li><li>Abonnez-vous à @by.morelparis sur Instagram.</li><li>Identifiez une amie en commentaire de notre publication concours.</li></ol>"},
+{"type":"text","id":"dates","label":"Dates","default":"Participation jusqu'au 22 novembre, tirage au sort le 23 novembre"},
+{"type":"text","id":"tag","label":"Étiquette client (pour retrouver les inscrits)","default":"concours-novembre-2026"},
+{"type":"text","id":"success","label":"Message de confirmation","default":"Merci, votre participation est bien enregistrée. Résultat le 23 novembre sur Instagram. Bonne chance !"},
+{"type":"textarea","id":"legal","label":"Mention légale","default":"Jeu gratuit sans obligation d'achat, réservé aux personnes majeures résidant en France. Un gagnant tiré au sort parmi les participations valides. Vos données servent uniquement à gérer le jeu, sauf si vous acceptez de recevoir nos e-mails."}
+]}
+{% endschema %}
