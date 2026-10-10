@@ -19,8 +19,9 @@
       "header": {
         "type": "header",
         "settings": {
-          "announcement_text": "✨ Livraison offerte dès 70 € d'achat ✨",
-          "main_menu": "main-menu"
+          "announcement_text": "Livraison offerte dès 70 € d'achat",
+          "main_menu": "main-menu",
+          "announcement_text_2": "Une pochette offerte dès 120 € d'achat"
         }
       },
       "footer": {

@@ -1,7 +1,15 @@
 <header class="site-header" data-site-header>
 
   <div class="banner-message">
-    <p class="banner-message__message">{{ section.settings.announcement_text }}</p>
+    {%- liquid
+      assign ann = section.settings.announcement_text | append: '|' | append: section.settings.announcement_text_2
+      assign ann_list = ann | split: '|'
+    -%}
+    <div class="ann-rot" data-ann-rot>
+      {%- for t in ann_list -%}{%- assign tt = t | strip -%}{%- if tt != blank -%}<p class="banner-message__message ann-rot__item{% if forloop.first %} is-active{% endif %}">{{ tt }}</p>{%- endif -%}{%- endfor -%}
+    </div>
+    <style>.ann-rot{position:relative;display:grid;}.ann-rot__item{grid-area:1/1;margin:0;opacity:0;transition:opacity .6s ease;}.ann-rot__item.is-active{opacity:1;}</style>
+    <script>(function(){var r=document.querySelector('[data-ann-rot]');if(!r||r.__a)return;r.__a=1;var it=r.querySelectorAll('.ann-rot__item');if(it.length<2)return;var i=0;setInterval(function(){it[i].classList.remove('is-active');i=(i+1)%it.length;it[i].classList.add('is-active');},4000);})();</script>
   </div>
 
   <div class="header__inner">
@@ -102,7 +110,8 @@
   "settings": [
     { "type": "image_picker", "id": "mega_img_cabas", "label": "Image du menu Cabas" },
     { "type": "image_picker", "id": "mega_img_pochettes", "label": "Image du menu Pochettes" },
-    { "type": "text", "id": "announcement_text", "label": "Texte du bandeau d'annonce", "default": "✨ Livraison offerte dès 250 € d'achat ✨" },
+    { "type": "text", "id": "announcement_text", "label": "Bandeau : phrase 1", "default": "Livraison offerte dès 70 € d'achat" },
+    { "type": "text", "id": "announcement_text_2", "label": "Bandeau : phrase 2", "default": "Une pochette offerte dès 120 € d'achat" },
     { "type": "link_list", "id": "main_menu", "label": "Menu principal", "default": "main-menu" }
   ]
 }
