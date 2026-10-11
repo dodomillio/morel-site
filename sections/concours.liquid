@@ -1,16 +1,16 @@
-{%- assign p1 = section.settings.product_1 -%}{%- assign p2 = section.settings.product_2 -%}
+{%- assign p1 = section.settings.product_1 -%}{%- assign p2 = section.settings.product_2 -%}{%- assign p3 = section.settings.product_3 -%}
 <section class="cz">
   <div class="cz__head">
     <p class="cz__kicker">{{ section.settings.kicker }}</p>
-    <h1 class="cz__title">{{ section.settings.heading }}</h1>
+    <h1 class="cz__title">{%- if section.settings.heading != blank -%}{{ section.settings.heading }}{%- else -%}{{ page.title }}{%- endif -%}</h1>
     <p class="cz__sub">{{ section.settings.subheading }}</p>
   </div>
   <div class="cz__lot">
-    {%- for p in (1..2) -%}{%- if p == 1 -%}{%- assign pr = p1 -%}{%- else -%}{%- assign pr = p2 -%}{%- endif -%}
+    {%- for p in (1..3) -%}{%- if p == 1 -%}{%- assign pr = p1 -%}{%- elsif p == 2 -%}{%- assign pr = p2 -%}{%- else -%}{%- assign pr = p3 -%}{%- endif -%}
       {%- if pr != blank -%}
       <a class="cz__item" href="{{ pr.url }}">
         {%- if pr.featured_image -%}{{ pr.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: pr.title }}{%- endif -%}
-        <span class="cz__item-name">{{ pr.title }}</span>
+        <span class="cz__item-rank">{%- case p -%}{%- when 1 -%}1er gagnant{%- when 2 -%}2e gagnant{%- else -%}3e gagnant{%- endcase -%}</span><span class="cz__item-name">{{ pr.title }}</span>
         <span class="cz__item-price">valeur {{ pr.price | money }}</span>
       </a>
       {%- endif -%}
@@ -18,9 +18,9 @@
   </div>
   <div class="cz__body">
     <div class="cz__how">
-      <h2 class="cz__h2">Comment participer</h2>
+      {%- if page.content != blank -%}<div class="rte cz__content">{{ page.content }}</div>{%- else -%}<h2 class="cz__h2">Comment participer</h2>
       <div class="rte">{{ section.settings.rules }}</div>
-      <p class="cz__dates">{{ section.settings.dates }}</p>
+      <p class="cz__dates">{{ section.settings.dates }}</p>{%- endif -%}
     </div>
     <div class="cz__formwrap">
       {%- form 'customer', class: 'cz__form' -%}
@@ -47,16 +47,19 @@
 .cz__kicker{font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;}
 .cz__title{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:clamp(36px,5vw,60px);line-height:1.05;margin:0;}
 .cz__sub{font-family:"Newsreader",Georgia,serif;font-style:italic;color:#9a2a17;font-size:clamp(18px,2vw,24px);margin:10px 0 0;}
-.cz__lot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:48px;}
+.cz__lot{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:48px;}
 .cz__item{display:flex;flex-direction:column;gap:4px;color:#000;text-decoration:none;}
 .cz__item img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:#f1eeea;margin-bottom:8px;}
+.cz__item-rank{font-family:"Newsreader",Georgia,serif;font-style:italic;color:#9a2a17;font-size:16px;}
 .cz__item-name{font-size:12px;text-transform:uppercase;letter-spacing:.04em;}
 .cz__item-price{font-size:12px;color:#6b6b6b;}
 .cz__body{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
 .cz__h2{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:28px;margin:0 0 14px;}
 .cz__how .rte{font-size:14px;line-height:1.7;}
 .cz__how .rte ol,.cz__how .rte ul{padding-left:18px;}
+.cz__content{font-size:14px;line-height:1.7;}.cz__content h2,.cz__content h3,.cz__content h4{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:26px;line-height:1.1;margin:26px 0 8px;}.cz__content h3:first-child,.cz__content h2:first-child{margin-top:0;}.cz__content p{margin:0 0 10px;}
 .cz__dates{margin-top:18px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;}
+@media (min-width:768px){.cz__formwrap{position:sticky;top:110px;}}
 .cz__form{display:flex;flex-direction:column;gap:12px;}
 .cz__f input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;height:56px;padding:14px 18px;border:1px solid rgba(0,0,0,.13);border-radius:0;background:#fff;}
 .cz__f input:focus{outline:none;border-color:#000;}
@@ -76,6 +79,7 @@
 {"type":"text","id":"subheading","label":"Sous-titre","default":"du 13 au 22 novembre"},
 {"type":"product","id":"product_1","label":"Produit 1 du lot"},
 {"type":"product","id":"product_2","label":"Produit 2 du lot"},
+{"type":"product","id":"product_3","label":"Produit 3 du lot"},
 {"type":"richtext","id":"rules","label":"Comment participer","default":"<ol><li>Remplissez le formulaire ci-contre.</li><li>Abonnez-vous à @by.morelparis sur Instagram.</li><li>Identifiez une amie en commentaire de notre publication concours.</li></ol>"},
 {"type":"text","id":"dates","label":"Dates","default":"Participation jusqu'au 22 novembre, tirage au sort le 23 novembre"},
 {"type":"text","id":"tag","label":"Étiquette client (pour retrouver les inscrits)","default":"concours-novembre-2026"},

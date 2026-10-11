@@ -12,8 +12,13 @@
     "main": {
       "type": "concours",
       "settings": {
+        "kicker": "Jeu concours",
+        "heading": "",
+        "subheading": "",
         "product_1": "cabas-crochet-sable",
-        "product_2": "pochette-crochet-ecru"
+        "product_2": "pochette-crochet-ecru",
+        "product_3": "pochette-milo-candy",
+        "tag": "concours-novembre-2026"
       }
     }
   },
