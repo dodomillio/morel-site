@@ -11,10 +11,31 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {}
+    },
+    "17916435474bcf2759": {
+      "type": "apps",
+      "blocks": {
+        "omnisend_email_marketing_sms_embedded_form_Fm86DW": {
+          "type": "shopify://apps/omnisend-email-marketing-sms/blocks/embedded-form/44704aa2-794f-4c5d-8c8e-039c841158e9",
+          "settings": {
+            "form_id": "6ac9faf0d904f7153ac6f2ce"
+          }
+        }
+      },
+      "block_order": [
+        "omnisend_email_marketing_sms_embedded_form_Fm86DW"
+      ],
+      "settings": {
+        "heading": "",
+        "pad_top": 48,
+        "pad_bottom": 48
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "17916435474bcf2759"
   ]
 }
